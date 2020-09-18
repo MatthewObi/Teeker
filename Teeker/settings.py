@@ -38,13 +38,14 @@ else:
     SECRET_KEY = 'g$a9ajxw31p+&3dpnona%_=cmybe!5naxg(wuq=_xk-*9@fa(*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '192.168.100.2',
     '127.0.0.1',
     'teeker.herokuapp.com',
-    'teeker.co'
+    'teeker.co',
+    'www.teeker.co'
     ]
 
 ADMIN = (
