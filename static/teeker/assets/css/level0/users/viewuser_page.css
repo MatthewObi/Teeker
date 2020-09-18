@@ -1,0 +1,72 @@
+/* Style Separator */
+
+.div-separator {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #636363;
+  border-radius: 8px;
+}
+
+/* Style profile picture */
+
+.profile-picture {
+  vertical-align: middle;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+/* Style Preview new Profile Picture */
+
+.preview-image-pp {
+  margin-bottom: 10px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+/* Style banner picture */
+
+.banner-picture {
+  object-fit: cover;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+/* Style Preview new banner picture */
+
+.preview-image-bp {
+  object-fit: cover;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+
+/* Style Report Box */
+
+.col-report-box {
+  background-color: #414141;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-bottom: 10px;
+  border-radius: 7px;
+  margin-right: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+}
+
+.report-box-btn {
+  margin-right: 5px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+}
+
+/* Style User details */
+
+#update-details {
+  margin-top: 10px;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 10px;
+  background: #292929;
+  border-radius: 9px;
+  padding-top: 10px;
+}

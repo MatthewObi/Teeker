@@ -1,0 +1,33 @@
+.div-separator {
+  padding-top: 2px;
+  padding-bottom: 5px;
+  background-color: #393939;
+  border-radius: 9px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* Style hide the carousel controls */
+
+@media (max-width: 991px) {
+  .carousel-control-btn {
+    display: none;
+  }
+}
+
+/* Style report box */
+
+.col-report-box {
+  background-color: #1f1f1f;
+  border-radius: 9px;
+  margin-top: 2px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  font-family: Roboto, sans-serif;
+}
+
+.report-box-btn {
+  margin-right: 5px;
+}
+

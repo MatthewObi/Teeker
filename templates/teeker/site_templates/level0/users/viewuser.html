@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>LEVEL0: Viewing {{user_data.username}}</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <meta name="twitter:title" content="TeeKer">
+    <meta name="twitter:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD.png?h=e36e95241d662e0f09928bc30db9b893' %}">
+    <meta name="description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.
+">
+    <meta name="twitter:description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_16.png?h=569a7593697731cf28057926a3be78c9' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_32.png?h=915b1880d9b30a1fb40d56c1637a8273' %}">
+    <link rel="icon" type="image/png" sizes="180x180" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_180.png?h=b6b0f4688a93c3c580ff3cdb74f2fd96' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_192.png?h=0a9f0f2acc0ca3237583f915ee774ff7' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/bootstrap/css/bootstrap.min.css?h=85cdee891a280dfc3312fe34adc472cc' %}">
+    <link rel="manifest" href="{% static 'teeker/manifest.json' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome-all.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/font-awesome.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/ionicons.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/line-awesome.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/material-icons.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome5-overrides.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content-styling.css?h=409805a47e06834559f5030484ae2f8b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content.css?h=b215315f2168b886816024fb957f0dd1' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/Footer-Dark.css?h=43f1a76bb769df2530961de0a2d95492' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/level0/level0_navbar.css?h=990b61333c38fae0541ebc8aafe3815f' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/level0/users/viewuser_page.css?h=5b50c0013a78876edbb494e2cd9c9572' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/navbar.css?h=d17fce3a561e5938d1f19e18b83b0700' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/searchbar_element.css?h=e6f646633e7cb301140ba0ff5a71c08b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/sidebar.css?h=e30c6b32036894a750e22edb2fb63aeb' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/styles.css?h=e774a8686c012fdb259ef145cdf38aee' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/support_page.css?h=67472359af3e4d510e3cafaac50bb279' %}">
+</head>
+
+<body>
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
+                    id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
+            <i
+                class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
+            {% if user.profile.profile_picture.url %}
+            <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
+            {% else %}
+            <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="15%" loading="auto">
+            {% endif %}
+            <span class="text-nowrap mx-2">Account</span></a></li>
+        <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
+    </ul>
+    <section class="main-section" id="hero_viewuser">
+        <div>
+            <div class="container">
+                <div class="row" id="navbar-row">
+                    <div class="col-11 col-sm-10 col-md-10 col-lg-10 col-xl-10 offset-1 offset-sm-1 offset-md-1 offset-lg-1 offset-xl-1">
+                        <nav class="navbar navbar-dark navbar-expand-md">
+                            <div class="container-fluid"><a class="navbar-brand nav-bar-level0" id="nav-bar-level0" href="users"><strong>LEVEL 0&nbsp;</strong><i class="fa fa-user-secret"></i></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                                <div
+                                    class="collapse navbar-collapse" id="navcol-1">
+                                    <ul class="nav navbar-nav">
+                                        <li class="nav-item"><a class="nav-link active" href="/level0/users">Users</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="/level0/content">Content</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#">App Data</a></li>
+                                    </ul>
+                            </div>
+                    </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="row" id="heading-username">
+                <div class="col">
+                    <h4 class="text-white">USER: {{user_data.username}}</h4>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == "error" %}
+                            <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                            {% else %}
+                            <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row d-flex flex-row" id="account-details">
+                <div class="col-8 col-sm-6 col-md-4 col-lg-4 col-xl-4 offset-2 offset-sm-3 offset-md-4 offset-lg-0 offset-xl-0 d-flex flex-column align-items-center" id="profile-picture">
+                    {% if user_data.profile.profile_picture %}
+                    <img class="rounded-circle profile-picture" src="{{user_data.profile.profile_picture.url|cut:'&export=download'}}" width="200px" height="200px" alt="profile_picture">
+                    {% else %}
+                    <img class="rounded-circle profile-picture" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="200px" height="200px" alt="profile_picture">
+                    {% endif %}
+                    <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal1">Upload new Profile Picture</button>
+                    <div
+                        class="modal fade" role="dialog" tabindex="-1" id="modal1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Change Profile Picture</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                <div class="modal-body">
+                                    <p>For best results. 1000x1000 pixels. 2MB file size limit.</p>
+                                    <form class="d-flex flex-column align-items-center" action="/level0/users/viewuser=newpp" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% if user_data.profile.profile_picture %}
+                                        <img class="rounded-circle preview-image-pp" src="{{user_data.profile.profile_picture.url|cut:'&export=download'}}" width="250px" height="250px" alt="new_profile_picture">
+                                        {% else %}
+                                        <img class="rounded-circle preview-image-pp" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="250px" height="250px" alt="new_profile_picture">
+                                        {% endif %}
+                                        <div class="form-group">
+                                            <button class="btn btn-dark choose-picture-btn" type="button">Choose Picture</button>
+                                            <input type="file" class="choose-picture-input" name="npp" accept="image/*" required="" style="display: none;">
+                                            <input type="hidden" class="form-control" name="user" value="{{user_data.pk}}" />
+                                        </div>
+                                        <div class="form-group"><button class="btn btn-warning" type="submit">Update</button></div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Close</button></div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 offset-0 offset-sm-0 offset-lg-0 offset-xl-0 d-flex flex-column align-items-center" id="profile-banner">
+                {% if user_data.profile.banner_picture %}
+                <img class="banner-picture" src="{{user_data.profile.banner_picture.url|cut:'&export=download'}}" width="100%" height="150px" alt="profile_banner">
+                {% else %}
+                <img class="banner-picture" src="{% static 'teeker/assets/img/20190627_165646.jpg?h=b5f738f903ee834abef11dcfd323e6b0' %}" width="100%" height="150px" alt="profile_banner">
+                {% endif %}
+                <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#modal2">Upload new Profile Banner</button>
+                <div class="modal fade"
+                    role="dialog" tabindex="-1" id="modal2">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Change Banner Picture</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                            <div class="modal-body">
+                                <p>For best results. 2000x350 pixels. 2MB file size limit.</p>
+                                <form class="d-flex flex-column align-items-center" action="/level0/users/viewuser=newbp" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% if user_data.profile.banner_picture %}
+                                    <img class="preview-image-bp" src="{{user_data.profile.banner_picture.url|cut:'&export=download'}}" width="100%" height="120px" alt="new_profile_banner">
+                                    {% else %}
+                                    <img class="preview-image-bp" src="{% static 'teeker/assets/img/20190627_165646.jpg?h=b5f738f903ee834abef11dcfd323e6b0' %}" width="100%" height="120px" alt="new_profile_banner">
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <button class="btn btn-dark choose-banner-btn" type="button">Choose Picture</button>
+                                        <input type="file" class="choose-banner-input" name="nbp" accept="image/*" required="" style="display: none;">
+                                        <input type="hidden" class="form-control" name="user" value="{{user_data.pk}}" />
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-warning" type="submit">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Close</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 col-sm-10 col-md-8 col-lg-8 offset-1 offset-sm-1 offset-md-2 offset-xl-2" id="update-details">
+                <form action="/level0/users/viewuser=eacc" method="post">
+                    {% csrf_token %}
+                    <h4 class="text-white">Edit user's details</h4>
+                    <input class="form-control" type="hidden" name="user" value="{{user_data.pk}}">
+                    <div class="form-group"><input class="form-control" type="text" name="username" placeholder="Enter new username" value="{{user_data.username}}"></div>
+                    <div class="form-group"><input class="form-control" type="text" name="firstname" placeholder="Enter new First name" value="{{user_data.first_name}}"></div>
+                    <div class="form-group"><input class="form-control" type="text" name="lastname" placeholder="Enter new Last name" value="{{user_data.last_name}}"></div>
+                    <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Enter new E-mail address" value="{{user_data.email}}"></div>
+                    <div class="form-group"><textarea class="form-control" name="aboutme" rows="3" placeholder="Enter new About me">{{user_data.profile.aboutme}}</textarea></div>
+                    <div class="form-group"><button class="btn btn-warning" type="submit">Update Account Details</button></div>
+                </form>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 offset-0 offset-sm-0 offset-md-0 offset-lg-0 offset-xl-0" id="account-stats">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h4 class="text-white">ACCOUNT STATS</h4>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                        <p class="text-white">Number of published Content: {{n_content}}<br>Number of Chasers: {{n_chasers}}<br>Number of people Chasing: {{n_chasing}}<br>Total Up VOTES: {{n_upvotes}}<br>Total Down VOTES: {{n_downvotes}}<br></p>
+                    </div>
+                    <div class="col">
+                        <p class="text-white">Total Reports: {{n_reports}}<br></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-aos="fade-right" data-aos-once="true" class="div-separator"></div>
+        <div class="row" id="heading-security">
+            <div class="col">
+                <h4 class="text-white">SECURITY</h4>
+            </div>
+        </div>
+        <div class="row" id="security-details">
+            <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-4">
+                <div class="row d-flex flex-column">
+                    <div class="col">
+                        <p class="text-white">Two-factor Authentication: <strong>INACTIVE</strong><br></p>
+                    </div>
+                    <div class="col">
+                        <h3 class="text-light">Levels</h3>
+                        <div class="custom-control custom-switch"><input class="custom-control-input" type="checkbox" id="formCheck-1"><label class="custom-control-label text-light" for="formCheck-1">STAFF</label></div>
+                        <div class="custom-control custom-switch"><input class="custom-control-input" type="checkbox" id="formCheck-2"><label class="custom-control-label text-light" for="formCheck-2">DEVELOPER</label></div>
+                        <div class="custom-control custom-switch"><input class="custom-control-input" type="checkbox" id="formCheck-3"><label class="custom-control-label text-light" for="formCheck-3">CREATOR</label></div>
+                        <div class="custom-control custom-switch"><input class="custom-control-input" type="checkbox" id="formCheck-4"><label class="custom-control-label text-light" for="formCheck-4">FOUNDER</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-4">
+                <form method="post" action="level0/users/viewuser=cpwd">
+                    <h5 class="text-white">Change Password</h5>
+                    <div class="form-group"><input class="form-control" type="password" name="npwd" placeholder="New password" minlength="8" maxlength="128" required=""></div>
+                    <div class="form-group"><input class="form-control" type="password" name="cpwd" placeholder="Confirm Password" minlength="8" maxlength="128"></div>
+                    <div class="form-group"><button class="btn btn-danger btn-block" type="submit">Change Password</button></div>
+                </form>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                <h4 class="text-white">SUSPEND USER</h4><button class="btn btn-danger btn-block" type="button">SUSPEND</button></div>
+        </div>
+        <div data-aos="fade-right" data-aos-once="true" class="div-separator"></div>
+        <div class="row" id="heading-reports">
+            <div class="col">
+                <h4 class="text-white">REPORTS ( {{n_reports}} )</h4>
+            </div>
+        </div>
+        <div class="row" id="report-details">
+            <div class="col-10 col-sm-12 col-md-5 col-lg-5 col-xl-5 offset-1 offset-sm-0 col-report-box">
+                <p class="text-white report-box-details">ID: {{report_id}}<br>By: {{username}}#{{user_id}}<br>For: {{reason}}<br><br>Date: {{date_reported}}</p><button class="btn btn-success btn-sm report-box-btn" type="button">MARK AS READ</button><button class="btn btn-danger btn-sm report-box-btn"
+                    type="button">DELETE</button></div>
+        </div>
+        </div>
+        </div>
+    </section>
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col item social"><a href="https://twitter.com/TeekerCorp" target="_blank" rel="noopener noreferrer"><i class="icon ion-social-twitter"></i></a><a href="https://www.instagram.com/teekercorporation/" target="_blank" rel="noopener noreferrer"><i class="icon ion-social-instagram"></i></a></div>
+                </div>
+                <p class="copyright">Teeker Corp © 2020</p>
+            </div>
+        </footer>
+    </div>
+    <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
+    <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=0168f7c1e0d08faa2f4b13f4a1dc8c98' %}"></script>
+    <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="{% static 'teeker/assets/js/level0/users/viewuser_page.js?h=a2dcd06531f2461c32482df06599daca' %}"></script>
+    <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
+    <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+</body>
+
+</html>

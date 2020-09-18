@@ -1,0 +1,23 @@
+/* Style User Box Row */
+
+#content-box-row {
+  margin-top: 10px;
+}
+
+.col-content-details-box {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  background-color: #363636;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  border-radius: 8px;
+  margin-left: 0px;
+  margin-right: 2px;
+}
+
+.content-box-btn {
+  border-radius: 0;
+  font-size: 14px;
+}
+

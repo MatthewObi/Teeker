@@ -1,0 +1,62 @@
+[
+    {
+    "id": 1,
+    "social_media_name": "Instagram",
+    "social_media_link": "instagram.com",
+    "social_media_icon": "<i class='fa fa-instagram' aria-hidden='true'></i>"
+    },
+    {
+    "id": 2,
+    "social_media_name": "Twitter",
+    "social_media_link": "twitter.com",
+    "social_media_icon": "<i class='fa fa-twitter' aria-hidden='true'></i>"
+    },
+    {
+    "id": 3,
+    "social_media_name": "Facebook",
+    "social_media_link": "facebook.com",
+    "social_media_icon": "<i class='fa fa-facebook-official' aria-hidden='true'></i>"
+    },
+    {
+    "id": 4,
+    "social_media_name": "Youtube",
+    "social_media_link": "youtube.com",
+    "social_media_icon": "<i class='fa fa-youtube-play' aria-hidden='true'></i>"
+    },
+    {
+    "id": 5,
+    "social_media_name": "Snapchat",
+    "social_media_link": "snapchat.com",
+    "social_media_icon": "<i class='fa fa-snapchat' aria-hidden='true'></i>"
+    },
+    {
+    "id": 6,
+    "social_media_name": "Tumblr",
+    "social_media_link": "tumblr.com",
+    "social_media_icon": "<i class='fa fa-tumblr' aria-hidden='true'></i>"
+    },
+    {
+    "id": 7,
+    "social_media_name": "WhatsApp",
+    "social_media_link": "whatsapp.com",
+    "social_media_icon": "<i class='fa fa-whatsapp' aria-hidden='true'></i>"
+    },
+    {
+    "id": 8,
+    "social_media_name": "Soundcloud",
+    "social_media_link": "soundcloud.com",
+    "social_media_icon": "<i class='fa fa-soundcloud' aria-hidden='true'></i>"
+    },
+    {
+    "id": 9,
+    "social_media_name": "Spotify",
+    "social_media_link": "spotify.com",
+    "social_media_icon": "<i class='fa fa-spotify' aria-hidden='true'></i>"
+    },
+    {
+    "id": 10,
+    "social_media_name": "Vimeo",
+    "social_media_link": "vimeo.com",
+    "social_media_icon": "<i class='fa fa-vimeo' aria-hidden='true'></i>"
+    }
+]

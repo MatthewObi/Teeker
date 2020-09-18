@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>TeeKer: {{content_data.title}}</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <meta name="twitter:title" content="TeeKer">
+    <meta name="twitter:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD.png?h=e36e95241d662e0f09928bc30db9b893' %}">
+    <meta name="description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.
+">
+    <meta name="twitter:description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_16.png?h=569a7593697731cf28057926a3be78c9' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_32.png?h=915b1880d9b30a1fb40d56c1637a8273' %}">
+    <link rel="icon" type="image/png" sizes="180x180" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_180.png?h=b6b0f4688a93c3c580ff3cdb74f2fd96' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_192.png?h=0a9f0f2acc0ca3237583f915ee774ff7' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/bootstrap/css/bootstrap.min.css?h=4bb68c50302c4a74f4b27c9506b91bfc' %}">
+    <link rel="manifest" href="{% static 'teeker/manifest.json' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome-all.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/font-awesome.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/ionicons.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/material-icons.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome5-overrides.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content-styling.css?h=409805a47e06834559f5030484ae2f8b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/Footer-Dark.css?h=43f1a76bb769df2530961de0a2d95492' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/navbar.css?h=9f14568babcad750da4a8fcabba6a11c' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/searchbar_element.css?h=e6f646633e7cb301140ba0ff5a71c08b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/sidebar.css?h=e30c6b32036894a750e22edb2fb63aeb' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/styles.css?h=e774a8686c012fdb259ef145cdf38aee' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/support_page.css?h=67472359af3e4d510e3cafaac50bb279' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/view_page.css?h=03e389e4a75ad12423037c65da53815e' %}">
+</head>
+
+<body>
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
+                    id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        {% if user.is_authenticated %}
+        <li
+            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
+                <i
+                    class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
+            </li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
+                {% if user.profile.profile_picture.url %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
+                {% else %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">
+                {% endif %}
+                <span class="text-nowrap mx-2">Account</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/login"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log In</span></a></li>
+        {% endif %}
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
+    </ul>
+    <section class="main-section" id="hero_view">
+        <div>
+            <div class="container-fluid">
+                <div class="row d-flex flex-column">
+                    <div class="col-xl-12 offset-xl-0 d-flex justify-content-center col-search-bar">
+                        <form class="d-flex" method="get" action="/world">
+                            <div class="form-group"><input class="form-control form-input-search" type="search" name="searchcontent" placeholder="Search" required=""></div>
+                            <div class="form-group"><button class="btn btn-secondary form-input-btn" type="submit"><i class="fas fa-search"></i></button></div>
+                        </form>
+                    </div>
+                </div>
+                <div data-aos="fade" data-aos-duration="500" data-aos-delay="150" data-aos-once="true" style="padding-top: 2px;padding-bottom: 2px;background-color: rgb(89,89,89);border-radius: 5px;"></div>
+                <div class="row d-flex flex-row justify-content-center" id="content-row-holder">
+                    <div class="col">
+                        <div class="row" id="content-row">
+                            {% if content_data.content_type == "instagram" %}
+                            <div class="col-md-8 col-lg-6 col-xl-4 offset-md-2 offset-lg-3 offset-xl-4" id="col-instagram"><iframe src="{{content_data.shared_link}}" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="550"></iframe></div>
+                            {% elif content_data.content_type == "youtube" %}
+                            <div class="col-xl-8 offset-xl-2" id="col-youtube"><iframe allowfullscreen="" frameborder="0" src="{{content_data.shared_link}}" width="100%" height="420"></iframe></div>
+                            {% elif content_data.content_type == "vimeo" %}
+                            <div class="col-xl-8 offset-xl-2" id="col-vimeo"><iframe allowfullscreen="" frameborder="0" src="{{content_data.shared_link}}" width="100%" height="420"></iframe></div>
+                            {% elif content_data.content_type == "soundcloud" %}
+                            <div class="col-xl-8 offset-xl-2" id="col-soundcloud"><div id="soundcloud_content">{{content_data.shared_link | safe}}</div></div>
+                            {% elif content_data.content_type == "spotify" %}
+                            <div class="col-xl-8 offset-xl-2 d-flex flex-row justify-content-center" id="col-spotify"><div id="spotify_content">{{content_data.shared_link | safe}}</div></div>
+                            {% endif %}
+                        </div>
+                        <div class="row" id="detail-row">
+                            <div class="col-sm-12 col-md-10 col-lg-11 col-xl-10 offset-md-1 offset-lg-1 offset-xl-1" id="content-title" style="margin-bottom: 5px;margin-top: 10px;">
+                                <h3 class="text-break text-white" style="font-family: Roboto, sans-serif;">{{content_data.title}}</h3>
+                            </div>
+                            <div class="col-md-9 col-lg-11 col-xl-5 offset-md-1 offset-lg-1 offset-xl-1 d-flex justify-content-start align-items-center" id="content-owner" style="margin-bottom: 5px;"><a href="/TK/view={{content_data.content_owner.pk}}">
+                                {% if content_data.content_owner.profile.profile_picture %}
+                                <img class="rounded-circle" src="{{content_data.content_owner.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="owner_pp">
+                                {% else %}
+                                <img class="rounded-circle" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="owner_pp">
+                                {% endif %}
+                            </a>
+                            {% if content_data.content_owner.profile.verified %}
+                                <i class="fas fa-check-double" data-toggle="tooltip" data-bs-tooltip="" style="color: rgb(2,203,216);" title="VERIFIED"></i>
+                            {% endif %}
+                            <a class="align-self-end username-link-text" href="/TK/view={{content_data.content_owner.pk}}">
+                                <p class="text-white">{{content_data.content_owner.username}}</p>
+                            </a>
+                            </div>
+                            <div class="col-md-10 col-lg-11 col-xl-5 offset-md-1 offset-lg-1 offset-xl-0 d-flex flex-row justify-content-start align-items-center"
+                                id="content-rating" style="margin-bottom: 5px;">
+                                <div class="btn-group" role="group">
+                                    <button data-content_id="{{content_data.pk}}" class="btn btn-dark content-vote-btn" id="vote-up-btn" type="button">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </button>
+                                    <button data-content_id="{{content_data.pk}}" class="btn btn-dark content-vote-btn" id="vote-down-btn" type="button">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button></div>
+                                <h4 class="text-danger">
+                                    <i class="fas fa-fire" style="margin-left: 5px;margin-right: 5px;color: rgb(255,0,0);"></i>
+                                </h4>
+                                    <h4 class="text-white" id="fire-rating">{{content_data.fire}}</h4>
+                            </div>
+                            <div class="col-md-10 col-lg-11 col-xl-10 offset-md-1 offset-lg-1 offset-xl-1 d-flex flex-column align-items-start" id="content-description" style="margin-bottom: 10px;">
+                                <p class="text-break text-white" id="description-p">{{content_data.description|linebreaksbr}}</p>
+                                {% if content_data.description|length >= 50 %}
+                                <p id="description-more">see more</p>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-10 col-lg-11 col-xl-10 offset-md-1 offset-lg-1 offset-xl-1 d-flex flex-column align-items-end" id="content-date">
+                                <p class="text-muted" id="date">Date: {{content_data.date}}</p>
+                            </div>
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 offset-sm-1 offset-md-1 offset-lg-1 offset-xl-1" id="div-separator">
+                                <div></div>
+                            </div>
+                            <div class="col-md-10 col-lg-11 col-xl-10 offset-md-1 offset-lg-1 offset-xl-1" id="content-btn-options" style="margin-bottom: 10px;">
+                                {% if content_data.recommended %}
+                                <button class="btn btn-dark comment-btn recommend-btn" type="button" data-content_id="{{content_data.pk}}">
+                                    <i class="icon ion-android-remove-circle"></i> Unrecommend
+                                </button>
+                                {% else %}
+                                <button class="btn btn-dark comment-btn recommend-btn" type="button" data-content_id="{{content_data.pk}}">
+                                    <i class="icon ion-ios-checkmark-outline"></i> Recommend
+                                </button>
+                                {% endif %}
+                                <button class="btn btn-dark comment-btn copy-link-btn" type="button" data-content_id="{{content_data.pk}}"><i class="fas fa-link"></i> Copy Link</button>
+                                <button
+                                    class="btn btn-dark comment-btn" type="button" data-toggle="modal" data-target="#modal1"><i class="far fa-flag"></i> REPORT</button>
+                                    <div role="dialog" tabindex="-1" class="modal fade" id="modal1">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <h3>Report Content</h3>
+                                                    <form action="/view/report" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" class="form-control" name="content_id" value="{{content_data.pk}}" />
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-1" name="option_1" /><label class="custom-control-label" for="formCheck-1">Sexual Content <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that includes graphic sexual activity, nudity, or other types of sexual content"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-2" name="option_2" /><label class="custom-control-label" for="formCheck-2">Violent or repulsive content <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that is violent, graphic, or posted to shock viewers"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-3" name="option_3" /><label class="custom-control-label" for="formCheck-3">Hateful or abusive content <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that promotes hatred against protected groups, abuses vulnerable individuals, or engages in cyberbullying"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-4" name="option_4" /><label class="custom-control-label" for="formCheck-4">Harmful dangerous acts <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that includes acts that may result in physical harm"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-5" name="option_5" /><label class="custom-control-label" for="formCheck-5">Child abuse <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that includes sexual, predatory, or abusive communications towards minors"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-6" name="option_6" /><label class="custom-control-label" for="formCheck-6">Promotes terrorism <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that is intended to recruit for terrorist organizations, incite violence, glorify terrorist attacks, or otherwise promote acts of terrorism"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-7" name="option_7" /><label class="custom-control-label" for="formCheck-7">Spam or misleading <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Content that is massively posted or otherwise misleading in nature"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-8" name="option_8" /><label class="custom-control-label" for="formCheck-8">Infringes my rights <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Copyright, privacy, or other legal complaints"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="formCheck-9" name="option_9" /><label class="custom-control-label" for="formCheck-9">Captions issue <i data-toggle="tooltip" data-placement="right" class="fas fa-question-circle" title="Missing, inaccurate, or abusive captions"></i></label></div>
+                                                        </div>
+                                                        <div class="form-group"><button class="btn btn-light" type="button" data-dismiss="modal" style="margin-right: 10px;">Cancel</button><button class="btn btn-warning" type="submit">Submit</button></div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-md-10 col-lg-10 col-xl-7 offset-md-1 offset-lg-1 offset-xl-1" id="content-comment-form" style="margin-bottom: 10px;">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {% if message.tags == "error" %}
+                                        <p class="text-danger" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                        {% else %}
+                                        <p class="text-{{message.tags}}" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                <h6 class="text-right text-white">{{content_comments|length}} - Comments</h6>
+                                <form action="/comment" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <textarea class="form-control comment-form-input" name="comment" placeholder="Comment... (limit: 1200)" spellcheck="true" wrap="soft" minlength="1" maxlength="1200" required rows="5"></textarea>
+                                        <input type="hidden" class="form-control" name="content_id" value="{{content_data.pk}}" />
+                                    </div>
+                                    <div class="form-group d-flex flex-row justify-content-end"><button class="btn btn-dark comment-btn" type="submit">Comment</button></div>
+                                </form>
+                            </div>
+                        <div class="col-sm-10 col-md-10 col-lg-10 col-xl-9 offset-sm-1 offset-md-1 offset-lg-1 offset-xl-1" id="content-comments">
+                            {% for comment_item in content_comments %}
+                            <div class="row comment-row" id="comment-{{comment_item.id}}">
+                                <div class="col-xl-12 d-flex flex-row"><a href="/TK/view={{comment_item.user_id}}"><img class="rounded-circle" src="{{comment_item.profile_picture}}" width="50px" height="50px"></a>
+                                    <a class="align-self-end username-link-text" href="/TK/view={{comment_item.user_id}}">
+                                        <p class="text-white align-self-end comment-username">{{comment_item.username}}</p>
+                                    </a>
+                                </div>
+                                <div class="col d-flex flex-column align-items-start align-items-xl-start comment-holder">
+                                    <p class="text-white comment-details" data-comment_id="{{comment_item.id}}">{{comment_item.comment|linebreaksbr}}</p>
+                                    <p class="comment-option" data-comment_id="{{comment_item.id}}">see more</p>
+                                    <p class="text-right text-muted comment-date">Date: {{comment_item.date}}</p>
+                                </div>
+                                <div class="col-xl-12">
+                                    <p class="text-white">
+                                        <i id="del_btn" data-content_id="{{comment_item.content_id}}" data-comment_id="{{comment_item.id}}" data-user_id="{{comment_item.user_id}}" class="fas fa-trash comment-icons"></i>
+                                        <i id="report_btn" data-comment_id="{{comment_item.id}}" data-toggle="tooltip" class="fas fa-flag comment-icons" title="Need to be logged in to report"></i>
+                                    </p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col item social"><a href="https://twitter.com/TeekerCorp" target="_blank"><i class="icon ion-social-twitter"></i></a><a href="https://www.instagram.com/teekercorporation/" target="_blank"><i class="icon ion-social-instagram"></i></a></div>
+                </div>
+                <p class="copyright">Teeker Corp © 2020</p>
+            </div>
+        </footer>
+    </div>
+    <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
+    <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=7c038681746a729e2fff9520a575e78c' %}"></script>
+    <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="{% static 'teeker/assets/js/level0/content/viewcontent_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
+    <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
+    <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+    <script src="{% static 'teeker/assets/js/view_page.js?h=737db819ce5ead9a216d98135f6f65a3' %}"></script>
+</body>
+
+</html>

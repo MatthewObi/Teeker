@@ -1,0 +1,152 @@
+/* Style for the username link styling */
+
+.username-link-text, .username-link-text:hover {
+  text-decoration: none;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-family: Roboto, sans-serif;
+}
+
+/* Style for Comment */
+
+.comment-row {
+  background-color: rgba(37,37,37,0.4);
+  padding-top: 5px;
+  border-radius: 9px;
+  font-family: Roboto, sans-serif;
+  margin-bottom: 15px;
+}
+
+/* Style view content btn */
+
+.comment-btn {
+  font-family: Roboto, sans-serif;
+  border-radius: 0;
+  margin-right: 5px;
+  background-color: rgba(0,0,0,0.3);
+  border-color: white;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+/* Style Vote btns */
+
+.content-vote-btn {
+  color: rgb(160,160,160);
+  box-shadow: none;
+  background-color: #000000;
+  border-color: black;
+}
+
+.content-vote-btn:hover, .content-vote-btn:focus {
+  color: white;
+  box-shadow: none;
+  background-color: #000000;
+}
+
+.comment-form-input, .comment-form-input:focus {
+  background-color: #111111;
+  color: #ffffff;
+  font-family: Roboto, sans-serif;
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  box-shadow: none;
+}
+
+/* Style description */
+
+#description-p {
+  font-family: Roboto, sans-serif;
+  max-width: 100%;
+}
+
+#description-more {
+  cursor: pointer;
+  color: rgb(105,105,105);
+  font-family: Roboto, sans-serif;
+  margin-top: -10px;
+  background-color: #202020;
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 10px;
+}
+
+#description-more:hover {
+  cursor: pointer;
+  color: rgb(179,179,179);
+}
+
+/* Style content date */
+
+#date {
+  font-size: 12px;
+}
+
+/* Style Content row holder */
+
+#content-row-holder {
+  margin-top: 15px;
+}
+
+@media (max-width: 991px) {
+  .carousel-control-btn {
+    display: none;
+  }
+}
+
+/* Style Div separator */
+
+#div-separator {
+  background-color: rgba(119,119,119,0.41);
+  padding-top: 5px;
+  border-radius: 9px;
+}
+
+/* Style comment icons */
+
+.comment-icons {
+  cursor: pointer;
+  margin-right: 15px;
+  color: rgba(255,255,255,0.5);
+}
+
+.comment-icons:hover {
+  color: rgba(255,255,255);
+}
+
+/* Style comment */
+
+.comment-holder {
+  margin-top: 10px;
+  padding-bottom: 5px;
+  font-family: Roboto, sans-serif;
+}
+
+.comment-date {
+  font-size: 12px;
+}
+
+.comment-option {
+  background-color: #202020;
+  padding-right: 5px;
+  padding-left: 5px;
+  color: rgb(105,105,105);
+  border-radius: 10px;
+  margin-top: -10px;
+}
+
+.comment-option:hover {
+  cursor: pointer;
+  color: rgb(150,150,150);
+}
+
+.comment-details {
+  max-width: 100%;
+}
+
+.comment-username {
+  max-width: 90%;
+}

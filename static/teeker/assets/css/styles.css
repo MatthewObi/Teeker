@@ -1,0 +1,29 @@
+body {
+  background-color: rgb(0,0,0);
+  font-family: Roboto, sans-serif;
+}
+
+/* Style Alert message */
+
+.alert-msg {
+  background: rgba(54,54,54,0.9);
+  border-radius: 9px;
+  font-family: Roboto, sans-serif;
+}
+
+.alert-msg-close-icon {
+  cursor: pointer;
+}
+
+/* Style Main Section */
+
+.main-section {
+  min-height: calc(100vh - 70px);
+}
+
+/* Style Footer */
+
+.footer-dark {
+  margin-top: 10vh;
+  background-color: rgb(0,0,0);
+}
