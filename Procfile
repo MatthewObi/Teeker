@@ -1,1 +1,1 @@
-web gunicorn teeker.wsgi --log-file -
+web gunicorn Teeker.wsgi --log-file -
