@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>TeeKer World</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <meta name="twitter:title" content="TeeKer">
+    <meta name="twitter:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD.png?h=e36e95241d662e0f09928bc30db9b893' %}">
+    <meta name="twitter:description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.">
+    <meta name="description" content="Explore the world of TeeKer and discover new content and users.
+">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_16.png?h=569a7593697731cf28057926a3be78c9' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_32.png?h=915b1880d9b30a1fb40d56c1637a8273' %}">
+    <link rel="icon" type="image/png" sizes="180x180" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_180.png?h=b6b0f4688a93c3c580ff3cdb74f2fd96' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_192.png?h=0a9f0f2acc0ca3237583f915ee774ff7' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/bootstrap/css/bootstrap.min.css?h=4bb68c50302c4a74f4b27c9506b91bfc' %}">
+    <link rel="manifest" href="{% static 'teeker/manifest.json' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome-all.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/font-awesome.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/ionicons.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/material-icons.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome5-overrides.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content-styling.css?h=409805a47e06834559f5030484ae2f8b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content.css?h=b215315f2168b886816024fb957f0dd1' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/Footer-Dark.css?h=43f1a76bb769df2530961de0a2d95492' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/navbar.css?h=9f14568babcad750da4a8fcabba6a11c' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/searchbar_element.css?h=e6f646633e7cb301140ba0ff5a71c08b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/sidebar.css?h=e30c6b32036894a750e22edb2fb63aeb' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/styles.css?h=e774a8686c012fdb259ef145cdf38aee' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/support_page.css?h=67472359af3e4d510e3cafaac50bb279' %}">
+</head>
+
+<body>
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
+                    id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        {% if user.is_authenticated %}
+        <li
+            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
+                <i
+                    class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
+            </li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
+                {% if user.profile.profile_picture.url %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
+                {% else %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">
+                {% endif %}
+                <span class="text-nowrap mx-2">Account</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/login"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log In</span></a></li>
+        {% endif %}
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
+    </ul>
+    <section class="main-section" id="hero_termsandconditions">
+        <div>
+            <div class="container">
+                <div class="row d-flex flex-column">
+                    <div class="col-xl-12 offset-xl-0 col-search-bar">
+                        <a href="#termsandconditions">
+                            <p class="text-white"><i class="fas fa-angle-double-down"></i>&nbsp;Terms And Conditions</p>
+                        </a>
+                        <a href="#privacypolicy">
+                            <p class="text-white"><i class="fas fa-angle-double-down"></i>&nbsp;Privacy Policy</p>
+                        </a>
+                        <h1 class="text-white" id="termsandconditions">Terms And Conditions</h1>
+                        <p class="text-white">Terms and Conditions<br><br>Welcome to Teeker!<br><br><br><br>These terms and conditions outline the rules and regulations for the use of Teeker Corporation's Website, located at http://www.teeker.co/.<br><br><br><br>By accessing
+                            this website we assume you accept these terms and conditions. Do not continue to use Teeker if you do not agree to take all of the terms and conditions stated on this page. Our Terms and Conditions were created with the help
+                            of the Terms And Conditions Generator and the Free Terms &amp; Conditions Generator.<br><br><br><br>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements:
+                            "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company’s terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us",
+                            refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express
+                            purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular,
+                            plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.<br><br><br><br>Cookies<br><br>We employ the use of cookies. By accessing Teeker, you agreed to use cookies in agreement
+                            with the Teeker Corporation's Privacy Policy.<br><br><br><br>Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain
+                            areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.<br><br><br><br>License<br><br>Unless otherwise stated, Teeker Corporation and/or its licensors own the
+                            intellectual property rights for all material on Teeker. All intellectual property rights are reserved. You may access this from Teeker for your own personal use subjected to restrictions set in these terms and conditions.<br><br><br><br>You
+                            must not:<br><br><br><br>Republish material from Teeker<br><br>Sell, rent or sub-license material from Teeker<br><br>Reproduce, duplicate or copy material from Teeker<br><br>Redistribute content from Teeker<br><br>This Agreement
+                            shall begin on the date hereof.<br><br><br><br>Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. Teeker Corporation does not filter, edit, publish
+                            or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of Teeker Corporation,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their
+                            views and opinions. To the extent permitted by applicable laws, Teeker Corporation shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting
+                            of and/or appearance of the Comments on this website.<br><br><br><br>Teeker Corporation reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach
+                            of these Terms and Conditions.<br><br><br><br>You warrant and represent that:<br><br><br><br>You are entitled to post the Comments on our website and have all necessary licenses and consents to do so;<br><br>The Comments do
+                            not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;<br><br>The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful
+                            material which is an invasion of privacy<br><br>The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.<br><br>You hereby grant Teeker Corporation a non-exclusive
+                            license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.<br><br><br><br>Hyperlinking to our Content<br><br>The following organizations may
+                            link to our Website without prior written approval:<br><br><br><br>Government agencies;<br><br>Search engines;<br><br>News organizations;<br><br>Online directory distributors may link to our Website in the same manner as they
+                            hyperlink to the Websites of other listed businesses; and<br><br>System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to
+                            our Web site.<br><br>These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or
+                            approval of the linking party and its products and/or services; and (c) fits within the context of the linking party’s site.<br><br><br><br>We may consider and approve other link requests from the following types of organizations:<br><br><br><br>commonly-known
+                            consumer and/or business information sources;<br><br>dot.com community sites;<br><br>associations or other groups representing charities;<br><br>online directory distributors;<br><br>internet portals;<br><br>accounting, law
+                            and consulting firms; and<br><br>educational institutions and trade associations.<br><br>We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves
+                            or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of Teeker Corporation; and (d) the link is
+                            in the context of general resource information.<br><br><br><br>These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval
+                            of the linking party and its products or services; and (c) fits within the context of the linking party’s site.<br><br><br><br>If you are one of the organizations listed in paragraph 2 above and are interested in linking to
+                            our website, you must inform us by sending an e-mail to Teeker Corporation. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to
+                            link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.<br><br><br><br>Approved organizations may hyperlink to our Website as follows:<br><br><br><br>By use of
+                            our corporate name; or<br><br>By use of the uniform resource locator being linked to; or<br><br>By use of any other description of our Website being linked to that makes sense within the context and format of content on the
+                            linking party’s site.<br><br>No use of Teeker Corporation's logo or other artwork will be allowed for linking absent a trademark license agreement.<br><br><br><br>iFrames<br><br>Without prior approval and written permission,
+                            you may not create frames around our Webpages that alter in any way the visual presentation or appearance of our Website.<br><br><br><br>Content Liability<br><br>We shall not be hold responsible for any content that appears
+                            on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise
+                            violates, or advocates the infringement or other violation of, any third party rights.<br><br><br><br>Your Privacy<br><br>Please read Privacy Policy<br><br><br><br>Reservation of Rights<br><br>We reserve the right to request
+                            that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms and conditions and it’s linking policy
+                            at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.<br><br><br><br>Removal of links from our website<br><br>If you find any link on our Website that is
+                            offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.<br><br><br><br>We do not ensure that the
+                            information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date.<br><br><br><br>Disclaimer<br><br>To
+                            the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:<br><br><br><br>limit or exclude
+                            our or your liability for death or personal injury;<br><br>limit or exclude our or your liability for fraud or fraudulent misrepresentation;<br><br>limit any of our or your liabilities in any way that is not permitted under
+                            applicable law; or<br><br>exclude any of our or your liabilities that may not be excluded under applicable law.<br><br>The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a)
+                            are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.<br><br><br><br>As long as the website
+                            and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>
+                        <h1 class="text-white" id="privacypolicy">Privacy Policy for Teeker Corporation<br></h1>
+                        <p class="text-white">At Teeker, accessible from http://www.teeker.co/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Teeker and how we use it.<br><br><br><br>If
+                            you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.<br><br><br><br>This Privacy Policy applies only to our online activities and is valid for visitors to our website
+                            with regards to the information that they shared and/or collect in Teeker. This policy is not applicable to any information collected offline or via channels other than this website.<br><br><br><br>Consent<br><br>By using our
+                            website, you hereby consent to our Privacy Policy and agree to its terms.<br><br><br><br>Information we collect<br><br>The personal information that you are asked to provide, and the reasons why you are asked to provide it,
+                            will be made clear to you at the point we ask you to provide your personal information.<br><br><br><br>If you contact us directly, we may receive additional information about you such as your name, email address, phone number,
+                            the contents of the message and/or attachments you may send us, and any other information you may choose to provide.<br><br><br><br>When you register for an Account, we may ask for your contact information, including items
+                            such as name, company name, address, email address, and telephone number.<br><br><br><br>How we use your information<br><br>We use the information we collect in various ways, including to:<br><br><br><br>Provide, operate, and
+                            maintain our webste<br><br>Improve, personalize, and expand our webste<br><br>Understand and analyze how you use our webste<br><br>Develop new products, services, features, and functionality<br><br>Communicate with you, either
+                            directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the webste, and for marketing and promotional purposes<br><br>Send you emails<br><br>Find
+                            and prevent fraud<br><br>Log Files<br><br>Teeker follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The
+                            information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked
+                            to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information. Our Privacy
+                            Policy was created with the help of the Privacy Policy Generator and the Online Privacy Policy Generator.<br><br><br><br>Cookies and Web Beacons<br><br>Like any other website, Teeker uses 'cookies'. These cookies are used to
+                            store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors'
+                            browser type and/or other information.<br><br><br><br>For more general information on cookies, please read "What Are Cookies".<br><br><br><br>Google DoubleClick DART Cookie<br><br>Google is one of a third-party vendor on our
+                            site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to www.website.com and other sites on the internet. However, visitors may choose to decline the use of DART cookies
+                            by visiting the Google ad and content network Privacy Policy at the following URL – https://policies.google.com/technologies/ads<br><br><br><br>Advertising Partners Privacy Policies<br><br>You may consult this list to find
+                            the Privacy Policy for each of the advertising partners of Teeker.<br><br><br><br>Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements
+                            and links that appear on Teeker, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns
+                            and/or to personalize the advertising content that you see on websites that you visit.<br><br><br><br>Note that Teeker has no access to or control over these cookies that are used by third-party advertisers.<br><br><br><br>Third
+                            Party Privacy Policies<br><br>Teeker's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information.
+                            It may include their practices and instructions about how to opt-out of certain options.<br><br><br><br>You can choose to disable cookies through your individual browser options. To know more detailed information about cookie
+                            management with specific web browsers, it can be found at the browsers' respective websites.<br><br><br><br>CCPA Privacy Rights (Do Not Sell My Personal Information)<br><br>Under the CCPA, among other rights, California consumers
+                            have the right to:<br><br><br><br>Request that a business that collects a consumer's personal data disclose the categories and specific pieces of personal data that a business has collected about consumers.<br><br><br><br>Request
+                            that a business delete any personal data about the consumer that a business has collected.<br><br><br><br>Request that a business that sells a consumer's personal data, not sell the consumer's personal data.<br><br><br><br>If
+                            you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us.<br><br><br><br>GDPR Data Protection Rights<br><br>We would like to make sure you are fully aware
+                            of all of your data protection rights. Every user is entitled to the following:<br><br><br><br>The right to access – You have the right to request copies of your personal data. We may charge you a small fee for this service.<br><br><br><br>The
+                            right to rectification – You have the right to request that we correct any information you believe is inaccurate. You also have the right to request that we complete the information you believe is incomplete.<br><br><br><br>The
+                            right to erasure – You have the right to request that we erase your personal data, under certain conditions.<br><br><br><br>The right to restrict processing – You have the right to request that we restrict the processing of
+                            your personal data, under certain conditions.<br><br><br><br>The right to object to processing – You have the right to object to our processing of your personal data, under certain conditions.<br><br><br><br>The right to data
+                            portability – You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.<br><br><br><br>If you make a request, we have one month to
+                            respond to you. If you would like to exercise any of these rights, please contact us.<br><br><br><br>Children's Information<br><br>Another part of our priority is adding protection for children while using the internet. We
+                            encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.<br><br><br><br>Teeker does not knowingly collect any Personal Identifiable Information from children under the age
+                            of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col item social"><a href="https://twitter.com/TeekerCorp" target="_blank"><i class="icon ion-social-twitter"></i></a><a href="https://www.instagram.com/teekercorporation/" target="_blank"><i class="icon ion-social-instagram"></i></a></div>
+                </div>
+                <p class="copyright">Teeker Corp © 2020</p>
+            </div>
+        </footer>
+    </div>
+    <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
+    <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=7c038681746a729e2fff9520a575e78c' %}"></script>
+    <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="{% static 'teeker/assets/js/level0/content/viewcontent_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
+    <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
+    <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+</body>
+
+</html>

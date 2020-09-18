@@ -1,0 +1,17 @@
+/* Style Inbox Box */
+
+.col-inbox-box {
+  background-color: rgba(92,92,92,0.39);
+  font-family: Roboto, sans-serif;
+  border-radius: 8px;
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+/* Style Icon Close Box */
+
+.icon-close-inbox-box {
+  cursor: pointer;
+  color: rgb(255,255,255);
+}
+

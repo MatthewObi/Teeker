@@ -1,0 +1,31 @@
+/* Style Reset Password Box */
+
+.col-reset-pwd-box {
+  background-color: #005b67;
+  border-radius: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  top: 20vh;
+  font-size: 12px;
+  font-family: Roboto, sans-serif;
+}
+
+/* Style Reset Password Inputs */
+
+.reset-pwd-inputs, .reset-pwd-inputs:active, .reset-pwd-inputs:focus {
+  background-color: rgba(0,0,0,0.11);
+  color: white;
+  border-radius: 0;
+  border-bottom: 0;
+  border-top: 0;
+  font-size: 13px;
+  font-family: Roboto, sans-serif;
+}
+
+body {
+  background-image: url("/assets/img/background_3.png?h=61a877449c910080ed8eb09233a5246e");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+

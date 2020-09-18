@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Account</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <meta name="twitter:title" content="TeeKer">
+    <meta name="twitter:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD.png?h=e36e95241d662e0f09928bc30db9b893' %}">
+    <meta name="description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.
+">
+    <meta name="twitter:description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_16.png?h=569a7593697731cf28057926a3be78c9' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_32.png?h=915b1880d9b30a1fb40d56c1637a8273' %}">
+    <link rel="icon" type="image/png" sizes="180x180" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_180.png?h=b6b0f4688a93c3c580ff3cdb74f2fd96' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_192.png?h=0a9f0f2acc0ca3237583f915ee774ff7' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/bootstrap/css/bootstrap.min.css?h=4bb68c50302c4a74f4b27c9506b91bfc' %}">
+    <link rel="manifest" href="{% static 'teeker/manifest.json' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome-all.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/font-awesome.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/ionicons.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/material-icons.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome5-overrides.min.css?h=0c556d5438933bda409408695b5733e7' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/account_page.css?h=82c70ba1c2df539a03fa0a3a0d9deadd' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content-styling.css?h=409805a47e06834559f5030484ae2f8b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content.css?h=b215315f2168b886816024fb957f0dd1' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/Footer-Dark.css?h=43f1a76bb769df2530961de0a2d95492' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/navbar.css?h=9f14568babcad750da4a8fcabba6a11c' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/searchbar_element.css?h=e6f646633e7cb301140ba0ff5a71c08b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/sidebar.css?h=e30c6b32036894a750e22edb2fb63aeb' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/styles.css?h=e774a8686c012fdb259ef145cdf38aee' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/support_page.css?h=67472359af3e4d510e3cafaac50bb279' %}">
+</head>
+
+<body>
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
+                    id="sidebarToggleHolder" href="#">
+                    <i class="fas fa-bars" id="sidebarToggle"></i>
+                </a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        <li
+            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
+                <i class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
+            </li>
+            <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/account">
+                {% if user.profile.profile_picture.url %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
+                {% else %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">
+                {% endif %}
+                <span class="text-nowrap mx-2">Account</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
+    </ul>
+    <section id="hero_account_banner" style="filter: invert(0%);">
+        <div>
+            {% if user.profile.banner_picture.url %}
+            <img class="bp-holder" src="{{user.profile.banner_picture.url|cut:'&export=download'}}" width="100%" loading="auto">
+            {% else %}
+            <img class="bp-holder" src="{% static 'teeker/assets/default_img/banner/banner1.jpg' %}" width="100%" loading="auto">
+            {% endif %}
+        </div>
+    </section>
+    <section class="main-section" id="hero_user_details">
+        <div>
+            <div class="container">
+                <div class="row display-account-details">
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 offset-3 offset-sm-4 offset-md-0 offset-lg-0 offset-xl-0">
+                        {% if user.profile.profile_picture.url %}
+                        <img class="rounded-circle pp-holder" data-aos="fade-up" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="100%" style="margin-top: -50px;">
+                        {% else %}
+                        <img class="rounded-circle pp-holder" data-aos="fade-up" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="100%" style="margin-top: -50px;">
+                        {% endif %}
+                    </div>
+                    <div class="col-12 offset-0">
+                        <h3 class="text-white" data-aos="fade" data-aos-duration="700" data-aos-delay="200" data-aos-once="true">
+                            {% if user.is_staff %}
+                            <i class="fas fa-user staff-icon icon-badges" data-toggle="tooltip" data-bs-tooltip="" title="STAFF"></i>
+                            {% endif %}
+                            {% if user.profile.verified %}
+                            <i class="fas fa-check-double verified-icon icon-badges" data-toggle="tooltip" data-bs-tooltip="" title="VERIFIED"></i>
+                            {% endif %}
+                            {% if user.profile.developer %}
+                            <i class="fab fa-connectdevelop dev-icon icon-badges" data-toggle="tooltip" data-bs-tooltip="" data-bs-hover-animate="swing" title="DEV"></i>
+                            {% endif %}
+                            {% if user.profile.founder %}
+                            <i class="fab fa-superpowers founder-icon icon-badges" data-toggle="tooltip" data-bs-tooltip="" data-bs-hover-animate="tada" title="FOUNDER"></i>
+                            {% endif %}
+                        </h3>
+                        <h3 class="text-white username" data-user_id="{{user.pk}}">{{user.username}}</h3>
+                            <p class="text-white">
+                                {{aboutme_show}}
+                            </p>
+                    </div>
+                    <div class="col" style="margin-bottom: 10px;">
+                    {% if social_media %}
+                        {% for social_item in social_media %}
+                        <a class="social_links social_fa" href="{{social_item.social_media_link}}" rel="noopen noreferrer" target="_blank">{{social_item.social_icon | safe}}</a>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="row onboard-nav">
+                    <div class="col-12 col-xl-12" style="font-family: Aldrich, sans-serif;"><button class="btn btn-dark onboard-nav-selector active" id="account-home-btn" type="button">Home</button><button class="btn btn-dark onboard-nav-selector active" id="account-history-btn" type="button">History</button><button class="btn btn-dark onboard-nav-selector active"
+                            id="account-recommended-btn" type="button">Recommended</button><button class="btn btn-dark onboard-nav-selector active" id="account-aboutme-btn" type="button">About Me</button></div>
+                </div>
+                {% csrf_token %}
+                <div data-aos="zoom-in" class="div-separetor"></div>
+                <div class="row d-flex flex-row justify-content-center account-home" id="account_home_row">
+                    {% for content_item in content_data %}
+                    <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images" data-content_id="{{content_item.pk}}">
+                        <div class="row content-owner-details" id="content-owner-info">
+                            <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}">
+                                {% if user.profile.profile_picture %}
+                                <img class="rounded-circle content-box-pp" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
+                                {% else %}
+                                <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">
+                                {% endif %}
+                                <p class="text-white username-content-box">&nbsp;{{user.username}}&nbsp;</p></a></div>
+                            <div
+                                class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end">
+                                <div class="dropleft"><button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a class="dropdown-item dropdown-menu-options edit-btn" role="presentation" data-content="{{content_item.pk}}" href="/editcontent?content={{content_item.pk}}">
+                                            <i class="fas fa-pen"></i> Edit
+                                        </a>
+                                        <a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">
+                                            <i class="fas fa-link"></i> Copy Link
+                                        </a>
+                                        <a class="dropdown-item dropdown-menu-options delete-btn" role="presentation" data-content="{{content_item.pk}}">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex flex-column justify-content-center" id="content-preview">
+                        {% if content_item.content_type == "instagram" %}
+                        <div class="col" id="preview-instagram"><iframe src="{{content_item.shared_link}}" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="400"></iframe></div>
+                        {% elif content_item.content_type == "youtube" %}
+                        <div class="col" id="preview-youtube"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
+                        {% elif content_item.content_type == "vimeo" %}
+                        <div class="col" id="preview-vimeo"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
+                        {% elif content_item.content_type == "soundcloud" %}
+                        <div class="col" id="preview-soundcloud"><div id="soundcloud_content">{{content_item.shared_link|safe}}</div></div>
+                        {% elif content_item.content_type == "spotify" %}
+                        <div class="col" id="preview-spotify"><div id="spotify_content">{{content_item.shared_link|safe}}</div></div>
+                        {% endif %}
+                    </div>
+                    <div class="row" id="content-details">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <a class="content-box-links" href="/view={{content_item.pk}}">
+                                        <h5 class="text-white">
+                                            {{content_item.title}}
+                                            
+                                            {% if content_item.suspended %}
+                                                <h6 style="color: white;">(<span style="color: orangered;">SUSPENDED</span>)</h6>
+                                            {% endif %}
+                                        </h5>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn content-vote-btn up-vote-btn" type="button" data-content_id="{{content_item.pk}}">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </button>
+                                        <button class="btn btn-lg content-vote-btn down-vote-btn" type="button" data-content_id="{{content_item.pk}}">
+                                            <i class="fas fa-angle-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col d-flex flex-row justify-content-start align-items-center justify-content-xl-end"><i class="fas fa-fire content-fire-icon"></i>
+                                    <h5 class="text-break text-white fire-avg-number-696969" data-content_id="{{content_item.pk}}" style="margin-left: 5px;">{{content_item.fire}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-muted content-date">Date: {{content_item.date}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row d-flex flex-row justify-content-center account-history" id="account_history_row">
+                {% for content_item in content_data_history %}
+                <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images-1" data-content_id="{{content_item.content.pk}}">
+                    <div class="row content-owner-details" id="content-owner-info-1">
+                        <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.user.pk}}">
+                            {% if content_item.user.profile.profile_picture %}
+                            <img class="rounded-circle content-box-pp" src="{{content_item.user.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
+                            {% else %}
+                            <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/img/sana%20-ypa1s7.jpg?h=0b255ebee4dc0f6c3112ce9bb14b472a' %}" width="50px" height="50px" alt="profile_picture">
+                            {% endif %}
+                            <p class="text-white username-content-box">&nbsp;{{content_item.user.username}}&nbsp;</p></a></div>
+                        <div
+                            class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end">
+                            <div class="dropleft"><button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
+                                <div class="dropdown-menu" role="menu"><a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">Copy Link</a><a class="dropdown-item dropdown-menu-options remove-history-btn" role="presentation" data-content="{{content_item.pk}}">Remove</a></div>
+                            </div>
+                    </div>
+                </div>
+                <div class="row d-flex flex-column justify-content-center" id="content-preview-1">
+                    {% if content_item.content.content_type == "instagram" %}
+                    <div class="col" id="preview-instagram-1"><iframe src="{{content_item.content.shared_link}}" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="500"></iframe></div>
+                    {% elif content_item.content.content_type == "youtube" %}
+                    <div class="col" id="preview-youtube-1"><iframe allowfullscreen="" frameborder="0" src="{{content_item.content.shared_link}}" width="100%" height="215"></iframe></div>
+                    {% elif content_item.content.content_type == "vimeo" %}
+                    <div class="col" id="preview-vimeo-1"><iframe allowfullscreen="" frameborder="0" src="{{content_item.content.shared_link}}" width="100%" height="215"></iframe></div>
+                    {% elif content_item.content.content_type == "soundcloud" %}
+                    <div class="col" id="preview-soundcloud-1"><div id="soundcloud_content">{{content_item.content.shared_link | safe}}</div></div>
+                    {% elif content_item.content.content_type == "spotify" %}
+                    <div class="col" id="preview-spotify-1"><div id="spotify_content">{{content_item.content.shared_link | safe}}</div></div>
+                    {% endif %}
+                </div>
+                <div class="row" id="content-details-1">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <a class="content-box-links" href="/view={{content_item.content.pk}}">
+                                    <h5 class="text-white">{{content_item.content.title}}</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <div class="btn-group" role="group">
+                                    <button class="btn content-vote-btn up-vote-btn" type="button" data-content_id="{{content_item.content.pk}}">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </button>
+                                    <button class="btn btn-lg content-vote-btn down-vote-btn" type="button" data-content_id="{{content_item.content.pk}}">
+                                        <i class="fas fa-angle-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col d-flex flex-row justify-content-start align-items-center justify-content-xl-end"><i class="fas fa-fire content-fire-icon"></i>
+                                <h5 class="text-break text-white fire-avg-number-696969" data-content_id="{{content_item.content.pk}}" style="margin-left: 5px;">{{content_item.fire}}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p class="text-muted content-date">Date: {{content_item.content.date}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row d-flex flex-row justify-content-center account-recommended" id="account_recommended_row">
+            {% for content_item in content_data_recommend %}
+            <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images-2" data-content_id="{{content_item.pk}}">
+                <div class="row content-owner-details" id="content-owner-info-2">
+                    <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}">
+                        {% if content_item.profile_picture %}
+                        <img class="rounded-circle content-box-pp" src="{{content_item.profile_picture|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
+                        {% else %}
+                        <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/img/sana%20-ypa1s7.jpg?h=0b255ebee4dc0f6c3112ce9bb14b472a' %}" width="50px" height="50px" alt="profile_picture">
+                        {% endif %}
+                        <p class="text-white username-content-box">&nbsp;{{content_item.username}}&nbsp;</p></a></div>
+                    <div
+                        class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end">
+                        <div class="dropleft"><button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
+                            <div class="dropdown-menu" role="menu"><a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">Copy Link</a><a class="dropdown-item dropdown-menu-options remove-recommended-btn" role="presentation" data-content="{{content_item.pk}}">Remove</a></div>
+                        </div>
+                </div>
+            </div>
+            <div class="row d-flex flex-column justify-content-center" id="content-preview-2">
+                {% if content_item.content_type == "instagram" %}
+                <div class="col" id="preview-instagram-2"><iframe src="{{content_item.shared_link}}" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="500"></iframe></div>
+                {% elif content_item.content_type == "youtube" %}
+                <div class="col" id="preview-youtube-2"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
+                {% elif content_item.content_type == "vimeo" %}
+                <div class="col" id="preview-vimeo-2"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
+                {% elif content_item.content_type == "soundcloud" %}
+                <div class="col" id="preview-soundcloud-2"><div id="soundcloud_content">{{content_item.shared_link|safe}}</div></div>
+                {% elif content_item.content_type == "spotify" %}
+                <div class="col" id="preview-spotify-2"><div id="spotify_content">{{content_item.shared_link|safe}}</div></div>
+                {% endif %}
+            </div>
+            <div class="row" id="content-details-2">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <a class="content-box-links" href="/view={{content_item.pk}}">
+                                <h5 class="text-white">{{content_item.title}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="btn-group" role="group">
+                                <button class="btn content-vote-btn up-vote-btn" type="button" data-content_id="{{content_item.pk}}">
+                                    <i class="fa fa-chevron-up"></i>
+                                </button>
+                                <button class="btn btn-lg content-vote-btn down-vote-btn" type="button" data-content_id="{{content_item.pk}}">
+                                    <i class="fas fa-angle-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col d-flex flex-row justify-content-start align-items-center justify-content-xl-end"><i class="fas fa-fire content-fire-icon"></i>
+                            <h5 class="text-break text-white fire-avg-number-696969" data-content_id="{{content_item.pk}}" style="margin-left: 5px;">{{content_item.fire}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p class="text-muted content-date">Date: {{content_item.date}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+        <div class="row account-aboutme" id="account_aboutme_row">
+            <div class="col text-white col-content-aboutme">
+                <h3>About</h3>
+                <p>{{user.profile.aboutme|linebreaksbr}}</p>
+            </div>
+        </div>
+        <div class="row d-none justify-content-center" style="width: 100%;" id="loading_gif">
+            <img src="https://media.giphy.com/media/VseXvvxwowwCc/giphy.gif" width="150px" height="150px" />
+        </div>
+        </div>
+        </div>
+    </section>
+    <div class="footer-dark">
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col item social"><a href="https://twitter.com/TeekerCorp" target="_blank"><i class="icon ion-social-twitter"></i></a><a href="https://www.instagram.com/teekercorporation/" target="_blank"><i class="icon ion-social-instagram"></i></a></div>
+                </div>
+                <p class="copyright">Teeker Corp © 2020</p>
+            </div>
+        </footer>
+    </div>
+    <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
+    <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=7c038681746a729e2fff9520a575e78c' %}"></script>
+    <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js"></script>
+    <script src="{% static 'teeker/assets/js/account_page.js?h=3dcade50baa5c528ddd8def9f5725245' %}"></script>
+    <script src="{% static 'teeker/assets/js/content.js?h=267b2bfe564ead671750c9f4011dea8f' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
+    <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+</body>
+
+</html>

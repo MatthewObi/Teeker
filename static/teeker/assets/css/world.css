@@ -1,0 +1,31 @@
+.user-col-link:hover {
+  text-decoration: none;
+}
+
+.username-heading {
+  margin-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 5px;
+}
+
+@media (max-width: 576px) {
+  .username-heading {
+    display: none;
+  }
+}
+
+.col-world-users {
+  background-color: rgba(65,65,65,0.6);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 9px;
+}
+
+.col-world-users:hover {
+  /*cursor: pointer;*/
+  background-color: rgba(65,65,65,0.8);
+}

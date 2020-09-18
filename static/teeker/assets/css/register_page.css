@@ -1,0 +1,40 @@
+/* Style Register Box */
+
+.col-register-box {
+  background-color: #005b67;
+  border-radius: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  top: 10vh;
+  font-size: 12px;
+  font-family: Roboto, sans-serif;
+}
+
+/* Style Register Inputs */
+
+.register-inputs, .register-inputs:active, .register-inputs:focus {
+  background-color: rgba(0,0,0,0.11);
+  color: white;
+  border-radius: 0;
+  border-bottom: 0;
+  border-top: 0;
+  font-size: 13px;
+  font-family: Roboto, sans-serif;
+}
+
+/* Style Agreement label */
+
+.agree-label {
+  background-color: rgba(0,0,0,0.51);
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 7px;
+}
+
+body {
+  background-image: url("/static/teeker/assets/img/background_3.png?h=61a877449c910080ed8eb09233a5246e");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+

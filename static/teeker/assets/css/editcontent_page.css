@@ -1,0 +1,16 @@
+.edit-form-inputs, .edit-form-inputs:focus {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: Roboto, sans-serif;
+  border-radius: 0;
+  border-bottom: 0;
+  border-top: 0;
+  box-shadow: none;
+}
+
+@media (max-width: 991px) {
+  .carousel-control-btn {
+    display: none;
+  }
+}
+

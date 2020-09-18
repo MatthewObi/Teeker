@@ -1,0 +1,42 @@
+#nav-bar-level0 {
+  font-family: Aldrich, sans-serif;
+  color: #00ffff;
+  font-size: 20px;
+}
+
+/* Style Search Form */
+
+.search-form {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+}
+
+.input-field-level0, .input-field-level0:focus {
+  background-color: #000000;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+  border-radius: 0;
+  color: #ffffff;
+  box-shadow: none;
+  border-top: 3px none #ffffff ;
+  border-right: 3px none #ffffff ;
+  border-left-width: 0px;
+}
+
+.input-btn-level0 {
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+}
+
+/* Style Sort Selector */
+
+.sort-selector {
+  font-family: Roboto, sans-serif;
+  color: rgb(255,255,255);
+  background-color: rgb(0,0,0);
+  border-radius: 0;
+  box-shadow: none;
+  border-top: 3px none rgb(255,255,255) ;
+  border-right-width: 0px;
+  border-left: 3px none rgb(255,255,255) ;
+}

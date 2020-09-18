@@ -1,0 +1,187 @@
+@media (min-width: 991px) {
+  #hero_user_details {
+    margin-top: -50px;
+  }
+}
+
+/* Style badges */
+
+.icon-badges {
+  font-size: 16px;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.staff-icon.icon-badges {
+  color: rgb(0,255,255);
+}
+
+.verified-icon.icon-badges {
+  color: rgb(0,208,221);
+}
+
+.dev-icon.icon-badges {
+  color: rgb(36,255,0);
+}
+
+.founder-icon.icon-badges {
+  color: rgb(255,229,0);
+}
+
+/* Style Social Media Icons */
+
+.social_fa {
+  color: #ffffff;
+  font-size: 25px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.social_fa:hover {
+  color: #ffffff;
+}
+
+.youtube_account {
+  color: rgb(255,15,0);
+}
+
+/* Style Onboard Nav Selectors */
+
+.onboard-nav-selector {
+  color: #adadad;
+  text-decoration: blink;
+  font-size: 15px;
+  background-color: rgba(0,0,0,0);
+  border-radius: 0;
+  border-style: hidden;
+  border-color: black;
+  box-shadow: none;
+}
+
+.onboard-nav-selector:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.onboard-nav-selector:focus {
+  box-shadow: none;
+  color: white;
+  text-decoration: none;
+}
+
+/* Style Div separetor between Nav and content */
+
+.div-separetor {
+  background-color: rgba(123,123,123,0.5);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 2px;
+  margin-bottom: 5px;
+  border-style: hidden;
+  border-radius: 5px;
+}
+
+/* Style Chase btn */
+
+.chase-btn, chasing-deactive {
+  background-color: #ff8a00;
+  letter-spacing: 5px;
+  box-shadow: none;
+  color: #000000;
+  font-family: Roboto, sans-serif;
+  font-weight: bold;
+  border-color: black;
+}
+
+.chase-btn:focus, .chase-btn:hover, .chase-btn:active {
+  box-shadow: none;
+  background-color: #000000;
+  border-color: white;
+}
+
+.chasing-active {
+  box-shadow: none;
+  background-color: #a0a0a0;
+}
+
+/* Style acimation for when switching selections */
+
+@keyframes change_section {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
+    display: none;
+  }
+}
+
+.silentanimation {
+  animation-name: change_section;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+/* Style for profile picture */
+
+.pp-holder {
+  object-fit: cover;
+  background-color: rgba(0,0,0,0.5);
+  width: 140px;
+  height: 140px;
+  margin-top: -50px;
+}
+
+/* Style for banner picture */
+
+.bp-holder {
+  object-fit: cover;
+}
+
+@media (min-width: 1280px) {
+  .bp-holder {
+    height: 300px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1279px) {
+  .bp-holder {
+    height: 200px;
+  }
+}
+
+@media (min-width: 575px) and (max-width: 992px) {
+  .bp-holder {
+    height: 150px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 576px) {
+  .bp-holder {
+    height: 150px;
+    object-fit: cover;
+    object-position: 50%;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 479px) {
+  .bp-holder {
+    height: 150px;
+    object-fit: cover;
+    object-position: 50%;
+  }
+}
+
+/* Style Report flag */
+
+.report-flag {
+  color: rgb(51,51,51);
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.report-flag:hover {
+  color: rgb(150,150,150);
+}

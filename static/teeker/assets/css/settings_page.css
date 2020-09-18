@@ -1,0 +1,115 @@
+/* Style Settings btns */
+
+.setting-btns {
+  background-color: #ffffff;
+  color: #000000;
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+}
+
+.setting-btns:hover {
+  background-color: #aba500;
+  color: #000000;
+}
+
+.setting-btns:active, .setting-btns:focus {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Style Row Separetor */
+
+.row-separetor {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: rgba(255,255,255,0.2);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* Style Form Control Input fields */
+
+.setting-inputs, .setting-inputs:focus {
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  box-shadow: none;
+}
+
+/* Style Delete Social Media Icon */
+
+.delete-sociallink-icon {
+  cursor: pointer;
+  color: rgba(255,0,0,0.7);
+}
+
+.delete-sociallink-icon:hover {
+  color: red;
+}
+
+/* Style Security Rows */
+
+.security-row {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+/* Style Upload new profile Modal */
+
+#upload_new_pp, #upload_new_bp {
+  margin-top: 10px;
+  font-family: Roboto, sans-serif;
+}
+
+.picture-heading-newpp {
+  font-family: Roboto, sans-serif;
+}
+
+.modal-heading-pp {
+  padding-top: 5px;
+  background-color: rgba(255,255,255,0);
+  color: rgb(0,0,0);
+  border-radius: 0;
+}
+
+.modal-body-pp {
+  border-radius: 0;
+}
+
+.modal-trigger-btn-pp {
+  margin-top: 10px;
+}
+
+/* Style Banner Pitcure */
+
+.current-bp, #preview_bp {
+  object-fit: cover;
+}
+
+@media (min-width: 1200px) {
+  .current-bp {
+    height: 150px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .current-bp {
+    height: 100px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .current-bp {
+    height: 100px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 479px) {
+  .current-bp {
+    height: 80px;
+  }
+}
+

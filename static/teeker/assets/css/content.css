@@ -1,0 +1,71 @@
+/* Style Content Dropdown Menu */
+
+.dropdown-menu-options {
+  cursor: pointer;
+}
+
+.dropdown-menu-options:active, .dropdown-menu-options:focus {
+  background-color: rgb(96,96,96);
+  color: rgb(255,255,255);
+}
+
+.content-fire-icon {
+  color: rgb(255,0,0);
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.content-vote-btn:hover, .content-vote-btn:focus {
+  color: white;
+  box-shadow: none;
+}
+
+.col-content-box {
+  margin-top: 10px;
+  padding-top: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-family: Roboto, sans-serif;
+  margin-bottom: 5px;
+}
+
+.little-dropdown-dots, .little-dropdown-dots:focus {
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.content-owner-details {
+  margin-bottom: 5px;
+}
+
+.content-box-links:hover {
+  text-decoration: none;
+}
+
+.content-date {
+  font-size: 12px;
+  font-family: Roboto, sans-serif;
+}
+
+/* Style Profile Picture */
+
+.content-box-pp {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Style Username content */
+
+.username-content-box {
+  margin-top: 10px;
+  margin-left: 2px;
+  font-size: 14px;
+}
+
+/* Style hide image controls pass 991 */
+
+@media (max-width: 991px) {
+  .content-image-controls, .content-image-indicators {
+    display: none;
+  }
+}
