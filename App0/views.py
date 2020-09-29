@@ -16,17 +16,30 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File
 
+# Used for the email sending
+from django.core.mail import send_mail
+
 from PIL import Image
 from io import BytesIO
 
 import os
 import time
+import requests
+
+# Import settings
+from django.conf import settings
 
 # Get the models from models.py
 from .models import Content, History, Comment
 
 # Get the validation forms from forms.py
-from .form import UploadProfilePictures, UploadBannerPictures, Level0UpdateUserDetails, Level0SearchUsers
+from .form import UploadProfilePictures, \
+					UploadBannerPictures, \
+					Level0UpdateUserDetails, \
+					Level0SearchUsers, \
+					RegisterForm, \
+					RegisterCheckForm, \
+					CommentForm
 
 # Used for social media link extractions
 import re
@@ -86,82 +99,255 @@ def logout_page(request):
 		return HttpResponseRedirect(reverse("login_page"))
 
 
+def register_check(request):
+	"""Register page. Used only by the JavaScript for check if the Username and E-mail Address can be used."""
+
+	if request.method == "POST":
+
+		# Check if the inputs from the JavaScript are valid
+		form = RegisterCheckForm(request.POST)
+
+		if form.is_valid():
+
+			if form.cleaned_data["username"]:
+
+				# Check if the username can be used
+				try:
+					user = User.objects.get(username=form.cleaned_data["username"])
+
+					if user:
+						return JsonResponse({"STATUS": True, "USERNAME": "usable_false", "MESSAGE": f"{form.cleaned_data['username']} cannot be used!"})
+					else:
+						return JsonResponse({"STATUS": True, "USERNAME": "usable_true", "MESSAGE": f"{form.cleaned_data['username']} can be used!"})
+				except User.DoesNotExist:
+					return JsonResponse({"STATUS": True, "USERNAME": "usable_true", "MESSAGE": f"{form.cleaned_data['username']} can be used!"})
+			
+			elif form.cleaned_data["email"]:
+
+				# Check if the email can be used
+				try:
+					user = User.objects.get(email=form.cleaned_data["email"])
+					
+					if user:
+						return JsonResponse({"STATUS": True, "EMAIL": "usable_false", "MESSAGE": "This e-mail address cannot be used!"})
+					else:
+						return JsonResponse({"STATUS": True, "EMAIL": "usable_true", "MESSAGE": "This e-mail address can be used!"})
+				except User.DoesNotExist:
+					return JsonResponse({"STATUS": True, "EMAIL": "usable_true", "MESSAGE": "This e-mail address can be used!"})
+
+			else:
+				return JsonResponse({"STATUS": False})
+		else:
+
+			# Check if any error messages where returned
+			if form.errors.get_json_data():
+
+				try:
+					# Check if the username is the error message
+					if form.errors.get_json_data()["username"]:
+
+						# Check the code error that was given
+						if form.errors.get_json_data()["username"][0]["code"] == "min_length":
+							return JsonResponse({"STATUS": True, "USERNAME": "min_length", "MESSAGE": form.errors.get_json_data()["username"][0]["message"]})
+						elif form.errors.get_json_data()["username"][0]["code"] == "max_length":
+							return JsonResponse({"STATUS": True, "USERNAME": "max_length", "MESSAGE": form.errors.get_json_data()["username"][0]["message"]})
+						elif form.errors.get_json_data()["username"][0]["code"] == "invalid":
+							return JsonResponse({"STATUS": True, "USERNAME": "invalid", "MESSAGE": form.errors.get_json_data()["username"][0]["message"]})
+					else:
+						return JsonResponse({"STATUS": True, "USERNAME": "invalid", "MESSAGE": form.errors.get_json_data()["username"][0]["message"]})
+				except KeyError:
+					print("Username wasn't checked...")
+
+				try:
+					# Check if the email is the error message
+					if form.errors.get_json_data()["email"]:
+
+						# Check the code error that was given
+						if form.errors.get_json_data()["email"][0]["code"] == "min_length":
+							return JsonResponse({"STATUS": True, "EMAIL": "min_length", "MESSAGE": form.errors.get_json_data()["email"][0]["message"]})
+						elif form.errors.get_json_data()["email"][0]["code"] == "max_length":
+							return JsonResponse({"STATUS": True, "EMAIL": "max_length", "MESSAGE": form.errors.get_json_data()["email"][0]["message"]})
+						elif form.errors.get_json_data()["email"][0]["code"] == "invalid":
+							return JsonResponse({"STATUS": True, "EMAIL": "invalid", "MESSAGE": form.errors.get_json_data()["email"][0]["message"]})
+					else:
+						return JsonResponse({"STATUS": True, "EMAIL": "invalid", "MESSAGE": form.errors.get_json_data()["email"][0]["message"]})
+				except KeyError:
+					print("E-mail address wasn't checked...")
+
+				return JsonResponse({"STATUS": False})
+			else:
+				return JsonResponse({"STATUS": False})
+
 def register(request):
 	"""Register page for the user to register for an account (Sign Up Page)"""
 
 	if request.method == "POST":
+		
+		# Validate the user inputs from the Register Form
+		form = RegisterForm(request.POST)
 
-		# Check if a required field are filled
-		if not request.POST.get("username"):
-			messages.warning(request, "Please provide a username!")
-			return HttpResponseRedirect(reverse("register"))
-		elif not request.POST.get("firstname"):
-			messages.warning(request, "Please enter your first name!")
-			return HttpResponseRedirect(reverse("register"))
-		elif not request.POST.get("lastname"):
-			messages.warning(request, "Please enter your last name")
-			return HttpResponseRedirect(reverse("register"))
-		elif not request.POST.get("email"):
-			messages.warning(request, "Please enter a E-mail to use!")
-			return HttpResponseRedirect(reverse("register"))
-		elif not request.POST.get("pwd"):
-			messages.warning(request, "Please provide a password! 8 - 128 Characters long.")
-			return HttpResponseRedirect(reverse("register"))
-		elif not request.POST.get("cpwd"):
-			messages.warning(request, "Plese privide the confirmation password!")
-			return HttpResponseRedirect(reverse("register"))
+		if form.is_valid():
+
+			# Get the secret key
+			secret_key = settings.RECAPTCHA_SECRET_KEY
+
+			# captcha verification
+			data = {
+				'response': request.POST.get('g-recaptcha-response'),
+				'secret': secret_key
+			}
+			resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+			result_json = resp.json()
+
+			# Check if the user is a bot
+			if result_json.get("success"):
+					
+				# Check if the password and confirm password match
+				if str(form.cleaned_data["pwd"]) == str(form.cleaned_data["cpwd"]):
+					
+					# Check if the email address is in use already
+					try:
+						user = User.objects.get(email=str(form.cleaned_data["email"]))
+						if user:
+							messages.warning(request, "That e-mail address is already being used!")
+							return HttpResponseRedirect(reverse("register"))
+					except User.DoesNotExist:
+						print("Email is cleared...")
+
+					# Check if the username is already in use
+					try:
+						user = User.objects.get(username=str(form.cleaned_data["username"]))
+						if user:
+							messages.warning(request, "Username is already in use by another user!")
+							return HttpResponseRedirect(reverse("register"))
+					except User.DoesNotExist:
+						print("Username is cleared...")
+
+					# Create user in the Database
+					User.objects.create_user(
+						username=str(form.cleaned_data["username"]),
+						first_name=str(form.cleaned_data["firstname"]),
+						last_name=str(form.cleaned_data["lastname"]),
+						email=str(form.cleaned_data["email"]),
+						password=str(form.cleaned_data["cpwd"]) # Passwords will be automatically hashed by Django's hasher (Check settings.py for Hasher type)
+					).save()
+
+					# Fill the profile for the users account
+					user = User.objects.get(username=str(form.cleaned_data["username"]))
+					user.profile.aboutme = """I'm new to Teeker."""
+					user.save()
+
+					# Get the HTML template of the email
+					with open(os.getcwd()+"/templates/teeker/email_templates/register.html") as f:
+						email_html = f.read()
+					f.close()
+
+					# Get the TEXT template of the email
+					with open(os.getcwd()+"/templates/teeker/email_templates/register.txt") as f:
+						email_text = f.read()
+					f.close()
+
+					# Send an email to the new user
+					send_mail(
+						subject="Welcome to Teeker",
+						message=email_text.replace("{{fullname}}", form.cleaned_data['firstname'] +" "+ form.cleaned_data['lastname']),
+						from_email=settings.MAIL_SENDER,
+						recipient_list=[form.cleaned_data["email"]],
+						fail_silently=False,
+						html_message=email_html.replace("{{fullname}}", form.cleaned_data['firstname'] +" "+ form.cleaned_data['lastname'])
+						)
+
+					# Attempt to automatically login the user
+					ready_user = authenticate(request, username=str(form.cleaned_data["username"]), password=str(form.cleaned_data["cpwd"]))
+					if ready_user:
+						login(request, ready_user)
+						messages.success(request, "Successfully Registered! Welcome to TeeKer :D")
+						return HttpResponseRedirect(reverse("account_page"))
+					else:
+						messages.warning(request, "Registered successfully! But failed to log in automatically.")
+						return HttpResponseRedirect(reverse("login"))
+				else:
+					messages.warning(request, "Password and confirm password do not match each other!")
+					return HttpResponseRedirect(reverse("register"))
+			else:
+				messages.error(request, "reCAPTCHA has detected unhuman behaviour!")
+				return HttpResponseRedirect(reverse("register"))
 		else:
 			
-			# Check if the password and confirm password match
-			if str(request.POST.get("pwd")) == str(request.POST.get("cpwd")):
+			# Choose the right error message
+			if form.errors.get_json_data():
 				
-				# Check if the email address is in use already
+				# Catch KeyError for username
 				try:
-					user = User.objects.get(email=str(request.POST.get("email")))
-					if user:
-						messages.warning(request, "That e-mail address is already being used!")
-						return HttpResponseRedirect(reverse("register"))
-				except User.DoesNotExist:
-					print("Email is cleared...")
+					# Check if the error is the username
+					if form.errors.get_json_data()["username"] and form.errors.get_json_data()["username"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['username'][0]['message']}")
+					elif form.errors.get_json_data()["username"]:
+						messages.warning(request, "Username is invalid! Please try another one...")
+				except KeyError:
+					print("""Username is cleared and passed validation""")
 
-				# Check if the username is already in use
+				# Catch KeyError for first name
 				try:
-					user = User.objects.get(username=str(request.POST.get("username")))
-					if user:
-						messages.warning(request, "Username is already in use by another user!")
-						return HttpResponseRedirect(reverse("register"))
-				except User.DoesNotExist:
-					print("Username is cleared...")
+					# Check if the error is the first name
+					if form.errors.get_json_data()["firstname"] and form.errors.get_json_data()["firstname"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['firstname'][0]['message']}")
+					elif form.errors.get_json_data()["firstname"]:
+						messages.warning(request, "First name is invalid! Please try another one...")
+				except KeyError:
+					print("""First name is cleared and passed validation""")
 
-				# Create user in the Database
-				User.objects.create_user(
-					username=str(request.POST.get("username")),
-					first_name=str(request.POST.get("firstname")),
-					last_name=str(request.POST.get("lastname")),
-					email=str(request.POST.get("email")),
-					password=str(request.POST.get("cpwd")) # Passwords will be automatically hashed by Django's hasher (Check settings.py for Hasher type)
-				).save()
+				# Catch KeyError for last name
+				try:
+					# Check if the error is the last name
+					if form.errors.get_json_data()["lastname"] and form.errors.get_json_data()["lastname"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['lastname'][0]['message']}")
+					elif form.errors.get_json_data()["lastname"]:
+						messages.warning(request, "Last name is invalid! Please try another one...")
+				except KeyError:
+					print("""Last name is cleared and passed validation""")
 
-				# Fill the profile for the users account
-				user = User.objects.get(username=str(request.POST.get("username")))
-				user.profile.aboutme = """I'm new to Teeker."""
-				#user.profile.profile_picture = os.getcwd()+"/static/teeker/assets/default_img/avatar/avataaar.png"
-				user.save()
+				# Catch KeyError for email
+				try:
+					# Check if the error is the email
+					if form.errors.get_json_data()["email"] and form.errors.get_json_data()["email"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['email'][0]['message']}")
+					elif form.errors.get_json_data()["email"]:
+						messages.warning(request, "E-mail address is invalid! Please try another one...")
+				except KeyError:
+					print("""E-mail address is cleared and passed validation""")
 
-				# Attempt to automatically login the user
-				ready_user = authenticate(request, username=str(request.POST.get("username")), password=str(request.POST.get("cpwd")))
-				if ready_user:
-					login(request, ready_user)
-					messages.success(request, "Successfully Registered! Welcome to TeeKer :D")
-					return HttpResponseRedirect(reverse("account"))
-				else:
-					messages.warning(request, "Registered successfully! But failed to log in automatically.")
-					return HttpResponseRedirect(reverse("login"))
+				# Catch KeyError for password
+				try:
+					# Check if the error is the password
+					if form.errors.get_json_data()["pwd"] and form.errors.get_json_data()["pwd"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['pwd'][0]['message']}")
+					elif form.errors.get_json_data()["pwd"]:
+						messages.warning(request, "Password is invalid! Please try another one...")
+				except KeyError:
+					print("""Password is cleared and passed validation""")
+
+				# Catch KeyError for confirm password
+				try:
+					# Check if the error is the confirm password
+					if form.errors.get_json_data()["cpwd"] and form.errors.get_json_data()["cpwd"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['cpwd'][0]['message']}")
+					elif form.errors.get_json_data()["cpwd"]:
+						messages.warning(request, "Confirm Password is invalid! Please try another one...")
+				except KeyError:
+					print("""Confirm Password is cleared and passed validation""")
+
 			else:
-				messages.warning(request, "Password and confirm password do not match each other!")
-				return HttpResponseRedirect(reverse("register"))
+				messages.warning(request, "Invalid form. Try again...")
+
+			return HttpResponseRedirect(reverse("register"))
+
 	elif request.method == "GET":
-		return render(request, "teeker/site_templates/register.html")
+
+		html_data = {
+			"recaptcha_site_key": settings.RECAPTCHA_SITE_KEY
+		}
+		return render(request, "teeker/site_templates/register.html", html_data)
 
 
 def forgot_pwd(request, option):
@@ -237,7 +423,7 @@ def index_posts(request):
 						try:
 							user = User.objects.get(pk=int(item.owner))
 							username = user.username
-							profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
+							profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
 						except User.DoesNotExist:
 							username = "N/A"
 							profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
@@ -296,7 +482,7 @@ def index(request):
 			try:
 				user = User.objects.get(pk=int(content_data[a].owner))
 				content_data[a].username = user.username
-				content_data[a].profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
+				content_data[a].profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
 			except User.DoesNotExist:
 				content_data[a].username = "N/A"
 				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
@@ -318,9 +504,57 @@ def trending(request):
 	"""Trending page. Displays the most popular content on TeeKer"""
 
 	if request.method == "GET":
+		try:
+			content_data = Content.objects.all().filter(suspended=False)[:2]
+		except Content.DoesNotExist:
+			content_data = ""
+
+		# Get the recommended list of the user logged in
+		try:
+			if request.user.is_authenticated:
+				recommended_list = json.loads(request.user.profile.recommended)
+			else:
+				recommended_list = []
+		except json.JSONDecodeError:
+			recommended_list = []
+
+		# Used to collect the vote average to then make a sorting list of High to low voting
+		sort_vote_list = {}
+
+		for a in range(len(content_data)):
+
+			# Check if the content is already in the recommended list
+			if content_data[a].pk in recommended_list:
+				content_data[a].recommended_status = True
+			else:
+				content_data[a].recommended_status = False
+
+			# Get the username and profile picture of the content owner
+			try:
+				user = User.objects.get(pk=int(content_data[a].owner))
+				content_data[a].username = user.username
+				content_data[a].profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
+			except User.DoesNotExist:
+				content_data[a].username = "N/A"
+				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+
+			# Get the average FIRE rating of the content
+			try:
+				content_data[a].fire = int(content_data[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] * 10) if content_data[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] else 0
+				sort_vote_list[content_data[a].pk] = int(content_data[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] * 10) if content_data[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] else 0
+			except History.DoesNotExist:
+				content_data[a].fire = 0
+				sort_vote_list[content_data[a].pk] = 0
+
+		# Sort by the vote values
+		if sort_vote_list:
+			print(sort_vote_list)
+			sort_list = sorted(sort_vote_list.items(), key=lambda x: x[1], reverse=True)
+
+			print(sort_list)
 
 		html_content = {
-			"content": ""
+			"content_data": content_data
 		}
 
 		return render(request, "teeker/site_templates/trending.html", html_content)
@@ -502,7 +736,7 @@ def recommend_system(request):
 						recommended_list = []
 					
 					# Check if the content is in the recommended list already
-					if request.POST.get("content") in recommended_list:
+					if int(request.POST.get("content")) in recommended_list:
 
 						# Remove the content from the recommended list
 						recommended_list.remove(int(request.POST.get("content")))
@@ -606,131 +840,123 @@ def comment_posts(request):
 
 		# Check if the content ID is provided
 		if request.POST.get("content_id"):
+			
+			# Check if the content ID is a digit
+			if not request.POST.get("content_id").isdigit():
+				messages.error(request, "COMMENT E0: Failed to add comment")
+				return HttpResponseRedirect(reverse("view_page", args=("e0",)))
 
 			# Check if it is to delete the comment
 			if request.POST.get("delete"):
 				
 				try:
-
-					# Get the History of the user with the content
-					history_data = History.objects.get(
-						Q(content__pk=int(request.POST.get("content_id"))) & Q(user__pk=int(request.POST.get("user_id")))
-						)
+					# Get the comment of the contenta
+					comment_data = Comment.objects.get(content__pk=int(request.POST.get("content_id")))
 
 					try:
 						# Load the comment JSON and delete it from the comments
-						comment_data = json.loads(history_data.comment)
-						for a in range(len(comment_data)):
-							if a < len(comment_data):
-								if int(request.POST.get("comment_id")) == comment_data[a]["id"]:
-									del comment_data[a]
+						comment_list = json.loads(comment_data.comment)
+						for a in range(len(comment_list)):
+
+							if a < len(comment_list):
+								if int(request.POST.get("comment_id")) == comment_list[a]["id"]:
+									
+									# Check if the user has persmissions to delete this comment
+									if request.user.pk == comment_list[a]["user_id"] or request.user.pk == comment_data.content.owner.pk or request.user.is_staff:
+										del comment_list[a]
 
 						# Update the Database
-						history_data.comment = json.dumps(comment_data)
-						history_data.save() # Commit
+						comment_data.comment = json.dumps(comment_list)
+						comment_data.save() # Commit
 
 						return JsonResponse({"STATUS": True})
 					except json.JSONDecodeError:
 						return JsonResponse({"STATUS": False})
-				except History.DoesNotExist:
+				except Comment.DoesNotExist:
 					return JsonResponse({"STATUS": False})
 			else:
 
-				#if request.POST.get("comment"):
+				form = CommentForm(request.POST)
 
-				#	comment_data = request.POST.get("comment")
-
-				#	print(len(comment_data.split(" ")))
-				#	print(len(comment_data.split("\n")))
-				#	print(comment_data.isalnum())
-				#	print(comment_data.isalpha())
-				#	print(bool(re.match('^[a-zA-Z!-@]+$', comment_data)))
-
-				#	messages.warning(request, "Testing...")
-				#	return HttpResponseRedirect(reverse("view_page", args=(request.POST.get("content_id"),)))
-
-				if not request.POST.get("comment"):
-					messages.warning(request, "Missing comment... Please provide a comment.")
-					return HttpResponseRedirect(reverse("view_page", args=(request.POST.get("content_id"),)))
-					
-				else:
-
+				if form.is_valid():
 					try:
-						content_data = Content.objects.get(pk=int(request.POST.get("content_id")))
+						content_data = Content.objects.get(pk=form.cleaned_data["content_id"])
 
-						# Check if theres any history for this content
-						if content_data.contents_history.all():
-							contents_history = History.objects.filter(content=content_data)
+						# Check if theres any comment for this content
+						comment_data = content_data.content_comments.all()
+						if comment_data:
+
+							# Clear out the Data and replace it with one we can commit to
+							comment_data = Comment.objects.get(content=content_data)
 							
-							for a in range(len(contents_history)):
+							# Convert it to a JSON list that we can use
+							comment_list = json.loads(comment_data.comment)
+
+							for a in range(len(comment_list)):
 								
-								# Check if the user already has a comment for this content
-								if contents_history[a].user.pk == request.user.pk:
-									if contents_history[a].comment:
+								# Create a ID for the comment
+								add_id = 0
+								for b in range(len(comment_list)):
+									add_id = comment_list[b]["id"] + 1
 
-										# Load the string JSON
-										comment_list = json.loads(contents_history[a].comment)
+								comment_list.append({
+										"id": add_id,
+										"user_id": request.user.pk,
+										"content_id": form.cleaned_data["content_id"],
+										"comment": form.cleaned_data["comment"],
+										"date": f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} {time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
+									})
+								comment_data.comment = json.dumps(comment_list)
+								comment_data.save()
 
-										# Create a ID for the comment
-										add_id = 0
-										for b in range(len(comment_list)):
-											add_id = comment_list[b]["id"] + 1
-
-										comment_list.append({
-											"id": add_id,
-											"content_id": int(request.POST.get("content_id")),
-											"comment": str(request.POST.get("comment")),
-											"date": f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} {time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
-										})
-
-										# Add and save the comment
-										contents_history[a].comment = json.dumps(comment_list)
-										contents_history[a].save()
-
-									else:
-										comment = [{
-											"id": 0,
-											"content_id": int(request.POST.get("content_id")),
-											"comment": str(request.POST.get("comment")),
-											"date": f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} {time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
-										}]
-
-										# Add and save the comment
-										contents_history[a].comment = json.dumps(comment)
-										contents_history[a].save()
-
-								# If the user hasn't made a comment create a JSON
-								else:
-									comment = [{
-											"id": 0,
-											"content_id": int(request.POST.get("content_id")),
-											"comment": str(request.POST.get("comment")),
-											"date": f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} {time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
-										}]
-									History(
-										user=request.user,
-										content=content_data,
-										comment=json.dumps(comment)
-									).save()
+							messages.success(request, "Comment successfully added!")
+							return HttpResponseRedirect(reverse("view_page", args=(request.POST.get("content_id"),)))
 									
 						else:
 							comment = [{
 									"id": 0,
-									"content_id": int(request.POST.get("content_id")),
-									"comment": str(request.POST.get("comment")),
+									"user_id": request.user.pk,
+									"content_id": form.cleaned_data["content_id"],
+									"comment": form.cleaned_data["comment"],
 									"date": f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} {time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
 								}]
-							History(
-								user=request.user,
+							Comment(
 								content=content_data,
 								comment=json.dumps(comment)
 							).save()
 
+							messages.success(request, "Comment successfully added!")
+							return HttpResponseRedirect(reverse("view_page", args=(request.POST.get("content_id"),)))
+
 					except Content.DoesNotExist:
 						messages.error(request, "COMMENT E0: Failed to add comment")
 						return HttpResponseRedirect(reverse("view_page", args=("e0",)))
+				else:
 
-					messages.success(request, "Comment successfully added!")
+					if form.errors.get_json_data():
+
+						# Catch KeyError for Content ID
+						try:
+							# Check if the error is the Content ID
+							if form.errors.get_json_data()["content_id"] and form.errors.get_json_data()["content_id"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+								messages.warning(request, f"{form.errors.get_json_data()['content_id'][0]['message']}")
+							elif form.errors.get_json_data()["content_id"]:
+								messages.warning(request, "Content ID is invalid! Please try another one...")
+						except KeyError:
+							print("""Content ID is cleared and passed validation""")
+
+						# Catch KeyError for comment
+						try:
+							# Check if the error is the comment
+							if form.errors.get_json_data()["comment"] and form.errors.get_json_data()["comment"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+								messages.warning(request, f"{form.errors.get_json_data()['comment'][0]['message']}")
+							elif form.errors.get_json_data()["comment"]:
+								messages.warning(request, "Comment is invalid! Please try another one...")
+						except KeyError:
+							print("""Comment is cleared and passed validation""")
+					else:
+						messages.error(request, "Comment gave an error with no alert message.")
+					
 					return HttpResponseRedirect(reverse("view_page", args=(request.POST.get("content_id"),)))
 		else:
 			messages.error(request, "COMMENT E0: Failed to add comment")
@@ -752,24 +978,32 @@ def view_page(request, content_id=None):
 					
 					try:
 						# Get all the available comments of this particular content
-						history_data = content_data.contents_history.all()
-						
-						content_comments = []
-						for a in history_data:
-							if a.comment:
-								for b in json.loads(a.comment):
+						comment_data = content_data.content_comments.all()
+
+						if comment_data:
+							# Convert Data to JSON list
+							comment_list = json.loads(comment_data[0].comment)
+
+							content_comments = []
+							for a in comment_list:
+								try:
+									user = User.objects.get(pk=a["user_id"])
 									content_comments.append({
-										"id": b["id"],
-										"content_id": b["content_id"],
-										"profile_picture": (a.user.profile.profile_picture.url).replace("&export=download", "") if a.user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png",
-										"username": a.user.username,
-										"user_id": a.user.pk,
-										"comment": b["comment"],
-										"date": b["date"]
+										"id": a["id"],
+										"content_id": a["content_id"],
+										"profile_picture": (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png",
+										"username": user.username,
+										"user_id": user.pk,
+										"comment": a["comment"],
+										"date": a["date"]
 									})
+								except User.DoesNotExist:
+									print("Broken Comment...")
+						else:
+							content_comments = []
 
 					except json.JSONDecodeError:
-						content_data['contents_history']['comment'] = []
+						content_data['contents_comment']['comment'] = []
 
 					# Check if the content isn't suspended
 					if content_data.suspended and not request.user.is_staff:
@@ -781,7 +1015,7 @@ def view_page(request, content_id=None):
 					if request.user.is_authenticated:
 						# Check if the content is in the logged in user's recommended list
 						try:
-							if content_id in json.loads(request.user.profile.recommended):
+							if int(content_id) in json.loads(request.user.profile.recommended):
 								content_data.recommended = True
 							else:
 								content_data.recommended = False
@@ -1228,10 +1462,52 @@ def view_teeker_page(request, user_id=None):
 
 
 @login_required
-def account_page(request):
+def account_page(request, option=None):
 	"""Account Page. The personal account page for the logged in user."""
 
-	if request.method == "GET":
+	if request.method == "POST":
+
+		if option == "del":
+
+			# Check if the Content ID is present
+			if request.POST.get("content_id_del"):
+
+				# Check if the Content ID is digit
+				if request.POST.get("content_id_del").isdigit():
+
+					try:
+						content_data = Content.objects.get(pk=int(request.POST.get("content_id_del")))
+
+						# Check if the Database returned any data for the content
+						if content_data:
+							
+							# Check if the user deleting the content owns the content
+							if content_data.content_owner.pk == request.user.pk:
+								
+								# Delete the Content from the Database and Commit
+								content_data.delete()
+
+								messages.success(request, "Successfully deleted the content!")
+								return HttpResponseRedirect(reverse("account_page"))
+							else:
+								messages.warning(request, "You do not have permissions to delete this content!")
+								return HttpResponseRedirect(reverse("account_page"))
+						else:
+							messages.warning(request, "Content Does Not Exist!")
+							return HttpResponseRedirect(reverse("account_page"))
+					except Content.DoesNotExist:
+						messages.warning(request, "Content Does Not Exist!")
+						return HttpResponseRedirect(reverse("account_page"))
+				else:
+					messages.error(request, "Invalid Content ID! Please Try again...")
+					return HttpResponseRedirect(reverse("account_page"))
+			else:
+				messages.error(request, "Failed to Delete Content. Missing content ID! Please contact Staff.")
+				return HttpResponseRedirect(reverse("account_page"))
+		else:
+			return HttpResponseRedirect(reverse("account_page"))
+
+	elif request.method == "GET":
 
 		# Get the content the user owns
 		try:
@@ -2464,3 +2740,47 @@ def level0_users_content(request):
 		}
 
 		return render(request, "teeker/site_templates/level0/content.html", html_data)
+
+
+@login_required
+@staff_member_required
+def level0_users_viewcontent(request, option=None):
+	"""View Content details and reports.
+		Allows for changes to be done by staff members to the content details."""
+
+	if request.method == "POST":
+
+		return HttpResponseRedirect(request.META.get("HTTP_REFERER") or "/level0/content")
+
+	elif request.method == "GET":
+
+		# Check if the content ID is present
+		if request.GET.get("id"):
+
+			# Check if the content ID is a digit
+			if request.GET.get("id").isdigit():
+
+				# Check if the content exists or not in the Database
+				try:
+					content_data = Content.objects.get(pk=int(request.GET.get("id")))
+
+					# Check if the content_data has anything
+					if content_data:
+						html_data = {
+							"content_data": content_data
+						}
+						return render(request, "teeker/site_templates/level0/content/viewcontent.html", html_data)
+
+					else:
+						messages.warning(request, "Content does not exists!")
+						return HttpResponseRedirect(reverse("level0_users_content"))	
+				except Content.DoesNotExist:
+					messages.warning(request, "Content does not exists!")
+					return HttpResponseRedirect(reverse("level0_users_content"))
+
+			else:
+				messages.error(request, "Invalid content ID!")
+				return HttpResponseRedirect(reverse("level0_users_content"))
+		else:
+			messages.error(request, "Content ID is missing...")
+			return HttpResponseRedirect(reverse("level0_users_content"))

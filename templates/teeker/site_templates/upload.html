@@ -81,9 +81,9 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                         {% if messages %}
                             {% for message in messages %}
                                 {% if message.tags == "error" %}
-                                <p class="text-center text-danger django_messages" style="background-color: #303030;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                 {% else %}
-                                <p class="text-center text-{{message.tags}} django_messages" style="background-color: #303030;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Teeker</title>
+    <meta name="theme-color" content="rgb(0,0,0)">
+    <meta name="twitter:card" content="summary">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <meta name="twitter:title" content="TeeKer">
+    <meta name="twitter:image" content="{% static 'teeker/assets/img/LOGO_FOR_DISCORD.png?h=e36e95241d662e0f09928bc30db9b893' %}">
+    <meta name="description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.
+">
+    <meta name="twitter:description" content="Want to share all your social media content in one place?
+Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, SoundCloud and Spotify) in one place.">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_16.png?h=569a7593697731cf28057926a3be78c9' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_32.png?h=915b1880d9b30a1fb40d56c1637a8273' %}">
+    <link rel="icon" type="image/png" sizes="180x180" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_180.png?h=b6b0f4688a93c3c580ff3cdb74f2fd96' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_192.png?h=0a9f0f2acc0ca3237583f915ee774ff7' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'teeker/assets/img/LOGO_FOR_DISCORD_512.png?h=475ab812da3129fb85bd9f8e29e6cbe9' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/bootstrap/css/bootstrap.min.css?h=47d164dc0862532407671a7b143ded6f' %}">
+    <!-- <link rel="manifest" href="/manifest.json?h=d08502071133dbaf2057ef47cc1f52bc"> -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome-all.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/font-awesome.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/ionicons.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/material-icons.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/fonts/fontawesome5-overrides.min.css?h=a52d057774a957ffc5c4e3aabf79520a' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content-styling.css?h=409805a47e06834559f5030484ae2f8b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/content.css?h=ce19e47243408b041ec6381bf4ef1732' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/Footer-Dark.css?h=43f1a76bb769df2530961de0a2d95492' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/navbar.css?h=d17fce3a561e5938d1f19e18b83b0700' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/searchbar_element.css?h=e6f646633e7cb301140ba0ff5a71c08b' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/sidebar.css?h=02bb056bd068fa4ac09da3521c3b32b4' %}">
+    <link rel="stylesheet" href="{% static 'teeker/assets/css/styles.css?h=095dbb7ac46ec7d86f01369cd70692df' %}">
+</head>
+
+<body>
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
+                    id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
+            <i
+                class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
+            {% if user.profile.profile_picture.url %}
+            <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
+            {% else %}
+            <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="15%" loading="auto">
+            {% endif %}
+            <span class="text-nowrap mx-2">Account</span></a></li>
+        <li
+            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
+        {% endif %}
+            {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/login"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log In</span></a></li>
+            {% endif %}
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
+    </ul>
+    <section class="d-flex justify-content-center align-items-center main-section" id="hero_error">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="text-monospace text-uppercase text-center text-white">403<br></h1>
+                        <h3 class="text-center text-white">You don't have permissions</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
+    <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=0168f7c1e0d08faa2f4b13f4a1dc8c98' %}"></script>
+    <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}"></script>
+    <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
+    <script src="{% static 'teeker/assets/js/sidebar.js?h=aba0d3b67174e5524525ab5f3c57fbef' %}"></script>
+</body>
+
+</html>

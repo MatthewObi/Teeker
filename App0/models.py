@@ -68,22 +68,18 @@ class History(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="users_history")
 	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="contents_history")
 	vote = models.IntegerField(null=True)
-	comment = models.TextField(max_length=1600, null=True)
-	report_flag = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f"""
 		User: {self.user}
 		Content: {self.content}
-		Vote: {self.vote}
-		Comment: {self.comment}
-		Report Flag: {self.report_flag}"""
+		Vote: {self.vote}"""
 
 class Comment(models.Model):
 	"""Keeps track of all the content comments"""
 
-	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_comment")
-	comment = models.TextField(max_length=1600, null=False)
+	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_comments")
+	comment = models.TextField(max_length=999999, null=False)
 
 	def __str__(self):
 		return f"""

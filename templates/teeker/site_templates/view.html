@@ -105,7 +105,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                 <h3 class="text-break text-white" style="font-family: Roboto, sans-serif;">{{content_data.title}}</h3>
                             </div>
                             <div class="col-md-9 col-lg-11 col-xl-5 offset-md-1 offset-lg-1 offset-xl-1 d-flex justify-content-start align-items-center" id="content-owner" style="margin-bottom: 5px;"><a href="/TK/view={{content_data.content_owner.pk}}">
-                                {% if content_data.content_owner.profile.profile_picture %}
+                                {% if content_data.content_owner.profile.profile_picture.url %}
                                 <img class="rounded-circle" src="{{content_data.content_owner.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="owner_pp">
                                 {% else %}
                                 <img class="rounded-circle" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="owner_pp">
@@ -203,9 +203,9 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                 {% if messages %}
                                     {% for message in messages %}
                                         {% if message.tags == "error" %}
-                                        <p class="text-danger" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                        <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                         {% else %}
-                                        <p class="text-{{message.tags}}" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                        <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                         {% endif %}
                                     {% endfor %}
                                 {% endif %}
@@ -234,7 +234,9 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                 </div>
                                 <div class="col-xl-12">
                                     <p class="text-white">
+                                        {% if user.pk == comment_item.user_id or user.pk == content_data.content_owner.pk or user.is_staff %}
                                         <i id="del_btn" data-content_id="{{comment_item.content_id}}" data-comment_id="{{comment_item.id}}" data-user_id="{{comment_item.user_id}}" class="fas fa-trash comment-icons"></i>
+                                        {% endif %}
                                         <i id="report_btn" data-comment_id="{{comment_item.id}}" data-toggle="tooltip" class="fas fa-flag comment-icons" title="Need to be logged in to report"></i>
                                     </p>
                                 </div>

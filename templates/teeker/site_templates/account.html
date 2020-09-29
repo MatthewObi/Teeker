@@ -69,7 +69,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
             <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
     </ul>
-    <section id="hero_account_banner" style="filter: invert(0%);">
+    <section id="hero_account_banner">
         <div>
             {% if user.profile.banner_picture.url %}
             <img class="bp-holder" src="{{user.profile.banner_picture.url|cut:'&export=download'}}" width="100%" loading="auto">
@@ -104,6 +104,15 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                             <i class="fab fa-superpowers founder-icon icon-badges" data-toggle="tooltip" data-bs-tooltip="" data-bs-hover-animate="tada" title="FOUNDER"></i>
                             {% endif %}
                         </h3>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                                {% else %}
+                                <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         <h3 class="text-white username" data-user_id="{{user.pk}}">{{user.username}}</h3>
                             <p class="text-white">
                                 {{aboutme_show}}
@@ -123,12 +132,33 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 </div>
                 {% csrf_token %}
                 <div data-aos="zoom-in" class="div-separetor"></div>
+                <div class="col">
+                    <div role="dialog" tabindex="-1" class="modal fade" id="modal1">
+                        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p class="text-center"><strong>Confirm Deletion</strong><br />This content will be delete!</p>
+                                    <div class="row d-flex flex-column">
+                                        <div class="col-xl-12 d-flex justify-content-center">
+                                            <form class="content-delete-modal-form" action="/account=del" method="post">
+                                                {% csrf_token %}
+                                                <div class="form-group"><input type="hidden" class="form-control" id="content_id_del" name="content_id_del" /></div>
+                                                <div class="form-group"><button class="btn btn-danger btn-block btn-sm del_btn_modal" type="submit">Delete</button></div>
+                                            </form>
+                                        </div>
+                                        <div class="col-xl-12 d-flex justify-content-center"><button class="btn btn-light btn-block btn-sm" type="button" data-dismiss="modal">Don&#39;t Delete</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row d-flex flex-row justify-content-center account-home" id="account_home_row">
                     {% for content_item in content_data %}
                     <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images" data-content_id="{{content_item.pk}}">
                         <div class="row content-owner-details" id="content-owner-info">
                             <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}">
-                                {% if user.profile.profile_picture %}
+                                {% if user.profile.profile_picture.url %}
                                 <img class="rounded-circle content-box-pp" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
                                 {% else %}
                                 <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">
@@ -144,7 +174,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                         <a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">
                                             <i class="fas fa-link"></i> Copy Link
                                         </a>
-                                        <a class="dropdown-item dropdown-menu-options delete-btn" role="presentation" data-content="{{content_item.pk}}">
+                                        <a class="dropdown-item dropdown-menu-options delete-btn" role="presentation" data-content="{{content_item.pk}}" data-toggle="modal" data-target="#modal1"="">
                                             <i class="fas fa-trash"></i> Delete
                                         </a>
                                     </div>
@@ -209,10 +239,10 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images-1" data-content_id="{{content_item.content.pk}}">
                     <div class="row content-owner-details" id="content-owner-info-1">
                         <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.user.pk}}">
-                            {% if content_item.user.profile.profile_picture %}
+                            {% if content_item.user.profile.profile_picture.url %}
                             <img class="rounded-circle content-box-pp" src="{{content_item.user.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
                             {% else %}
-                            <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/img/sana%20-ypa1s7.jpg?h=0b255ebee4dc0f6c3112ce9bb14b472a' %}" width="50px" height="50px" alt="profile_picture">
+                            <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">
                             {% endif %}
                             <p class="text-white username-content-box">&nbsp;{{content_item.user.username}}&nbsp;</p></a></div>
                         <div
@@ -277,13 +307,15 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                         {% if content_item.profile_picture %}
                         <img class="rounded-circle content-box-pp" src="{{content_item.profile_picture|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
                         {% else %}
-                        <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/img/sana%20-ypa1s7.jpg?h=0b255ebee4dc0f6c3112ce9bb14b472a' %}" width="50px" height="50px" alt="profile_picture">
+                        <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">
                         {% endif %}
                         <p class="text-white username-content-box">&nbsp;{{content_item.username}}&nbsp;</p></a></div>
                     <div
                         class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end">
-                        <div class="dropleft"><button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">Copy Link</a><a class="dropdown-item dropdown-menu-options remove-recommended-btn" role="presentation" data-content="{{content_item.pk}}">Remove</a></div>
+                        <div class="dropleft">
+                            <button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">Copy Link</a><a class="dropdown-item dropdown-menu-options remove-recommended-btn" role="presentation" data-content="{{content_item.pk}}">Remove</a></div>
                         </div>
                 </div>
             </div>

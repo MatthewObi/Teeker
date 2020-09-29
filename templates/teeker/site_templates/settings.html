@@ -82,9 +82,9 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                         {% if messages %}
                             {% for message in messages %}
                                 {% if message.tags == "error" %}
-                                <p class="text-danger" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                <label class="text-danger bg-dark alert-msg"><strong>{{message}}</strong></label>
                                 {% else %}
-                                <p class="text-{{message.tags}}" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                                <label class="text-{{message.tags}} bg-dark alert-msg"><strong>{{message}}</strong></label>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -257,10 +257,12 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 style="font-family: Roboto, sans-serif;"><input class="custom-control-input" type="checkbox" id="formCheck-3" name="browserntoggle" data-current_state="{{user.profile.browser_notifications}}"><label class="custom-control-label" for="formCheck-3">Browser Notifications</label></div>
         </div>
         </div>
+        {% if user.is_staff %}
         <div class="row-separetor"></div>
         <div class="row">
             <div class="col"><a href="/level0/users"><i class="fas fa-user-secret float-right" data-toggle="tooltip" data-bs-tooltip="" style="color: rgb(0,255,240);font-size: 27px; cursor: pointer;" title="Enter LEVEL 0"></i></a></div>
         </div>
+        {% endif %}
         </div>
         </div>
     </section>

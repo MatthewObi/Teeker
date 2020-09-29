@@ -17,12 +17,14 @@ urlpatterns = [
 	path("comment", views.comment_posts, name="comment_posts"),
 	path("votesystem", views.vote_system, name="vote_system"),
 	path("account", views.account_page, name="account_page"),
+	path("account=<slug:option>", views.account_page, name="account_page"),
 	path("editcontent", views.editcontent, name="editcontent"),
 	path("TK/view=<slug:user_id>", views.view_teeker_page, name="view_teeker_page"),
 	path("TK/viewposts", views.view_teeker_page_posts, name="view_teeker_page_posts"),
 	path("login", views.login_page, name="login_page"),
 	path("logout", views.logout_page, name="logout_page"),
 	path("register", views.register, name="register"),
+	path("register/check", views.register_check, name="register_check"),
 	path("forgot_pwd/<slug:option>", views.forgot_pwd, name="forgot_pwd"),
 	path("emailcode", views.emailcode, name="emailcode"),
 	path("support", views.support_page, name="support_page"),
@@ -32,5 +34,7 @@ urlpatterns = [
 	path("level0/users", views.level0_users, name="level0_users"),
 	path("level0/users/viewuser", views.level0_users_view, name="level0_users_view"),
 	path("level0/users/viewuser=<slug:option>", views.level0_users_view, name="level0_users_view"),
-	path("level0/content", views.level0_users_content, name="level0_users_content")
+	path("level0/content", views.level0_users_content, name="level0_users_content"),
+	path("level0/content/viewcontent", views.level0_users_viewcontent, name="level0_users_viewcontent"),
+	path("level0/content/viewcontent=<slug:option>", views.level0_users_viewcontent, name="level0_users_viewcontent")
 ]

@@ -58,29 +58,49 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
         <div>
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-11 col-sm-7 col-md-6 col-lg-6 col-xl-4 offset-xl-0 col-register-box" data-aos="zoom-in" data-aos-once="true">
-                        <form action="/register" method="post">
+                    <div class="col-11 col-sm-7 col-md-6 col-lg-6 col-xl-4 offset-xl-0 col-register-box">
+                        <form id="registerform" action="/register" method="post">
                             {% csrf_token %}
                             <h3 class="text-center text-white">Sign Up</h3>
                             {% if messages %}
                                 {% for message in messages %}
                                     {% if message.tags == "error" %}
-                                    <label class="text-danger bg-dark" style="font-family: Roboto, sans-serif;font-size: 12px;padding-right: 5px;padding-left: 5px;"><strong>{{message}}</strong></label>
+                                    <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                     {% else %}
-                                    <label class="text-{{message.tags}} bg-dark" style="font-family: Roboto, sans-serif;font-size: 12px;padding-right: 5px;padding-left: 5px;"><strong>{{message}}</strong></label>
+                                    <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
-                            <div class="form-group"><input class="form-control register-inputs" type="text" required="" maxlength="1600" placeholder="Username" name="username" pattern="[^'\x22\s]+" minlength="5"></div>
-                            <div class="form-group"><input class="form-control register-inputs" type="text" required="" maxlength="1600" name="firstname" placeholder="First name" pattern="[^'\x22]+" minlength="2"></div>
-                            <div class="form-group"><input class="form-control register-inputs" type="text" required="" maxlength="1600" name="lastname" placeholder="Last name" minlength="2" pattern="[^'\x22]+"></div>
-                            <div class="form-group"><input class="form-control register-inputs" type="email" required="" maxlength="1600" name="email" placeholder="E-mail Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></div>
-                            <div class="form-group"><label class="text-white" for="pwd">Password must be 8 - 128 characters.<br>Recommended using @,.&amp;%$<br>Your password can't be too similar to other personal accounts.<br></label><input class="form-control register-inputs"
-                                    type="password" placeholder="Password" name="pwd" required="" maxlength="128" minlength="8"></div>
-                            <div class="form-group"><input class="form-control register-inputs" type="password" placeholder="Confirm password" name="cpwd" required="" minlength="8" maxlength="128"></div>
-                            <div class="form-group"><label class="text-white agree-label">By signing up you agree to our <a href="/termsandconditions#termsandconditions">Terms And Conditions</a>&nbsp;and <a href="/termsandconditions#privacypolicy">Privacy Policy</a></label>
-                                <button
-                                    class="btn btn-dark btn-block" type="submit">Sign Up</button>
+                            <div class="form-group">
+                                <label class="text-left text-danger label-register" style="display: none;" id="label_username" for="username">{{username}}</label>
+                                <input type="text" class="form-control register-inputs" id="username" required maxlength="1600" placeholder="Username" name="username" pattern="[^&#39;\x22\s]+" minlength="5" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left text-danger label-register" style="display: none;" id="label_firstname" for="firstname">{{firstname}}</label>
+                                <input type="text" class="form-control register-inputs" id="firstname" required maxlength="1600" name="firstname" placeholder="First name" pattern="[^&#39;\x22]+" minlength="2" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left text-danger label-register" style="display: none;" id="label_lastname" for="lastname">{{lastname}}</label>
+                                <input type="text" class="form-control register-inputs" id="lastname" required maxlength="1600" name="lastname" placeholder="Last name" minlength="2" pattern="[^&#39;\x22]+" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left text-danger label-register" style="display: none;" id="label_email" for="email">{{email}}</label>
+                                <input type="email" class="form-control register-inputs" id="email" required maxlength="254" name="email" placeholder="E-mail Address" minlength="2" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-white" for="pwd">Password must be 8 - 128 characters.<br />Recommended using @,.&amp;%$<br />Your password can&#39;t be too similar to other personal accounts.<br /></label>
+                                <label class="text-left text-danger label-register" style="display: none;" id="label_pwd" for="pwd">{{pwd}}</label>
+                                <input type="password" class="form-control register-inputs" id="pwd" placeholder="Password" name="pwd" required maxlength="128" minlength="8" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-left text-danger label-register" style="display: none;" id="label_cpwd" for="cpwd">{{cpwd}}</label>
+                                <input type="password" class="form-control register-inputs" id="cpwd" placeholder="Confirm password" name="cpwd" required minlength="8" maxlength="128" />
+                            </div>
+                            <div class="form-group">
+                                <label class="text-white agree-label">By signing up you agree to our <a href="termsandconditions.html#termsandconditions">Terms And Conditions</a> and <a href="termsandconditions.html#privacypolicy">Privacy Policy</a><br /><br />This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> Apply<br /></label>
+                                <input type="hidden" name="g-recaptcha-response" id='recaptcha'>
+                                <input type="hidden" class="form-control" id="recaptcha_site_key" value="{{recaptcha_site_key}}" />
+                                <button class="btn btn-dark btn-block" type="submit">Sign Up</button>
                             </div>
                         </form>
                     </div>
@@ -98,12 +118,12 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             </div>
         </footer>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}"></script>
     <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
     <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=7c038681746a729e2fff9520a575e78c' %}"></script>
     <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="{% static 'teeker/assets/js/level0/content/viewcontent_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
     <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
     <script src="{% static 'teeker/assets/js/register_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
     <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>

@@ -1,0 +1,16 @@
+Welcome to teeker. Thank You for Joining
+
+*Tee* *Ker* ( https://teeker.co )
+
+-----------------
+Welcome to Teeker
+-----------------
+
+Dear {{fullname}},
+
+This is an early ALPHA build of the Web Application and does not represent the final build of the Web Application.
+There will be missing features in some places and bugs that need to be found.
+In order to improve the App please go give us some FeedBack ( http://teeker.co/support ) or Tweet ( https://twitter.com/TeekerCorp ) @teeker.
+
+Thank You!
+Sana N. Mngadi (Dev)

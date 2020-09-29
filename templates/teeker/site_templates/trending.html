@@ -48,18 +48,30 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
                     id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
         </li>
-        <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/index.html"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending.html"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world.html"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
+        <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
+        {% if user.is_authenticated %}
         <li
-            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload.html"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox.html&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view.html&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account.html&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
+            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
                 <i
                     class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
             </li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account.html"><img class="rounded-circle img-fluid mx-3" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="15%" loading="auto"><span class="text-nowrap mx-2">Account</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings.html"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/login.html"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log In</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support.html"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
+                {% if user.profile.profile_picture.url %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
+                {% else %}
+                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">
+                {% endif %}
+                <span class="text-nowrap mx-2">Account</span></a></li>
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/login"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log In</span></a></li>
+        {% endif %}
+            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
     </ul>
     <section class="main-section" id="hero_trending">
         <div>
@@ -75,52 +87,77 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 </div>
                 <div data-aos="fade-right" data-aos-duration="200" data-aos-delay="150" data-aos-once="true" style="padding-top: 2px;padding-bottom: 2px;background-color: rgba(255,0,0,0.6);border-radius: 5px;"></div>
                 <div class="row d-flex flex-row justify-content-center" id="content-row-holder">
-                    <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images-1">
+                    {% for content_item in content_data %}
+                    <div class="align-self-start col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" data-content_id="{{content_item.pk}}" id="content-box-images">
                         <div class="row content-owner-details" id="content-owner-info-5">
-                            <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view.html"><img class="rounded-circle" src="{% static 'teeker/assets/img/sana%20-ypa1s7.jpg?h=0b255ebee4dc0f6c3112ce9bb14b472a' %}" width="50px" height="50px" alt="profile_picture"><p class="text-white username-content-box">&nbsp;{{username}}&nbsp;</p></a></div>
+                            <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}"><img class="rounded-circle" src="{{content_item.profile_picture}}" width="50px" height="50px" alt="profile_picture"><p class="text-white username-content-box">&nbsp;{{content_item.username}}&nbsp;</p></a></div>
                             <div
                                 class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end">
                                 <div class="dropleft"><button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
-                                    <div class="dropdown-menu" role="menu"><a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{id}}">Copy Link</a><a class="dropdown-item dropdown-menu-options recommend-btn" role="presentation" data-content="{{id}}">Recommend</a></div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">
+                                            <i class="fas fa-link" ></i> Copy Link
+                                        </a>
+                                        <a class="dropdown-item dropdown-menu-options recommend-btn" role="presentation" data-content="{{content_item.pk}}">
+                                            {% if content_item.recommended_status %}
+                                            <i class="fas fa-minus"></i> Unrecommend
+                                            {% else %}
+                                            <i class="fas fa-plus"></i> Recommend
+                                            {% endif %}
+                                        </a>
+                                    </div>
                                 </div>
                         </div>
                     </div>
                     <div class="row d-flex flex-column justify-content-center" id="content-preview-5">
-                        <div class="col" id="preview-instagram"><iframe src="https://www.instagram.com/p/CCHPmQwnVuP/embed" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="500"></iframe></div>
-                        <div class="col" id="preview-youtube"><iframe allowfullscreen="" frameborder="0" src="https://www.youtube.com/embed/mN1kcfOJyrs" width="100%" height="215"></iframe></div>
-                        <div class="col" id="preview-vimeo"><iframe allowfullscreen="" frameborder="0" src="https://player.vimeo.com/video/146704320" width="100%" height="215"></iframe></div>
-                        <div class="col" id="preview-soundcloud"><div id="soundcloud_content">
-<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/504381078&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/phfat" title="PHFAT" target="_blank" style="color: #cccccc; text-decoration: none;">PHFAT</a> · <a href="https://soundcloud.com/phfat/phfat-suedes-teaser" title="PHFAT - Suedes (Teaser)" target="_blank" style="color: #cccccc; text-decoration: none;">PHFAT - Suedes (Teaser)</a></div>
-</div></div>
-                        <div class="col" id="preview-spotify"><div id="spotify_content">
-<iframe src="https://open.spotify.com/embed/track/5cjouxn1a7VYnE9rvBd1bB" width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-</div></div>
+                        {% if content_item.content_type == "instagram" %}
+                        <div class="col" id="preview-instagram"><iframe src="{{content_item.shared_link}}" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="400"></iframe></div>
+                        {% elif content_item.content_type == "youtube" %}
+                        <div class="col" id="preview-youtube"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
+                        {% elif content_item.content_type == "vimeo" %}
+                        <div class="col" id="preview-vimeo"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
+                        {% elif content_item.content_type == "soundcloud" %}
+                        <div class="col" id="preview-soundcloud"><div id="soundcloud_content">{{content_item.shared_link|safe}}</div></div>
+                        {% elif content_item.content_type == "spotify" %}
+                        <div class="col" id="preview-spotify"><div id="spotify_content">{{content_item.shared_link|safe}}</div></div>
+                        {% endif %}
                     </div>
                     <div class="row" id="content-details-5">
                         <div class="col">
                             <div class="row">
                                 <div class="col">
-                                    <a class="content-box-links" href="/view.html">
-                                        <h5 class="text-white">{{title}}</h5>
+                                    <a class="content-box-links" href="/view={{content_item.pk}}">
+                                        <h5 class="text-white">{{content_item.title}}</h5>
                                     </a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-4">
-                                    <div class="btn-group" role="group"><button class="btn content-vote-btn up-vote-btn" type="button" data-content="{{id}}"><i class="fa fa-chevron-up"></i></button><button class="btn btn-lg content-vote-btn down-vote-btn" type="button" data-content="{{id}}"><i class="fas fa-angle-down"></i></button></div>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn content-vote-btn up-vote-btn" type="button" data-content_id="{{content_item.pk}}">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </button>
+                                        <button class="btn btn-lg content-vote-btn down-vote-btn" type="button" data-content_id="{{content_item.pk}}">
+                                            <i class="fas fa-angle-down"></i>
+                                        </button></div>
                                 </div>
-                                <div class="col d-flex flex-row justify-content-start align-items-center justify-content-xl-end"><i class="fas fa-fire content-fire-icon"></i>
-                                    <h5 class="text-break text-white fire-avg-number-696969" style="margin-left: 5px;">{{fire}}</h5>
+                                <div class="col d-flex flex-row justify-content-start align-items-center justify-content-xl-end">
+                                    <i class="fas fa-fire content-fire-icon"></i>
+                                    <h5 class="text-break text-white fire-avg-number-696969" data-content_id="{{content_item.pk}}" style="margin-left: 5px;">{{content_item.fire}}</h5>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <p class="text-muted content-date">Date: {{date}}</p>
+                                    <p class="text-muted content-date">Date: {{content_item.date.year}} - {{content_item.date.month}} - {{content_item.date.day}} {{content_item.date | timesince}}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+            </div>
+            <div class="row d-none justify-content-center" id="loading_gif">
+                <img src="https://media.giphy.com/media/VseXvvxwowwCc/giphy.gif" width="150px" height="150px" />
             </div>
         </div>
         </div>
@@ -144,6 +181,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
     <script src="{% static 'teeker/assets/js/level0/content/viewcontent_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
     <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
     <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+    <script src="{% static 'teeker/assets/js/trending_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
 </body>
 
 </html>

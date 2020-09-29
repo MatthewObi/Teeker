@@ -38,7 +38,7 @@ else:
     SECRET_KEY = 'g$a9ajxw31p+&3dpnona%_=cmybe!5naxg(wuq=_xk-*9@fa(*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.100.2',
@@ -180,3 +180,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+MAIL_SENDER = os.getenv("MAIL_SENDER") # The email address FROM
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
