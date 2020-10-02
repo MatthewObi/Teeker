@@ -23,3 +23,7 @@ urlpatterns = [
     path("reset/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(template_name="teeker/site_templates/forgot_pwd/reset_pwd.html"), name="password_reset_confirm"),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='teeker/site_templates/login.html'), name='password_reset_complete')
 ]
+
+handler404 = "App0.views.handler404"
+handler403 = "App0.views.handler403"
+handler500 = "App0.views.handler500"
