@@ -58,16 +58,16 @@ import json
 # CUSTOM ERROR HANDLERS
 #############################################################
 def handler404(request, *args, **argv):
-    return render(request, "teeker/error/404.html", status=404)
+    return render(request, "teeker/site_templates/error/404.html", status=404)
 
 def handler403(request, *args, **argv):
-    return render(request, "teeker/error/403.html", status=403)
+    return render(request, "teeker/site_templates/error/403.html", status=403)
 
 def handler500(request, *args, **argv):
-    return render(request, "teeker/error/500.html", status=500)
+    return render(request, "teeker/site_templates/error/500.html", status=500)
 
 def csrf_failure(request, reason=""):
-	return render(request, "teeker/error/403.html", status=403)
+	return render(request, "teeker/site_templates/error/403.html", status=403)
 #############################################################
 
 def login_page(request):
