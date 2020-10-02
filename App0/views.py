@@ -5,6 +5,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
+# Used to reset the password
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+
 # Decorations
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -17,7 +22,7 @@ from django.core.files.storage import FileSystemStorage
 from django.core.files import File
 
 # Used for the email sending
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 
 from PIL import Image
 from io import BytesIO
@@ -35,11 +40,11 @@ from .models import Content, History, Comment
 # Get the validation forms from forms.py
 from .form import UploadProfilePictures, \
 					UploadBannerPictures, \
-					Level0UpdateUserDetails, \
-					Level0SearchUsers, \
-					RegisterForm, \
-					RegisterCheckForm, \
-					CommentForm
+					Level0UpdateUserDetails, Level0SearchUsers, \
+					RegisterForm, RegisterCheckForm, \
+					CommentForm, \
+					InstagramForm, YouTubeForm, VimeoForm, SoundCloudForm, SpotifyForm, \
+					LoginForm, EmailCodeForm
 
 # Used for social media link extractions
 import re
@@ -70,20 +75,45 @@ def login_page(request):
 
 	if request.method == "POST":
 		
-		if not request.POST.get("cdinput"):
-			messages.warning(request, "Username/E-mail is missing")
-			return HttpResponseRedirect(reverse("login_page"))
-		elif not request.POST.get("pwd"):
-			messages.warning(request, "Password is missing")
-			return HttpResponseRedirect(reverse("login_page"))
-		else:
-			user = authenticate(request, username=str(request.POST.get("cdinput")), password=str(request.POST.get("pwd")))
+		# Validate the login form
+		form = LoginForm(request.POST)
+
+		if form.is_valid():
+			user = authenticate(request, username=str(form.cleaned_data["cdinput"]), password=str(form.cleaned_data["pwd"]))
 			if user:
 				login(request, user)
 				return HttpResponseRedirect(reverse("index"))
 			else:
 				messages.warning(request, "Username/E-mail or password is wrong!")
 				return HttpResponseRedirect(reverse("login_page"))
+		else:
+
+			if form.errors.get_json_data():
+				# Catch KeyError for cdinput
+				try:
+					# Check if the error is the cdinput
+					if form.errors.get_json_data()["cdinput"] and form.errors.get_json_data()["cdinput"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['cdinput'][0]['message']}")
+					elif form.errors.get_json_data()["cdinput"]:
+						messages.warning(request, "Username/E-mail is invalid!")
+				except KeyError:
+					print("""Username/E-mail is cleared and passed validation""")
+
+				# Catch KeyError for pwd
+				try:
+					# Check if the error is the pwd
+					if form.errors.get_json_data()["pwd"] and form.errors.get_json_data()["pwd"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['pwd'][0]['message']}")
+					elif form.errors.get_json_data()["pwd"]:
+						messages.warning(request, "Password is invalid!")
+				except KeyError:
+					print("""Password is cleared and passed validation""")
+
+				return HttpResponseRedirect(reverse("login_page"))
+			else:
+				messages.error(request, "Form failed to validate and give errors!")
+				return HttpResponseRedirect(reverse("login_page"))
+
 	elif request.method == "GET":
 		return render(request, "teeker/site_templates/login.html")
 
@@ -248,14 +278,17 @@ def register(request):
 					f.close()
 
 					# Send an email to the new user
-					send_mail(
-						subject="Welcome to Teeker",
-						message=email_text.replace("{{fullname}}", form.cleaned_data['firstname'] +" "+ form.cleaned_data['lastname']),
-						from_email=settings.MAIL_SENDER,
-						recipient_list=[form.cleaned_data["email"]],
-						fail_silently=False,
-						html_message=email_html.replace("{{fullname}}", form.cleaned_data['firstname'] +" "+ form.cleaned_data['lastname'])
-						)
+					try:
+						send_mail(
+							subject="Welcome to Teeker",
+							message=email_text.replace("{{fullname}}", form.cleaned_data['firstname'] +" "+ form.cleaned_data['lastname']),
+							from_email=settings.MAIL_SENDER,
+							recipient_list=[form.cleaned_data["email"]],
+							fail_silently=False,
+							html_message=email_html.replace("{{fullname}}", form.cleaned_data['firstname'] +" "+ form.cleaned_data['lastname'])
+							)
+					except BadHeaderError:
+						print("--- Failed to send welcome email! ---")
 
 					# Attempt to automatically login the user
 					ready_user = authenticate(request, username=str(form.cleaned_data["username"]), password=str(form.cleaned_data["cpwd"]))
@@ -365,14 +398,64 @@ def emailcode(request):
 	"""Sends the code to the e-mail"""
 
 	if request.method == "POST":
+
+		# Validate user input
+		form = EmailCodeForm(request.POST)
 		
-		if not request.POST.get("email"):
-			messages.warning(request, "Please provide an e-mail address!")
-			return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
+		if form.is_valid():
+
+			try:
+				user = User.objects.get(email=str(form.cleaned_data["email"]))
+				
+				# Get the HTML template of the email
+				with open(os.getcwd()+"/templates/teeker/email_templates/forgot_pwd.html") as f:
+					email_html = f.read()
+				f.close()
+
+				# Get the TEXT template of the email
+				with open(os.getcwd()+"/templates/teeker/email_templates/forgot_pwd.txt") as f:
+					email_text = f.read()
+				f.close()
+
+				# Send an email to the new user
+				try:
+					send_mail(
+						subject="Forgot Password",
+						message=email_text.replace("{{username}}", user.username).replace("{{reset_code}}", f"http://{request.META.get('HTTP_HOST')}/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}/").replace("{{domain_host}}", f"http://'{request.META.get('HTTP_HOST')}"),
+						from_email=settings.MAIL_SENDER,
+						recipient_list=[user.email],
+						fail_silently=False,
+						html_message=email_html.replace("{{username}}", user.username).replace("{{reset_code}}", f"http://{request.META.get('HTTP_HOST')}/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}/").replace("{{domain_host}}", f"http://'{request.META.get('HTTP_HOST')}")
+						)
+
+					messages.success(request, "If this e-mail address is in our system, it will receive an email from us.")
+					return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
+				except BadHeaderError:
+					messages.error(request, "The system failed to send an e-mail! Please try again in 10 minutes.")
+					return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
+
+			except User.DoesNotExist:
+				messages.success(request, "If this e-mail address is in our system, it will receive an email from us.")
+				return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
 		else:
-			messages.success(request, "If this e-mail address is in our system, it will receive an email from us.")
-			return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
-	else:
+
+			if form.errors.get_json_data():
+				# Catch KeyError for email
+				try:
+					# Check if the error is the email
+					if form.errors.get_json_data()["email"] and form.errors.get_json_data()["email"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['email'][0]['message']}")
+					elif form.errors.get_json_data()["email"]:
+						messages.warning(request, "E-mail address is invalid!")
+				except KeyError:
+					print("""E-mail address is cleared and passed validation""")
+
+				return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
+			else:
+				messages.error(request, "Form failed to validate and give errors!")
+				return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
+
+	elif request.method == "GET":
 		return HttpResponseRedirect(reverse("forgot_pwd", args=("email_pwd_code",)))
 
 
@@ -600,7 +683,7 @@ def world_posts(request):
 					try:
 						user = User.objects.get(pk=int(item.owner))
 						username = user.username
-						profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
+						profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
 					except User.DoesNotExist:
 						username = "N/A"
 						profile_picture = "/static/teeker/assets/default_img/avatar/avataaars.png"
@@ -662,7 +745,7 @@ def world(request):
 				user_c = User.objects.get(pk=int(content_data[c].owner))
 				content_data[c].username = user_c.username
 				try:
-					content_data[c].profile_picture = (user_c.profile.profile_picture.url).replace("&export=download", "") if user_c.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
+					content_data[c].profile_picture = (user_c.profile.profile_picture.url).replace("&export=download", "") if user_c.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
 				except AttributeError:
 					content_data[c].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
 			except User.DoesNotExist:
@@ -1688,23 +1771,17 @@ def upload(request, content_type=None):
 
 		# Handles Instagram post sharing
 		if content_type == "instagram":
-			if not request.POST.get("instagram_link"):
-				messages.warning(request, "Missing Instagram link to content!")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("title"):
-				messages.warning(request, "Missing title...")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("description"):
-				messages.warning(request, "Missing description...")
-				return HttpResponseRedirect(reverse("upload"))
-			else:
-				
+
+			# Check if the Form for the instagram content is valid
+			form = InstagramForm(request.POST)
+
+			if form.is_valid():
 				# Check if the URL link is a Instagram one
-				result = re.match("https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+", str(request.POST.get("instagram_link")))
+				result = re.match("https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+", str(form.cleaned_data["instagram_link"]))
 				if result:
 					if result[0] == "https://www.instagram.com":
 						shared_link= ""
-						for i in str(request.POST.get("instagram_link")):
+						for i in str(form.cleaned_data["instagram_link"]):
 							if i == "?":
 								break
 							shared_link += i
@@ -1716,13 +1793,12 @@ def upload(request, content_type=None):
 								owner=request.user.pk,
 								content_type=str(content_type),
 								shared_link=str(shared_link),
-								title=str(request.POST.get("title")),
-								description=str(request.POST.get("description")),
-								tags=str(request.POST.get("tags"))
+								title=str(form.cleaned_data["title"]),
+								description=str(form.cleaned_data["description"]),
+								tags=str(form.cleaned_data["tags"])
 							).save()
 							
 							messages.success(request, "Successfully shared your post!")
-							#return HttpResponseRedirect(reverse("view_content"))
 							return HttpResponseRedirect(reverse("upload"))
 					else:
 						messages.error(request, "Link does not match Instagrams links!")
@@ -1730,22 +1806,63 @@ def upload(request, content_type=None):
 				else:
 					messages.error(request, "Sorry the social media link for Instagram is invalid!")
 					return HttpResponseRedirect(reverse("upload"))
+			else:
+
+				if form.errors.get_json_data():
+					# Catch KeyError for instagram_link
+					try:
+						# Check if the error is the instagram_link
+						if form.errors.get_json_data()["instagram_link"] and form.errors.get_json_data()["instagram_link"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['instagram_link'][0]['message']}")
+						elif form.errors.get_json_data()["instagram_link"]:
+							messages.warning(request, "Instagram link is invalid! Please try another one...")
+					except KeyError:
+						print("""Instagram link is cleared and passed validation""")
+
+					# Catch KeyError for title
+					try:
+						# Check if the error is the title
+						if form.errors.get_json_data()["title"] and form.errors.get_json_data()["title"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['title'][0]['message']}")
+						elif form.errors.get_json_data()["title"]:
+							messages.warning(request, "Title is invalid! Please try another one...")
+					except KeyError:
+						print("""Title is cleared and passed validation""")
+
+					# Catch KeyError for description
+					try:
+						# Check if the error is the description
+						if form.errors.get_json_data()["description"] and form.errors.get_json_data()["description"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['description'][0]['message']}")
+						elif form.errors.get_json_data()["description"]:
+							messages.warning(request, "Description is invalid! Please try another one...")
+					except KeyError:
+						print("""Description is cleared and passed validation""")
+
+					# Catch KeyError for tags
+					try:
+						# Check if the error is the tags
+						if form.errors.get_json_data()["tags"] and form.errors.get_json_data()["tags"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['tags'][0]['message']}")
+						elif form.errors.get_json_data()["tags"]:
+							messages.warning(request, "Tags is invalid! Please try another one...")
+					except KeyError:
+						print("""Tags is cleared and passed validation""")
+
+					return HttpResponseRedirect(reverse("upload"))
+				else:
+					messages.error(request, "Form failed to validate and give errors!")
+					return HttpResponseRedirect(reverse("upload"))
 		
 		# Handles YouTube post sharing
 		elif content_type == "youtube":
-			if not request.POST.get("youtube_link"):
-				messages.warning(request, "Missing youtube link to content!")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("title"):
-				messages.warning(request, "Missing title...")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("description"):
-				messages.warning(request, "Missing description...")
-				return HttpResponseRedirect(reverse("upload"))
-			else:
-				
+
+			# Check if the Form for the Youtube content is valid
+			form = YouTubeForm(request.POST)
+
+			if form.is_valid():
 				# Extract the YouTube Video ID
-				youtube_links = request.POST.get('youtube_link')
+				youtube_links = form.cleaned_data["youtube_link"]
 				pattern = r'(?:https?:\/\/)?(?:[0-9A-Z-]+\.)?(?:youtube|youtu|youtube-nocookie)\.(?:com|be)\/(?:watch\?v=|watch\?.+&v=|embed\/|v\/|.+\?v=)?([^&=\n%\?]{11})'
 				result = re.findall(pattern, youtube_links, re.MULTILINE | re.IGNORECASE)
 				
@@ -1758,9 +1875,9 @@ def upload(request, content_type=None):
 							owner=request.user.pk,
 							content_type=str(content_type),
 							shared_link=str(shared_link),
-							title=str(request.POST.get("title")),
-							description=str(request.POST.get("description")),
-							tags=str(request.POST.get("tags"))
+							title=str(form.cleaned_data["title"]),
+							description=str(form.cleaned_data["description"]),
+							tags=str(form.cleaned_data["tags"])
 						).save()
 
 						messages.success(request, "Successfully shared your post!")
@@ -1769,22 +1886,63 @@ def upload(request, content_type=None):
 				else:
 					messages.error(request, "Sorry the social media link for YouTube is invalid! (Did not contain video ID)")
 					return HttpResponseRedirect(reverse("upload"))
+			else:
+
+				if form.errors.get_json_data():
+					# Catch KeyError for youtube_link
+					try:
+						# Check if the error is the youtube_link
+						if form.errors.get_json_data()["youtube_link"] and form.errors.get_json_data()["youtube_link"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['youtube_link'][0]['message']}")
+						elif form.errors.get_json_data()["youtube_link"]:
+							messages.warning(request, "Youtube link is invalid! Please try another one...")
+					except KeyError:
+						print("""Youtube link is cleared and passed validation""")
+
+					# Catch KeyError for title
+					try:
+						# Check if the error is the title
+						if form.errors.get_json_data()["title"] and form.errors.get_json_data()["title"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['title'][0]['message']}")
+						elif form.errors.get_json_data()["title"]:
+							messages.warning(request, "Title is invalid! Please try another one...")
+					except KeyError:
+						print("""Title is cleared and passed validation""")
+
+					# Catch KeyError for description
+					try:
+						# Check if the error is the description
+						if form.errors.get_json_data()["description"] and form.errors.get_json_data()["description"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['description'][0]['message']}")
+						elif form.errors.get_json_data()["description"]:
+							messages.warning(request, "Description is invalid! Please try another one...")
+					except KeyError:
+						print("""Description is cleared and passed validation""")
+
+					# Catch KeyError for tags
+					try:
+						# Check if the error is the tags
+						if form.errors.get_json_data()["tags"] and form.errors.get_json_data()["tags"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['tags'][0]['message']}")
+						elif form.errors.get_json_data()["tags"]:
+							messages.warning(request, "Tags is invalid! Please try another one...")
+					except KeyError:
+						print("""Tags is cleared and passed validation""")
+
+					return HttpResponseRedirect(reverse("upload"))
+				else:
+					messages.error(request, "Form failed to validate and give errors!")
+					return HttpResponseRedirect(reverse("upload"))
 
 		# Handles Vimeo post sharing
 		elif content_type == "vimeo":
-			if not request.POST.get("vimeo_link"):
-				messages.warning(request, "Missing vimeo link to content!")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("title"):
-				messages.warning(request, "Missing title...")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("description"):
-				messages.warning(request, "Missing description...")
-				return HttpResponseRedirect(reverse("upload"))
-			else:
 
+			# Check if the Form for the Vimeo content is valid
+			form = VimeoForm(request.POST)
+			
+			if form.is_valid():
 				# Extract the Vimeo Video ID
-				vimeo_links = request.POST.get('vimeo_link')
+				vimeo_links = form.cleaned_data["vimeo_link"]
 				pattern = r'^(http://)?(www\.)?(vimeo\.com/)?(\d+)'
 				result = re.search(r'^(https://)?(www\.)?(vimeo\.com/)?(\d+)', vimeo_links)
 
@@ -1796,9 +1954,9 @@ def upload(request, content_type=None):
 							owner=request.user.pk,
 							content_type=str(content_type),
 							shared_link=str(shared_link),
-							title=str(request.POST.get("title")),
-							description=str(request.POST.get("description")),
-							tags=str(request.POST.get("tags"))
+							title=str(form.cleaned_data["title"]),
+							description=str(form.cleaned_data["description"]),
+							tags=str(form.cleaned_data["tags"])
 						).save()
 
 						messages.success(request, "Successfully shared your post!")
@@ -1807,21 +1965,62 @@ def upload(request, content_type=None):
 				else:
 					messages.error(request, "Sorry the social media link for Vimeo is invalid! (Did not contain video ID)")
 					return HttpResponseRedirect(reverse("upload"))
+			else:
+
+				if form.errors.get_json_data():
+					# Catch KeyError for vimeo_link
+					try:
+						# Check if the error is the vimeo_link
+						if form.errors.get_json_data()["vimeo_link"] and form.errors.get_json_data()["vimeo_link"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['vimeo_link'][0]['message']}")
+						elif form.errors.get_json_data()["vimeo_link"]:
+							messages.warning(request, "Vimeo link is invalid! Please try another one...")
+					except KeyError:
+						print("""Vimeo link is cleared and passed validation""")
+
+					# Catch KeyError for title
+					try:
+						# Check if the error is the title
+						if form.errors.get_json_data()["title"] and form.errors.get_json_data()["title"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['title'][0]['message']}")
+						elif form.errors.get_json_data()["title"]:
+							messages.warning(request, "Title is invalid! Please try another one...")
+					except KeyError:
+						print("""Title is cleared and passed validation""")
+
+					# Catch KeyError for description
+					try:
+						# Check if the error is the description
+						if form.errors.get_json_data()["description"] and form.errors.get_json_data()["description"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['description'][0]['message']}")
+						elif form.errors.get_json_data()["description"]:
+							messages.warning(request, "Description is invalid! Please try another one...")
+					except KeyError:
+						print("""Description is cleared and passed validation""")
+
+					# Catch KeyError for tags
+					try:
+						# Check if the error is the tags
+						if form.errors.get_json_data()["tags"] and form.errors.get_json_data()["tags"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['tags'][0]['message']}")
+						elif form.errors.get_json_data()["tags"]:
+							messages.warning(request, "Tags is invalid! Please try another one...")
+					except KeyError:
+						print("""Tags is cleared and passed validation""")
+
+					return HttpResponseRedirect(reverse("upload"))
+				else:
+					messages.error(request, "Form failed to validate and give errors!")
+					return HttpResponseRedirect(reverse("upload"))
 
 		# Handles SoundCloud post sharing
 		elif content_type == "soundcloud":
-			if not request.POST.get("soundcloud_embed"):
-				messages.warning(request, "Missing soundcloud link to content!")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("title"):
-				messages.warning(request, "Missing title...")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("description"):
-				messages.warning(request, "Missing description...")
-				return HttpResponseRedirect(reverse("upload"))
-			else:
+			
+			# Check if the Form for the SoundCloud content is valid
+			form = SoundCloudForm(request.POST)
 
-				word_replace = str(request.POST.get('soundcloud_embed')).replace("auto_play=true", "auto_play=false").replace("width=", "width='100%' ").replace("height=", "height='300' ")
+			if form.is_valid():
+				word_replace = str(form.cleaned_data["soundcloud_link"]).replace("auto_play=true", "auto_play=false").replace("width=", "width='100%' ").replace("height=", "height='300' ")
 
 				soup = BeautifulSoup(word_replace, features="html.parser")
 				if soup:
@@ -1846,9 +2045,9 @@ def upload(request, content_type=None):
 								owner=request.user.pk,
 								content_type=str(content_type),
 								shared_link=str(shared_link),
-								title=str(request.POST.get("title")),
-								description=str(request.POST.get("description")),
-								tags=str(request.POST.get("tags"))
+								title=str(form.cleaned_data["title"]),
+								description=str(form.cleaned_data["description"]),
+								tags=str(form.cleaned_data["tags"])
 							).save()
 
 							messages.success(request, "Successfully shared your post!")
@@ -1863,21 +2062,64 @@ def upload(request, content_type=None):
 				else:
 					messages.error(request, "Please place SoundCloud's Embed Code in the field and nothing else. Check the Share Options.")
 					return HttpResponseRedirect(reverse("upload"))
+			else:
+
+				if form.errors.get_json_data():
+					# Catch KeyError for soundcloud_link
+					try:
+						# Check if the error is the soundcloud_link
+						if form.errors.get_json_data()["soundcloud_link"] and form.errors.get_json_data()["soundcloud_link"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['soundcloud_link'][0]['message']}")
+						elif form.errors.get_json_data()["soundcloud_link"]:
+							messages.warning(request, "SoundCloud link is invalid! Please try another one...")
+					except KeyError:
+						print("""SoundCloud link is cleared and passed validation""")
+
+					# Catch KeyError for title
+					try:
+						# Check if the error is the title
+						if form.errors.get_json_data()["title"] and form.errors.get_json_data()["title"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['title'][0]['message']}")
+						elif form.errors.get_json_data()["title"]:
+							messages.warning(request, "Title is invalid! Please try another one...")
+					except KeyError:
+						print("""Title is cleared and passed validation""")
+
+					# Catch KeyError for description
+					try:
+						# Check if the error is the description
+						if form.errors.get_json_data()["description"] and form.errors.get_json_data()["description"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['description'][0]['message']}")
+						elif form.errors.get_json_data()["description"]:
+							messages.warning(request, "Description is invalid! Please try another one...")
+					except KeyError:
+						print("""Description is cleared and passed validation""")
+
+					# Catch KeyError for tags
+					try:
+						# Check if the error is the tags
+						if form.errors.get_json_data()["tags"] and form.errors.get_json_data()["tags"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['tags'][0]['message']}")
+						elif form.errors.get_json_data()["tags"]:
+							messages.warning(request, "Tags is invalid! Please try another one...")
+					except KeyError:
+						print("""Tags is cleared and passed validation""")
+
+					return HttpResponseRedirect(reverse("upload"))
+				else:
+					messages.error(request, "Form failed to validate and give errors!")
+					return HttpResponseRedirect(reverse("upload"))
 
 		# Handles Spotify post sharing
 		elif content_type == "spotify":
-			if not request.POST.get("spotify_embed"):
-				messages.warning(request, "Missing spotify link to content!")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("title"):
-				messages.warning(request, "Missing title...")
-				return HttpResponseRedirect(reverse("upload"))
-			elif not request.POST.get("description"):
-				messages.warning(request, "Missing description...")
-				return HttpResponseRedirect(reverse("upload"))
-			else:
 
-				word_replace = str(request.POST.get('spotify_embed')).replace("width=", "width='100%' ").replace("height=", "height='380' ")
+			# Check if the Form for the SoundCloud content is valid
+			form = SoundCloudForm(request.POST)
+
+
+			if form.is_valid():
+
+				word_replace = str(form.cleaned_data["spotify_link"]).replace("width=", "width='100%' ").replace("height=", "height='380' ")
 				soup = BeautifulSoup(word_replace, features="html.parser")
 				if soup:
 
@@ -1901,9 +2143,9 @@ def upload(request, content_type=None):
 								owner=request.user.pk,
 								content_type=str(content_type),
 								shared_link=str(shared_link),
-								title=str(request.POST.get("title")),
-								description=str(request.POST.get("description")),
-								tags=str(request.POST.get("tags"))
+								title=str(form.cleaned_data["title"]),
+								description=str(form.cleaned_data["description"]),
+								tags=str(form.cleaned_data["tags"])
 							).save()
 
 							messages.success(request, "Successfully shared your post!")
@@ -1917,6 +2159,53 @@ def upload(request, content_type=None):
 						return HttpResponseRedirect(reverse("upload"))
 				else:
 					messages.error(request, "Please place Spotify's Embed Code in the field and nothing else. Check the Share Options.")
+					return HttpResponseRedirect(reverse("upload"))
+			else:
+
+				if form.errors.get_json_data():
+					# Catch KeyError for spotify_link
+					try:
+						# Check if the error is the spotify_link
+						if form.errors.get_json_data()["spotify_link"] and form.errors.get_json_data()["spotify_link"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['spotify_link'][0]['message']}")
+						elif form.errors.get_json_data()["spotify_link"]:
+							messages.warning(request, "Spotify link is invalid! Please try another one...")
+					except KeyError:
+						print("""Spotify link is cleared and passed validation""")
+
+					# Catch KeyError for title
+					try:
+						# Check if the error is the title
+						if form.errors.get_json_data()["title"] and form.errors.get_json_data()["title"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['title'][0]['message']}")
+						elif form.errors.get_json_data()["title"]:
+							messages.warning(request, "Title is invalid! Please try another one...")
+					except KeyError:
+						print("""Title is cleared and passed validation""")
+
+					# Catch KeyError for description
+					try:
+						# Check if the error is the description
+						if form.errors.get_json_data()["description"] and form.errors.get_json_data()["description"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['description'][0]['message']}")
+						elif form.errors.get_json_data()["description"]:
+							messages.warning(request, "Description is invalid! Please try another one...")
+					except KeyError:
+						print("""Description is cleared and passed validation""")
+
+					# Catch KeyError for tags
+					try:
+						# Check if the error is the tags
+						if form.errors.get_json_data()["tags"] and form.errors.get_json_data()["tags"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+							messages.warning(request, f"{form.errors.get_json_data()['tags'][0]['message']}")
+						elif form.errors.get_json_data()["tags"]:
+							messages.warning(request, "Tags is invalid! Please try another one...")
+					except KeyError:
+						print("""Tags is cleared and passed validation""")
+
+					return HttpResponseRedirect(reverse("upload"))
+				else:
+					messages.error(request, "Form failed to validate and give errors!")
 					return HttpResponseRedirect(reverse("upload"))
 		
 		# If the the content type doesn't match the options available (Reload the page)
@@ -2413,7 +2702,7 @@ def level0_users(request):
 				if form.errors.get_json_data():
 					try:
 						# Check if the error return has the 'search' details of why it's invalid
-						if form.errors.get_json_data()["search"] and form.errors.get_json_data()["search"][0]["code"] in ["required", "max_length", "min_length"]:
+						if form.errors.get_json_data()["search"] and form.errors.get_json_data()["search"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
 							messages.warning(request, f"{form.errors.get_json_data()['search'][0]['message']}")
 						elif form.errors.get_json_data()["search"]:
 							messages.warning(request, "Search value is invalid! Please try another one...")
@@ -2637,7 +2926,7 @@ def level0_users_view(request, option=None):
 							# Catch KeyError for username
 							try:
 								# Check if the error is the username
-								if form.errors.get_json_data()["username"] and form.errors.get_json_data()["username"][0]["code"] in ["required", "max_length", "min_length"]:
+								if form.errors.get_json_data()["username"] and form.errors.get_json_data()["username"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
 									messages.warning(request, f"{form.errors.get_json_data()['username'][0]['message']}")
 								elif form.errors.get_json_data()["username"]:
 									messages.warning(request, "Username is invalid! Please try another one...")
@@ -2647,7 +2936,7 @@ def level0_users_view(request, option=None):
 							# Catch KeyError for First name
 							try:
 								# Check if the error is the First name
-								if form.errors.get_json_data()["firstname"] and form.errors.get_json_data()["firstname"][0]["code"] in ["required", "max_length", "min_length"]:
+								if form.errors.get_json_data()["firstname"] and form.errors.get_json_data()["firstname"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
 									messages.warning(request, f"{form.errors.get_json_data()['firstname'][0]['message']}")
 								elif form.errors.get_json_data()["firstname"]:
 									messages.warning(request, "First name is invalid! Please try another one...")
@@ -2657,7 +2946,7 @@ def level0_users_view(request, option=None):
 							# Catch KeyError for Last name
 							try:
 								# Check if the error is the Last name
-								if form.errors.get_json_data()["lastname"] and form.errors.get_json_data()["lastname"][0]["code"] in ["required", "max_length", "min_length"]:
+								if form.errors.get_json_data()["lastname"] and form.errors.get_json_data()["lastname"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
 									messages.warning(request, f"{form.errors.get_json_data()['lastname'][0]['message']}")
 								elif form.errors.get_json_data()["lastname"]:
 									messages.warning(request, "Last name is invalid! Please try another one...")
@@ -2667,7 +2956,7 @@ def level0_users_view(request, option=None):
 							# Catch KeyError for E-mail address
 							try:
 								# Check if the error is the E-mail address
-								if form.errors.get_json_data()["email"] and form.errors.get_json_data()["email"][0]["code"] in ["required", "max_length", "min_length"]:
+								if form.errors.get_json_data()["email"] and form.errors.get_json_data()["email"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
 									messages.warning(request, f"{form.errors.get_json_data()['email'][0]['message']}")
 								elif form.errors.get_json_data()["email"]:
 									messages.warning(request, "E-mail address is invalid! Please try another one...")
@@ -2677,7 +2966,7 @@ def level0_users_view(request, option=None):
 							# Catch KeyError for About me
 							try:
 								# Check if the error is the About me
-								if form.errors.get_json_data()["aboutme"] and form.errors.get_json_data()["aboutme"][0]["code"] in ["required", "max_length", "min_length"]:
+								if form.errors.get_json_data()["aboutme"] and form.errors.get_json_data()["aboutme"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
 									messages.warning(request, f"{form.errors.get_json_data()['aboutme'][0]['message']}")
 								elif form.errors.get_json_data()["aboutme"]:
 									messages.warning(request, "About me is invalid! Please try another one...")

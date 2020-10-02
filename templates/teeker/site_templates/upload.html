@@ -156,7 +156,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 <form action="/upload=soundcloud" method="post">
                     {% csrf_token %}
                     <h3 class="text-dark form-heading">Share SoundCloud&nbsp;<i class="fab fa-soundcloud" style="color: rgb(255,153,0);"></i></h3>
-                    <div class="form-group"><label>Copy past the Embed Code from the share options in SoundCloud.</label><input class="form-control post-input" type="text" id="soundcloud_input" name="soundcloud_embed" placeholder="Enter Embed of SoundCloud" required="" maxlength="1200"></div>
+                    <div class="form-group"><label>Copy past the Embed Code from the share options in SoundCloud.</label><input class="form-control post-input" type="text" id="soundcloud_input" name="soundcloud_link" placeholder="Enter Embed of SoundCloud" required="" maxlength="1200"></div>
                     <div
                         class="form-group"><input class="form-control post-input" type="text" name="title" placeholder="Enter Title" required="" maxlength="1200"></div>
             <div class="form-group"><textarea class="form-control post-input" name="description" rows="5" placeholder="Enter description (limit: 1200)" required="" maxlength="1200"></textarea></div>
@@ -175,7 +175,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 <form action="/upload=spotify" method="post">
                     {% csrf_token %}
                     <h3 class="text-dark form-heading">Share Spotify&nbsp;<i class="fab fa-spotify" style="color: rgb(0,217,9);"></i></h3>
-                    <div class="form-group"><label>Copy past the Embed Code from the share options in Spotify.<br></label><input class="form-control post-input" type="text" id="spotify_input" name="spotify_embed" placeholder="Enter Embed of Spotify" required="" maxlength="1200"></div>
+                    <div class="form-group"><label>Copy past the Embed Code from the share options in Spotify.<br></label><input class="form-control post-input" type="text" id="spotify_input" name="spotify_link" placeholder="Enter Embed of Spotify" required="" maxlength="1200"></div>
                     <div
                         class="form-group"><input class="form-control post-input" type="text" name="title" placeholder="Enter Title" required="" maxlength="1200"></div>
             <div class="form-group"><textarea class="form-control post-input" name="description" rows="5" placeholder="Enter description (limit: 1200)" required="" maxlength="1200"></textarea></div>

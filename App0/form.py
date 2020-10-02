@@ -3,6 +3,55 @@ from django import forms
 
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
+# Used for the Login Page
+#---------------------------------------
+class LoginForm(forms.Form):
+	"""Login Form to validate the login credentials"""
+
+	cdinput = forms.CharField(
+		max_length=128,
+		min_length=3,
+		required=True,
+		help_text="Used to check the username/email",
+		error_messages={
+			"required": "Username/E-mail is required to login.",
+			"max_length": "Username/E-mail is too long...",
+			"min_length": "Username/E-mail is too short...",
+			"invalid": "Username/E-mail is invalid!"
+		}
+	)
+
+	pwd = forms.CharField(
+		max_length=128,
+		min_length=8,
+		required=True,
+		help_text="Used to check if the password matches the user's password",
+		error_messages={
+			"required": "Password is required to login.",
+			"max_length": "Password is too long...",
+			"min_length": "Password is too short...",
+			"invalid": "Password is invalid!"
+		}
+	)
+#---------------------------------------
+
+# Used for Emailing Code Page
+#---------------------------------------
+class EmailCodeForm(forms.Form):
+	"""Email validation for Emailing recovery code"""
+
+	email = forms.EmailField(
+		required=True,
+		help_text="Email address needs to be provided",
+		label="E-mail address recovery code",
+		validators=[validate_email],
+		error_messages={
+			"required": "E-mail address is required!",
+			"invalid": "There's something wrong with that e-mail address!"
+		}
+	)
+#---------------------------------------
+
 # Used for the Register Page
 #---------------------------------------
 class RegisterForm(forms.Form):
@@ -17,7 +66,8 @@ class RegisterForm(forms.Form):
 		error_messages={
 			"required": "Username is missing... Please add a username.",
 			"min_length": "Username is too short.. Please make it longer.",
-			"max_length": "Username is too long... Please make it shorter."
+			"max_length": "Username is too long... Please make it shorter.",
+			"invalid": "Username cannot be used! Try another one."
 		}
 	)
 
@@ -30,7 +80,8 @@ class RegisterForm(forms.Form):
 		error_messages={
 			"required": "First name is missing... Please add a First name.",
 			"min_length": "First name is too short.. Please make it longer.",
-			"max_length": "First name is too long... Please make it shorter."
+			"max_length": "First name is too long... Please make it shorter.",
+			"invalid": "First name cannot be used! Invalid charater/s."
 		}
 	)
 
@@ -43,7 +94,8 @@ class RegisterForm(forms.Form):
 		error_messages={
 			"required": "Last name is missing... Please add a Last name.",
 			"min_length": "Last name is too short.. Please make it longer.",
-			"max_length": "Last name is too long... Please make it shorter."
+			"max_length": "Last name is too long... Please make it shorter.",
+			"invalid": "Last name cannot be used! Invalid charater/s."
 		}
 	)
 
@@ -56,7 +108,8 @@ class RegisterForm(forms.Form):
 		error_messages={
 			"required": "E-mail address is missing... Please add a E-mail address.",
 			"min_length": "E-mail address is too short.. Please make it longer.",
-			"max_length": "E-mail address is too long... Please make it shorter."
+			"max_length": "E-mail address is too long... Please make it shorter.",
+			"invalid": "E-mail address cannot be used! Try another one."
 		},
 		validators=[validate_email]
 	)
@@ -153,6 +206,264 @@ class CommentForm(forms.Form):
 			"min_length": "Comment is too short! Needs to be length 1-1200.",
 			"max_length": "Comment is too long! Nedds to be length 1-1200.",
 			"invalid": "Comment is invalid! Please remove any special charaters."
+		}
+	)
+#---------------------------------------
+
+# Used for the Upload/Share forms
+#---------------------------------------
+class InstagramForm(forms.Form):
+	"""When instagram Content being uploaded"""
+
+	instagram_link = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the ID of the Instagram Content",
+		label="Instagram Link",
+		error_messages={
+			"required": "Missing the Instagram Link... Please provide the link to the instagram post.",
+			"max_length": "Instagram link is too long... Please provide one less then 1200.",
+			"invalid": "Instagram link is invalid... Please re-try or provide a valid one."
+		}
+	)
+
+	title = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the Title of the content to be shown on Teeker.",
+		label="Title",
+		error_messages={
+			"required": "Missing the Title... Please provide a title for your content.",
+			"max_length": "Title is too long... Please provide one less then 1200.",
+			"invalid": "Title is invalid... Please provide one that will be valid."
+		}
+	)
+
+	description = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to get the Descriptions of the content to be shown on Teeker.",
+		label="Description",
+		error_messages={
+			"required": "Missing the Description... Please provide a description for the content.",
+			"max_length": "Description is too long... Please make the description less then 1200",
+			"invalid": "Description is invalid... Please check your description for any invalid characters."
+		}
+	)
+
+	tags = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to keep tags that make content related together",
+		label="Tags",
+		error_messages={
+			"required": "Tags are required!",
+			"max_length": "There are too many tags. Please reduce them.",
+			"invalid": "Tags are invalid!"
+		}
+	)
+
+class YouTubeForm(forms.Form):
+	"""When Youtube Content being uploaded"""
+
+	youtube_link = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the ID of the Youtube Content",
+		label="Youtube Link",
+		error_messages={
+			"required": "Missing the Youtube Link... Please provide the link to the Youtube post.",
+			"max_length": "Youtube link is too long... Please provide one less then 1200.",
+			"invalid": "Youtube link is invalid... Please re-try or provide a valid one."
+		}
+	)
+
+	title = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the Title of the content to be shown on Teeker.",
+		label="Title",
+		error_messages={
+			"required": "Missing the Title... Please provide a title for your content.",
+			"max_length": "Title is too long... Please provide one less then 1200.",
+			"invalid": "Title is invalid... Please provide one that will be valid."
+		}
+	)
+
+	description = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to get the Descriptions of the content to be shown on Teeker.",
+		label="Description",
+		error_messages={
+			"required": "Missing the Description... Please provide a description for the content.",
+			"max_length": "Description is too long... Please make the description less then 1200",
+			"invalid": "Description is invalid... Please check your description for any invalid characters."
+		}
+	)
+
+	tags = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to keep tags that make content related together",
+		label="Tags",
+		error_messages={
+			"required": "Tags are required!",
+			"max_length": "There are too many tags. Please reduce them.",
+			"invalid": "Tags are invalid!"
+		}
+	)
+
+class VimeoForm(forms.Form):
+	"""When Vimeo Content being uploaded"""
+
+	vimeo_link = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the ID of the Vimeo Content",
+		label="Vimeo Link",
+		error_messages={
+			"required": "Missing the Vimeo Link... Please provide the link to the Vimeo post.",
+			"max_length": "Vimeo link is too long... Please provide one less then 1200.",
+			"invalid": "Vimeo link is invalid... Please re-try or provide a valid one."
+		}
+	)
+
+	title = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the Title of the content to be shown on Teeker.",
+		label="Title",
+		error_messages={
+			"required": "Missing the Title... Please provide a title for your content.",
+			"max_length": "Title is too long... Please provide one less then 1200.",
+			"invalid": "Title is invalid... Please provide one that will be valid."
+		}
+	)
+
+	description = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to get the Descriptions of the content to be shown on Teeker.",
+		label="Description",
+		error_messages={
+			"required": "Missing the Description... Please provide a description for the content.",
+			"max_length": "Description is too long... Please make the description less then 1200",
+			"invalid": "Description is invalid... Please check your description for any invalid characters."
+		}
+	)
+
+	tags = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to keep tags that make content related together",
+		label="Tags",
+		error_messages={
+			"required": "Tags are required!",
+			"max_length": "There are too many tags. Please reduce them.",
+			"invalid": "Tags are invalid!"
+		}
+	)
+
+class SoundCloudForm(forms.Form):
+	"""When SoundCloud Content being uploaded"""
+
+	soundcloud_link = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the ID of the SoundCloud Content",
+		label="SoundCloud Link",
+		error_messages={
+			"required": "Missing the SoundCloud Link... Please provide the link to the SoundCloud post.",
+			"max_length": "SoundCloud link is too long... Please provide one less then 1200.",
+			"invalid": "SoundCloud link is invalid... Please re-try or provide a valid one."
+		}
+	)
+
+	title = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the Title of the content to be shown on Teeker.",
+		label="Title",
+		error_messages={
+			"required": "Missing the Title... Please provide a title for your content.",
+			"max_length": "Title is too long... Please provide one less then 1200.",
+			"invalid": "Title is invalid... Please provide one that will be valid."
+		}
+	)
+
+	description = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to get the Descriptions of the content to be shown on Teeker.",
+		label="Description",
+		error_messages={
+			"required": "Missing the Description... Please provide a description for the content.",
+			"max_length": "Description is too long... Please make the description less then 1200",
+			"invalid": "Description is invalid... Please check your description for any invalid characters."
+		}
+	)
+
+	tags = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to keep tags that make content related together",
+		label="Tags",
+		error_messages={
+			"required": "Tags are required!",
+			"max_length": "There are too many tags. Please reduce them.",
+			"invalid": "Tags are invalid!"
+		}
+	)
+
+class SpotifyForm(forms.Form):
+	"""When Spotify Content being uploaded"""
+
+	spotify_link = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the ID of the Spotify Content",
+		label="Spotify Link",
+		error_messages={
+			"required": "Missing the Spotify Link... Please provide the link to the Spotify post.",
+			"max_length": "Spotify link is too long... Please provide one less then 1200.",
+			"invalid": "Spotify link is invalid... Please re-try or provide a valid one."
+		}
+	)
+
+	title = forms.CharField(
+		max_length=1200,
+		required=True,
+		help_text="Used to get the Title of the content to be shown on Teeker.",
+		label="Title",
+		error_messages={
+			"required": "Missing the Title... Please provide a title for your content.",
+			"max_length": "Title is too long... Please provide one less then 1200.",
+			"invalid": "Title is invalid... Please provide one that will be valid."
+		}
+	)
+
+	description = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to get the Descriptions of the content to be shown on Teeker.",
+		label="Description",
+		error_messages={
+			"required": "Missing the Description... Please provide a description for the content.",
+			"max_length": "Description is too long... Please make the description less then 1200",
+			"invalid": "Description is invalid... Please check your description for any invalid characters."
+		}
+	)
+
+	tags = forms.CharField(
+		max_length=1200,
+		required=False,
+		help_text="Used to keep tags that make content related together",
+		label="Tags",
+		error_messages={
+			"required": "Tags are required!",
+			"max_length": "There are too many tags. Please reduce them.",
+			"invalid": "Tags are invalid!"
 		}
 	)
 #---------------------------------------

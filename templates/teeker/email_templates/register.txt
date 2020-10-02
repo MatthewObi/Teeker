@@ -1,6 +1,6 @@
 Welcome to teeker. Thank You for Joining
 
-*Tee* *Ker* ( https://teeker.co )
+*Tee* *Ker* ( {{domain_url}} )
 
 -----------------
 Welcome to Teeker
@@ -13,4 +13,6 @@ There will be missing features in some places and bugs that need to be found.
 In order to improve the App please go give us some FeedBack ( http://teeker.co/support ) or Tweet ( https://twitter.com/TeekerCorp ) @teeker.
 
 Thank You!
-Sana N. Mngadi (Dev)
+TeeKer Team
+
+( https://twitter.com/teekercorp ) ( https://www.instagram.com/teekercorp/ )

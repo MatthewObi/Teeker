@@ -1,0 +1,24 @@
+Did you forget your password?
+
+*Tee* *Ker* ( {{domain_host}} )
+
+----------------
+Forgot Password?
+----------------
+
+Hey {{username}},
+
+No need to worry, you can reset your TeeKer password by clicking the button below:
+
+Reset Password ( {{reset_code}} )
+
+or by clicking the link bellow:
+*{{reset_code}}* ( {{reset_code}} )
+
+Your username is: {{username}}
+If you didn't request a password reset, feel free to delete this email and carry on enjoying your day!
+
+All the best,
+The Teeker Team
+
+( https://twitter.com/teekercorp ) ( https://www.instagram.com/teekercorporation/ )
