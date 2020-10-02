@@ -542,7 +542,7 @@ def index(request):
 		try:
 			content_data = Content.objects.all().order_by("-date").filter(suspended=False)[:2]
 		except Content.DoesNotExist:
-			content_data = ""
+			content_data = []
 
 		# Get the recommended list of the user logged in
 		try:
@@ -590,7 +590,7 @@ def trending(request):
 		try:
 			content_data = Content.objects.all().filter(suspended=False)[:2]
 		except Content.DoesNotExist:
-			content_data = ""
+			content_data = []
 
 		# Get the recommended list of the user logged in
 		try:
@@ -720,7 +720,7 @@ def world(request):
 		try:
 			content_data = Content.objects.all().order_by("?")[:3]
 		except Content.DoesNotExist:
-			content_data = ""
+			content_data = []
 
 		# Get the recommended list of the user logged in
 		try:
