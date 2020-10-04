@@ -188,3 +188,8 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211',
     }
 }
+
+# CSRF Settings
+#CSRF_USE_SESSIONS = False
+#CSRF_COOKIE_SECURE = True
+CSRF_FAILURE_VIEW = 'App0.views.csrf_failure'
