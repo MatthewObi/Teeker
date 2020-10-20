@@ -1,0 +1,20 @@
+Teeker Support Message
+
+*Tee* *Ker* ( {{domain_url}} )
+
+------------------------
+Support Feedback Message
+------------------------
+
+Dear Dev Team,
+
+This is a feedback message from the Support Page on the Teeker App.
+
+Name: {{name}}
+E-mail: {{email}}
+Report Topic: {{ report_type}}
+
+Message/Feedback:
+{{msg}}
+
+( https://twitter.com/teekercorp ) ( https://www.instagram.com/teekercorp/ )

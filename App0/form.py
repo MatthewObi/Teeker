@@ -593,3 +593,62 @@ class Leve0UpdateContentDetails(forms.Form):
 		label="Content Title"
 	)
 #---------------------------------------
+
+# Used for Support Page
+#---------------------------------------
+class SupportPageForm(forms.Form):
+	"""Used to validate the Support Page form"""
+
+	name = forms.CharField(
+		required=True,
+		max_length=1600,
+		min_length=2,
+		help_text="name needs to be longer then 2 char or less then 1600",
+		label="name",
+		error_messages={
+			"required": "name is missing... Please add a name.",
+			"min_length": "name is too short.. Please make it longer.",
+			"max_length": "name is too long... Please make it shorter.",
+			"invalid": "name cannot be used! Try another one."
+		}
+	)
+
+	email = forms.EmailField(
+		max_length=254,
+		min_length=2,
+		required=True,
+		help_text="Email address needs to be longer then 2 and less then 254.",
+		label="E-mail address",
+		error_messages={
+			"required": "E-mail address is missing... Please add a E-mail address.",
+			"min_length": "E-mail address is too short.. Please make it longer.",
+			"max_length": "E-mail address is too long... Please make it shorter.",
+			"invalid": "E-mail address cannot be used! Try another one."
+		},
+		validators=[validate_email]
+	)
+
+	msg = forms.CharField(
+		required=True,
+		max_length=1600,
+		min_length=2,
+		help_text="Message needs to be longer then 2 char or less then 1600",
+		label="Message",
+		error_messages={
+			"required": "Message is missing... Please add a Message.",
+			"min_length": "Message is too short.. Please make it longer.",
+			"max_length": "Message is too long... Please make it shorter.",
+			"invalid": "Message cannot be used! Try another one."
+		}
+	)
+
+	CHOICES = (("12", "Feedback"), ("13", "Bug"), ("14", "Other"),)
+	report_type = forms.ChoiceField(
+		choices=CHOICES,
+		required=True,
+		error_messages={
+			"required": "A report type is required to filter and sort your feedback to the right place",
+			"invalid": "Report Type is invalid! Please select one of the options provided already."
+		}
+	)
+#---------------------------------------

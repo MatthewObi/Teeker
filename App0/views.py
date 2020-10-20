@@ -44,7 +44,8 @@ from .form import UploadProfilePictures, \
 					RegisterForm, RegisterCheckForm, \
 					CommentForm, \
 					InstagramForm, YouTubeForm, VimeoForm, SoundCloudForm, SpotifyForm, \
-					LoginForm, EmailCodeForm
+					LoginForm, EmailCodeForm, \
+					SupportPageForm
 
 # Used for social media link extractions
 import re
@@ -2231,29 +2232,88 @@ def support_page(request):
 
 	if request.method == "POST":
 
-		if not request.POST.get("name"):
-			messages.warning(request, "Missing full name! Please provide your full name.")
-			return HttpResponseRedirect(reverse("support_page"))
-		elif not request.POST.get("email"):
-			messages.warning(request, "Missing e-mail Address! Please provide your E-mail Address.")
-			return HttpResponseRedirect(reverse("support_page"))
-		elif not request.POST.get("report_type"):
-			messages.warning(request, "Missing report type! Please select the report type.")
-			return HttpResponseRedirect(reverse("support_page"))
-		elif not request.POST.get("msg"):
-			messages.warning(request, "Missing report message! Please provide the detailed message of your report.")
-			return HttpResponseRedirect(reverse("support_page"))
-		else:
-			print(f"Full Name: {request.POST.get('name')}")
-			print(f"E-mail Address: {request.POST.get('email')}")
-			print(f"Report Type: {request.POST.get('report_type')}")
-			print(f"Report Message: {request.POST.get('msg')}")
+		form = SupportPageForm(request.POST)
 
-			messages.success(request, "Successfully submitted your report! We'll reply to you in 2-7 business days.")
+		if form.is_valid():
+
+			# Get the secret key
+			secret_key = settings.RECAPTCHA_SECRET_KEY
+
+			# captcha verification
+			data = {
+				'response': request.POST.get('g-recaptcha-response'),
+				'secret': secret_key
+			}
+			resp = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+			result_json = resp.json()
+
+			if result_json.get("success"):
+				print(f"Full Name: {form.cleaned_data['name']}")
+				print(f"E-mail Address: {form.cleaned_data['email']}")
+				print(f"Report Type: {form.cleaned_data['report_type']}")
+				print(f"Report Message: {form.cleaned_data['msg']}")
+
+				messages.success(request, "Successfully submitted your report! We'll reply to you in 2-7 business days.")
+				return HttpResponseRedirect(reverse("support_page"))
+			else:
+
+				messages.error(request, "Failed to check reCAPTCHA!")
+				return HttpResponseRedirect(reverse("support_page"))
+		
+		else:
+			# Choose the right error message
+			if form.errors.get_json_data():
+				
+				# Catch KeyError for name
+				try:
+					# Check if the error is the name
+					if form.errors.get_json_data()["name"] and form.errors.get_json_data()["name"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['name'][0]['message']}")
+					elif form.errors.get_json_data()["name"]:
+						messages.warning(request, "Name is invalid! Please try another one...")
+				except KeyError:
+					print("""Name is cleared and passed validation""")
+
+				# Catch KeyError for email
+				try:
+					# Check if the error is the email
+					if form.errors.get_json_data()["email"] and form.errors.get_json_data()["email"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['email'][0]['message']}")
+					elif form.errors.get_json_data()["email"]:
+						messages.warning(request, "E-mail address is invalid! Please try another one...")
+				except KeyError:
+					print("""E-mail address is cleared and passed validation""")
+
+				# Catch KeyError for msg
+				try:
+					# Check if the error is the msg
+					if form.errors.get_json_data()["msg"] and form.errors.get_json_data()["msg"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['msg'][0]['message']}")
+					elif form.errors.get_json_data()["msg"]:
+						messages.warning(request, "Message is invalid! Please try another one...")
+				except KeyError:
+					print("""Message is cleared and passed validation""")
+
+				# Catch KeyError for report_type
+				try:
+					# Check if the error is the report_type
+					if form.errors.get_json_data()["report_type"] and form.errors.get_json_data()["report_type"][0]["code"] in ["required", "max_length", "min_length", "invalid"]:
+						messages.warning(request, f"{form.errors.get_json_data()['report_type'][0]['message']}")
+					elif form.errors.get_json_data()["report_type"]:
+						messages.warning(request, "Report Type is invalid! Please try another one...")
+				except KeyError:
+					print("""Report Type is cleared and passed validation""")
+
+			else:
+				messages.warning(request, "Invalid form. Try again...")
+
 			return HttpResponseRedirect(reverse("support_page"))
 
 	elif request.method == "GET":
-		return render(request, "teeker/site_templates/support.html")
+		html_content ={
+			"recaptcha_site_key": settings.RECAPTCHA_SITE_KEY
+		}
+		return render(request, "teeker/site_templates/support.html", html_content)
 
 
 @login_required

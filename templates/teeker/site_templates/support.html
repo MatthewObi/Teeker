@@ -77,22 +77,40 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 <div class="row d-flex flex-column">
                     <div class="col-xl-12 offset-xl-0 d-flex flex-column col-support">
                         <h3 class="text-center text-white">SUPPORT&nbsp;<i class="fa fa-gears"></i></h3>
-                        <p class="text-danger" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                                {% else %}
+                                <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row d-flex flex-row">
                     <div class="col-12 col-md-7 col-lg-7 col-xl-7 order-2 order-sm-2 order-md-1 order-lg-1 order-xl-1">
-                        <form action="/support" method="post">
+                        <form id="supportform" action="/support" method="post">
                             {% csrf_token %}
                             <h3 class="text-white">Submit a Report</h3>
                             <div class="form-group"><label class="text-white" for="fullname">Enter your full name.</label><input class="form-control" type="text" id="fullname" name="name" placeholder="Enter Full name" required="" minlength="2" maxlength="1600"></div>
                             <div class="form-group"><label class="text-white">Enter your e-mail address for us to contact you if needed.</label><input class="form-control" type="email" name="email" placeholder="Enter E-mail address" minlength="2" maxlength="1600" required=""></div>
                             <div
-                                class="form-group"><label class="text-white">Select the type of issue your reporting.</label><select class="custom-select" required="" name="report_type"><optgroup label="Options"><option value="12" selected="">Feedback</option><option value="13">Bug</option><option value="14">Other</option></optgroup></select></div>
+                                class="form-group"><label class="text-white">Select the type of issue your reporting.</label>
+                                <select class="custom-select" required="" name="report_type">
+                                    <optgroup label="Options">
+                                        <option value="12" selected="">Feedback</option>
+                                        <option value="13">Bug</option>
+                                        <option value="14">Other</option>
+                                    </optgroup>
+                                </select>
+                            </div>
                     <div
-                        class="form-group"><label class="text-white">Enter your message in detail. You are limited to 1600 characters.</label><textarea class="form-control" name="msg" placeholder="Enter message (limit: 1600)" minlength="10" maxlength="1600" required=""></textarea></div>
-                <div
-                    class="form-group"><button class="btn btn-light" type="submit">Send Report</button></div>
+                        class="form-group"><label class="text-white">Enter your message in detail. You are limited to 1600 characters.</label><textarea class="form-control" name="msg" placeholder="Enter message (limit: 1600)" minlength="10" maxlength="1600" required="" rows="5"></textarea></div>
+                    <label class="text-left text-white reCAPTCHA-info" for="reCAPTCHA">This site is protected by reCAPTCHA and the Google&nbsp;<a href="https://policies.google.com/privacy">Privacy Policy</a>&nbsp;and&nbsp;<a href="https://policies.google.com/terms">Terms of Service</a>&nbsp;Apply<br></label>
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha'>
+                    <input type="hidden" class="form-control" id="recaptcha_site_key" value="{{recaptcha_site_key}}" />
+                    <div class="form-group"><button class="btn btn-light" type="submit">Send Report</button></div>
             </form>
         </div>
         <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 order-1 order-sm-1 order-md-2 order-lg-2 order-xl-2">
@@ -113,6 +131,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             </div>
         </footer>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}"></script>
     <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
     <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=7c038681746a729e2fff9520a575e78c' %}"></script>
     <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
@@ -121,6 +140,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
     <script src="{% static 'teeker/assets/js/level0/content/viewcontent_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
     <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
     <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+    <script src="{% static 'teeker/assets/js/support_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
 </body>
 
 </html>
