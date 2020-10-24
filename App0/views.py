@@ -2253,6 +2253,31 @@ def support_page(request):
 				print(f"Report Type: {form.cleaned_data['report_type']}")
 				print(f"Report Message: {form.cleaned_data['msg']}")
 
+				# Get the HTML template of the email
+				with open(os.getcwd()+"/templates/Teeker/email_templates/Support_Feedback.html") as f:
+					email_html = f.read()
+				f.close()
+
+				# Get the TEXT template of the email
+				with open(os.getcwd()+"/templates/Teeker/email_templates/Support_Feedback.txt") as f:
+					email_text = f.read()
+				f.close()
+
+				# Send an email to the email to receive Support Reports
+				try:
+					send_mail(
+						subject="Teeker Support/Feedback Report",
+						message=email_text.replace("{{name}}", form.cleaned_data['name']).replace("{{email}}", form.cleaned_data['email']).replace("{{email}}", form.cleaned_data['email']).replace("{{report_type}}", form.cleaned_data['report_type']).replace("{{msg}}", form.cleaned_data['msg']),
+						from_email="Teeker Corp Support <support@teeker.co>",
+						recipient_list=["teekerinquires@gmail.com"],
+						fail_silently=False,
+						html_message=email_html.replace("{{name}}", form.cleaned_data['name']).replace("{{email}}", form.cleaned_data['email']).replace("{{email}}", form.cleaned_data['email']).replace("{{report_type}}", form.cleaned_data['report_type']).replace("{{msg}}", form.cleaned_data['msg'])
+						)
+				except BadHeaderError:
+					print("--- Failed to send Support/FeedBack Report email! ---")
+					messages.error(request, "--- Failed to send Support/FeedBack Report email! --- \n Please try again in 5 mins.")
+					return HttpResponseRedirect(reverse("support_page"))
+
 				messages.success(request, "Successfully submitted your report! We'll reply to you in 2-7 business days.")
 				return HttpResponseRedirect(reverse("support_page"))
 			else:

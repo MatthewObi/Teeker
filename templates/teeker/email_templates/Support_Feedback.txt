@@ -10,11 +10,13 @@ Dear Dev Team,
 
 This is a feedback message from the Support Page on the Teeker App.
 
-Name: {{name}}
-E-mail: {{email}}
-Report Topic: {{ report_type}}
+*Name:* {{name}}
+*E-mail:* {{email}}
+*Report Topic:* {{ report_type}}
 
-Message/Feedback:
+*Message/Feedback:*
 {{msg}}
 
 ( https://twitter.com/teekercorp ) ( https://www.instagram.com/teekercorp/ )
+
+Unsubscribe ( {{{unsubscribe}}} )
