@@ -566,7 +566,11 @@ def index(request):
 			try:
 				user = User.objects.get(pk=int(content_data[a].owner))
 				content_data[a].username = user.username
-				content_data[a].profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
+				try:
+					content_data[a].profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
+				except ValueError:
+					content_data[a].profile_picture = "/static/teeker/assets/default_img/avatar/avataaars.png"
+					
 			except User.DoesNotExist:
 				content_data[a].username = "N/A"
 				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
@@ -2248,10 +2252,6 @@ def support_page(request):
 			result_json = resp.json()
 
 			if result_json.get("success"):
-				print(f"Full Name: {form.cleaned_data['name']}")
-				print(f"E-mail Address: {form.cleaned_data['email']}")
-				print(f"Report Type: {form.cleaned_data['report_type']}")
-				print(f"Report Message: {form.cleaned_data['msg']}")
 
 				# Get the HTML template of the email
 				with open(os.getcwd()+"/templates/Teeker/email_templates/Support_Feedback.html") as f:

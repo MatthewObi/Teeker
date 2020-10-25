@@ -58,7 +58,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                     class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
             </li>
             <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
-                {% if user.profile.profile_picture.url %}
+                {% if user.profile.profile_picture %}
                 <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
                 {% else %}
                 <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">
@@ -82,9 +82,9 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                         {% if messages %}
                             {% for message in messages %}
                                 {% if message.tags == "error" %}
-                                <label class="text-danger bg-dark alert-msg"><strong>{{message}}</strong></label>
+                                <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                 {% else %}
-                                <label class="text-{{message.tags}} bg-dark alert-msg"><strong>{{message}}</strong></label>
+                                <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -92,7 +92,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 </div>
                 <div class="row">
                     <div class="col-8 col-sm-12 col-md-4 col-lg-4 col-xl-3 offset-2 offset-sm-0 d-flex flex-column align-items-center" id="col-profile-picture">
-                        {% if user.profile.profile_picture.url %}
+                        {% if user.profile.profile_picture %}
                         <img class="rounded-circle current-pp" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="200px" alt="avatar" height="200px">
                         {% else %}
                         <img class="rounded-circle current-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="200px" alt="avatar" height="200px">
@@ -109,7 +109,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                             {% csrf_token %}
                                             <p class="picture-label-newpp" style="font-family: Roboto, sans-serif;">For best results. 1000x1000 pixels. 2MB file size limit.<br></p>
                                             <p class="text-muted align-self-start" style="font-size: 13px;">*Allowed formats (png or jpeg)</p>
-                                            {% if user.profile.profile_picture.url %}
+                                            {% if user.profile.profile_picture %}
                                             <img class="rounded-circle" id="preview_pp" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="300px" height="300px" alt="preview_pp">
                                             {% else %}
                                             <img class="rounded-circle" id="preview_pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="300px" height="300px" alt="preview_pp">
@@ -125,7 +125,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 </div>
             </div>
             <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9 offset-0 offset-sm-0 offset-xl-0 d-flex flex-column align-items-center" id="col-banner-picture" style="padding-bottom: 55px;margin-top: 20px;">
-                {% if user.profile.banner_picture.url %}
+                {% if user.profile.banner_picture %}
                 <img class="current-bp" src="{{user.profile.banner_picture.url|cut:'&export=download'}}" width="100%" alt="avatar">
                 {% else %}
                 <img class="current-bp" src="{% static 'teeker/assets/default_img/banner/banner1.jpg' %}" width="100%" alt="avatar">
@@ -142,7 +142,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                     {% csrf_token %}
                                     <p class="picture-label-newpp" style="font-family: Roboto, sans-serif;">For best results. 2000x350 pixels. 2MB file size limit.<br></p>
                                     <p class="text-muted align-self-start" style="font-size: 13px;">*Allowed formats (png or jpeg)</p>
-                                    {% if user.profile.banner_picture.url %}
+                                    {% if user.profile.banner_picture %}
                                     <img id="preview_bp" src="{{user.profile.banner_picture.url|cut:'&export=download'}}" width="100%" height="100px" alt="preview_bp" loading="auto">
                                     {% else %}
                                     <img id="preview_bp" src="{% static 'teeker/assets/default_img/banner/banner1.jpg' %}" width="100%" height="100px" alt="preview_bp" loading="auto">
