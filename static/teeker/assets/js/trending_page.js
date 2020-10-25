@@ -222,6 +222,17 @@ document.addEventListener("DOMContentLoaded", () => {
 							}
 
 						}
+					} else {
+
+						// Set a timer to set the flag to true
+						setTimeout(() => {
+							flag = true;
+						}, 1000);
+
+						// De-activate the loading gif
+						if (!document.querySelector("#loading_gif").classList.toggle("d-none")) {
+							document.querySelector("#loading_gif").classList.toggle("d-none", true);
+						}
 					}
 				}
 			}
