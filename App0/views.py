@@ -85,8 +85,18 @@ def login_page(request):
 				login(request, user)
 				return HttpResponseRedirect(reverse("index"))
 			else:
-				messages.warning(request, "Username/E-mail or password is wrong!")
-				return HttpResponseRedirect(reverse("login_page"))
+				try:
+					user_tmp = User.objects.get(email=str(form.cleaned_data["cdinput"]))
+					user = authenticate(request, username=str(user_tmp.username), password=str(form.cleaned_data["pwd"]))
+				except User.DoesNotExist:
+					user = None
+
+				if user:
+					login(request, user)
+					return HttpResponseRedirect(reverse("index"))
+				else:
+					messages.warning(request, "Username/E-mail or password is wrong!")
+					return HttpResponseRedirect(reverse("login_page"))
 		else:
 
 			if form.errors.get_json_data():

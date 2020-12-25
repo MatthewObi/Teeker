@@ -58,74 +58,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 </div>
                 <div data-aos="fade-right" data-aos-duration="200" data-aos-delay="150" data-aos-once="true" style="padding-top: 2px;padding-bottom: 2px;background-color: rgba(0,248,248,0.5);border-radius: 5px;"></div>
                 <div class="row d-flex flex-row justify-content-center" id="content-row-holder">
-                    {% for content_item in content_data %}
-                    <div class="align-self-start col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" data-content_id="{{content_item.pk}}" id="content-box-images">
-                        <div class="row content-owner-details" id="content-owner-info-5">
-                            <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}"><img class="rounded-circle" src="{{content_item.profile_picture}}" width="50px" height="50px" alt="profile_picture"><p class="text-white username-content-box">&nbsp;{{content_item.username}}&nbsp;</p></a></div>
-                            <div
-                                class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-3 d-flex justify-content-end">
-                                <div class="dropleft"><button class="btn btn-sm dropdown-toggle little-dropdown-dots" data-toggle="dropdown" aria-expanded="false" type="button">...</button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a class="dropdown-item dropdown-menu-options copy-link-btn" role="presentation" data-content="{{content_item.pk}}">
-                                            <i class="fas fa-link" ></i> Copy Link
-                                        </a>
-                                        <a class="dropdown-item dropdown-menu-options recommend-btn" role="presentation" data-content="{{content_item.pk}}">
-                                            {% if content_item.recommended_status %}
-                                            <i class="fas fa-minus"></i> Unrecommend
-                                            {% else %}
-                                            <i class="fas fa-plus"></i> Recommend
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="row d-flex flex-column justify-content-center" id="content-preview-5">
-                        {% if content_item.content_type == "instagram" %}
-                        <div class="col" id="preview-instagram"><iframe src="{{content_item.shared_link}}" allowtransparency="true" frameborder="0" scrolling="no" width="100%" height="400"></iframe></div>
-                        {% elif content_item.content_type == "youtube" %}
-                        <div class="col" id="preview-youtube"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
-                        {% elif content_item.content_type == "vimeo" %}
-                        <div class="col" id="preview-vimeo"><iframe allowfullscreen="" frameborder="0" src="{{content_item.shared_link}}" width="100%" height="215"></iframe></div>
-                        {% elif content_item.content_type == "soundcloud" %}
-                        <div class="col" id="preview-soundcloud"><div id="soundcloud_content">{{content_item.shared_link|safe}}</div></div>
-                        {% elif content_item.content_type == "spotify" %}
-                        <div class="col" id="preview-spotify"><div id="spotify_content">{{content_item.shared_link|safe}}</div></div>
-                        {% endif %}
-                    </div>
-                    <div class="row" id="content-details-5">
-                        <div class="col">
-                            <div class="row">
-                                <div class="col">
-                                    <a class="content-box-links" href="/view={{content_item.pk}}">
-                                        <h5 class="text-white">{{content_item.title}}</h5>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-4">
-                                    <div class="btn-group" role="group">
-                                        <button class="btn content-vote-btn up-vote-btn" type="button" data-content_id="{{content_item.pk}}">
-                                            <i class="fa fa-chevron-up"></i>
-                                        </button>
-                                        <button class="btn btn-lg content-vote-btn down-vote-btn" type="button" data-content_id="{{content_item.pk}}">
-                                            <i class="fas fa-angle-down"></i>
-                                        </button></div>
-                                </div>
-                                <div class="col d-flex flex-row justify-content-start align-items-center justify-content-xl-end">
-                                    <i class="fas fa-fire content-fire-icon"></i>
-                                    <h5 class="text-break text-white fire-avg-number-696969" data-content_id="{{content_item.pk}}" style="margin-left: 5px;">{{content_item.fire}}</h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="text-muted content-date">Date: {{content_item.date.year}} - {{content_item.date.month}} - {{content_item.date.day}} {{content_item.date | timesince}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                {% include "teeker/site_templates/modules/index/content.html" %}
             </div>
             <div class="row d-none justify-content-center" id="loading_gif">
                 <img src="https://media.giphy.com/media/VseXvvxwowwCc/giphy.gif" width="150px" height="150px" />
