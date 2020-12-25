@@ -27,6 +27,7 @@ class Profile(models.Model):
 	socialmedialinks = models.TextField(default="", blank=True, null=True)
 	recommended = models.TextField(default="", blank=True, null=True)
 	user_chasing = models.TextField(default="", blank=True, null=True)
+	user_blocked = models.TextField(default="", blank=True, null=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
