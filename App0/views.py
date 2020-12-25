@@ -422,11 +422,11 @@ def emailcode(request):
 				try:
 					send_mail(
 						subject="Forgot Password",
-						message=email_text.replace("{{username}}", user.username).replace("{{reset_code}}", f"http://{request.META.get('HTTP_HOST')}/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}/").replace("{{domain_host}}", f"http://'{request.META.get('HTTP_HOST')}"),
+						message=email_text.replace("{{username}}", f"{user.first_name} {user.last_name}").replace("{{reset_code}}", f"http://{request.META.get('HTTP_HOST')}/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}/").replace("{{domain_host}}", f"http://'{request.META.get('HTTP_HOST')}"),
 						from_email=settings.MAIL_SENDER,
 						recipient_list=[user.email],
 						fail_silently=False,
-						html_message=email_html.replace("{{username}}", user.username).replace("{{reset_code}}", f"http://{request.META.get('HTTP_HOST')}/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}/").replace("{{domain_host}}", f"http://'{request.META.get('HTTP_HOST')}")
+						html_message=email_html.replace("{{username}}", f"{user.first_name} {user.last_name}").replace("{{reset_code}}", f"http://{request.META.get('HTTP_HOST')}/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}/").replace("{{domain_host}}", f"http://'{request.META.get('HTTP_HOST')}")
 						)
 
 					messages.success(request, "If this e-mail address is in our system, it will receive an email from us.")

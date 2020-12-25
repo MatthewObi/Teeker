@@ -15,7 +15,7 @@ Reset Password ( {{reset_code}} )
 or by clicking the link bellow:
 *{{reset_code}}* ( {{reset_code}} )
 
-Your username is: {{username}}
+Your name is: {{username}}
 If you didn't request a password reset, feel free to delete this email and carry on enjoying your day!
 
 All the best,
