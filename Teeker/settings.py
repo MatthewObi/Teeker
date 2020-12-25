@@ -48,9 +48,9 @@ ALLOWED_HOSTS = [
     'www.teeker.co'
     ]
 
-ADMIN = (
-    ('LT.Sana', 'snm.developer@gmail.com'),
-    )
+ADMINS = [("LT.Sana", "snm.developer@gmail.com")]
+
+MANAGERS = [("LT.Sana", "snm.developer@gmail.com")]
 
 # Application definition
 

@@ -59,7 +59,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 <i class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
             </li>
             <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/account">
-                {% if user.profile.profile_picture %}
+                {% if user.profile.profile_picture and user.profile.profile_picture.url|cut:'&export=download' != "None" %}
                 <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
                 {% else %}
                 <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">
@@ -71,7 +71,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
     </ul>
     <section id="hero_account_banner">
         <div>
-            {% if user.profile.banner_picture %}
+            {% if user.profile.banner_picture and user.profile.profile_picture.url|cut:'&export=download' != "None" %}
             <img class="bp-holder" src="{{user.profile.banner_picture.url|cut:'&export=download'}}" width="100%" loading="auto">
             {% else %}
             <img class="bp-holder" src="{% static 'teeker/assets/default_img/banner/banner1.jpg' %}" width="100%" loading="auto">
@@ -83,7 +83,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             <div class="container">
                 <div class="row display-account-details">
                     <div class="col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 offset-3 offset-sm-4 offset-md-0 offset-lg-0 offset-xl-0">
-                        {% if user.profile.profile_picture %}
+                        {% if user.profile.profile_picture and user.profile.profile_picture.url|cut:'&export=download' != "None" %}
                         <img class="rounded-circle pp-holder" data-aos="fade-up" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="100%" style="margin-top: -50px;">
                         {% else %}
                         <img class="rounded-circle pp-holder" data-aos="fade-up" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="100%" style="margin-top: -50px;">
@@ -158,7 +158,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                     <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images" data-content_id="{{content_item.pk}}">
                         <div class="row content-owner-details" id="content-owner-info">
                             <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}">
-                                {% if user.profile.profile_picture %}
+                                {% if user.profile.profile_picture and user.profile.profile_picture.url|cut:'&export=download' != "None" %}
                                 <img class="rounded-circle content-box-pp" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
                                 {% else %}
                                 <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">
@@ -239,7 +239,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                 <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images-1" data-content_id="{{content_item.content.pk}}">
                     <div class="row content-owner-details" id="content-owner-info-1">
                         <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.user.pk}}">
-                            {% if content_item.user.profile.profile_picture %}
+                            {% if content_item.user.profile.profile_picture and content_item.user.profile.profile_picture.url|cut:'&export=download' != "None" %}
                             <img class="rounded-circle content-box-pp" src="{{content_item.user.profile.profile_picture.url|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
                             {% else %}
                             <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">
@@ -304,7 +304,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             <div class="col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 col-content-box" data-aos="fade-up" data-aos-once="true" id="content-box-images-2" data-content_id="{{content_item.pk}}">
                 <div class="row content-owner-details" id="content-owner-info-2">
                     <div class="col-10 col-sm-9 col-md-9 col-lg-9 col-xl-9 d-flex flex-row justify-content-start align-items-center"><a class="d-flex flex-row justify-content-start align-items-center content-box-links" href="/TK/view={{content_item.owner}}">
-                        {% if content_item.profile_picture %}
+                        {% if content_item.profile_picture and content_item.profile_picture|cut:'&export=download' != "None" %}
                         <img class="rounded-circle content-box-pp" src="{{content_item.profile_picture|cut:'&export=download'}}" width="50px" height="50px" alt="profile_picture">
                         {% else %}
                         <img class="rounded-circle content-box-pp" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="50px" height="50px" alt="profile_picture">

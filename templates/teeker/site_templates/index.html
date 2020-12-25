@@ -58,7 +58,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                     class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
             </li>
             <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
-                {% if user.profile.profile_picture %}
+                {% if user.profile.profile_picture and user.profile.profile_picture.url|cut:'&export=download' != "None" %}
                 <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
                 {% else %}
                 <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/default_img/avatar/avataaars.png' %}" width="15%" loading="auto">

@@ -1645,7 +1645,10 @@ def account_page(request, option=None):
 
 				# Get the average FIRE rating of the content
 				try:
-					content_data_recommend[a].fire = int(content_data[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] * 10) if content_data_recommend[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] else 0
+					try:
+						content_data_recommend[a].fire = int(content_data[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] * 10) if content_data_recommend[a].contents_history.all().aggregate(Avg("vote"))["vote__avg"] else 0
+					except TypeError:
+						content_data_recommend[a].fire = 0
 				except History.DoesNotExist:
 					content_data_recommend[a].fire = 0
 
