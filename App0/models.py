@@ -3,12 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-# Google Storage
-from gdstorage.storage import GoogleDriveStorage
-
-# Define Google Drive Storage
-gd_storage = GoogleDriveStorage()
-
 # Create your models here.
 
 class Profile(models.Model):
@@ -16,8 +10,8 @@ class Profile(models.Model):
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	aboutme = models.TextField(max_length=1600, default="")
-	profile_picture = models.ImageField(upload_to="static/teeker/assets/uploads", storage=gd_storage, default="/static/teeker/assets/default_img/avatar/avataaar.png", blank=True, null=True)
-	banner_picture = models.ImageField(upload_to="static/teeker/assets/uploads", storage=gd_storage, default="/static/teeker/assets/default_img/banner/banner1.png", blank=True, null=True)
+	profile_picture = models.ImageField(upload_to="teeker/profiles/display_pictures/", blank=True, null=True)
+	banner_picture = models.ImageField(upload_to="teeker/profiles/banner_pictures/", blank=True, null=True)
 	suspended = models.BooleanField(default=False)
 	verified = models.BooleanField(default=False)
 	developer = models.BooleanField(default=False)

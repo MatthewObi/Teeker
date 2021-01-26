@@ -52,6 +52,13 @@ ADMINS = [("LT.Sana", "snm.developer@gmail.com")]
 
 MANAGERS = [("LT.Sana", "snm.developer@gmail.com")]
 
+# Cloudinary Credentials
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -62,6 +69,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -193,3 +202,6 @@ CACHES = {
 #CSRF_USE_SESSIONS = False
 #CSRF_COOKIE_SECURE = True
 CSRF_FAILURE_VIEW = 'App0.views.csrf_failure'
+
+# Cloudinary Settings for File Upload Storage
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
