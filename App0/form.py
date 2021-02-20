@@ -1,6 +1,11 @@
 from django.core.validators import RegexValidator, validate_email
 from django import forms
 
+# These are used for image manipulation
+from PIL import Image
+from io import BytesIO
+from django.core.files import File
+
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
 # Used for the Login Page
@@ -473,19 +478,55 @@ class SpotifyForm(forms.Form):
 class UploadProfilePictures(forms.Form):
 	"""Used to validate the Profile Pictures being uploaded"""
 
-	npp = forms.FileField(
+	npp = forms.ImageField(
+		required=True,
 		allow_empty_file=False,
 		label="Select a Profile picture.",
-		help_text="Max 2MegaBytes"
+		help_text="Max 2MegaBytes",
+		error_messages={
+			"required": "A Profile Picture is required!",
+			"invalid": "Please upload a valid profile picture."
+		}
 	)
+
+	""" def clean(self):
+		cleaned_data = super(UploadProfilePictures, self).clean()
+		npp_test = cleaned_data.get("npp")
+
+		if npp_test:
+			uploaded_image = Image.open(npp_test)
+
+			# Make sure the image is an allowed format
+			if uploaded_image.format.lower() in ["jpeg", "png"]:
+
+				# Remove the EXIF from the images due to Privacy Policies
+				# EXIF is a risk to the user (DO NOT REMOVE THIS FUNCTION)
+				image_data = list(uploaded_image.getdata())
+				image_n_exif = Image.new(uploaded_image.mode, uploaded_image.size)
+				image_n_exif.putdata(image_data)
+				image_io = BytesIO()
+				image_n_exif.save(image_io, uploaded_image.format, quality=85)
+
+				# Check the image size and make sure its not larger then 2Mbs
+				byte_size = int(image_io.tell() / 1024)
+				if byte_size > 2000:
+					self.add_error("npp", "Image is too large please upload an Image less than 2 Megabytes.")
+			else:
+				self.add_error("npp", "Image must only be a JPEG or PNG.")
+		return cleaned_data """
 
 class UploadBannerPictures(forms.Form):
 	"""Used to validate the Banner Pictures being uploaded"""
 
-	nbp = forms.FileField(
+	nbp = forms.ImageField(
+		required=True,
 		allow_empty_file=False,
 		label="Select a Banner picture.",
-		help_text="Max 2MegaBytes"
+		help_text="Max 2MegaBytes",
+		error_messages={
+			"required": "A Banner Picture is required!",
+			"invalid": "Please upload a valid Banner picture."
+		}
 	)
 #---------------------------------------
 

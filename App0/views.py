@@ -54,6 +54,19 @@ from bs4 import BeautifulSoup
 # Used for reading JSON
 import json
 
+# Get custom form error checker
+from .utils.form_error_catch import form_error_catcher
+
+# Cloudinary Storage
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+cloudinary.config( 
+  cloud_name = settings.CLOUDINARY_STORAGE["CLOUD_NAME"],
+  api_key = settings.CLOUDINARY_STORAGE["API_KEY"], 
+  api_secret = settings.CLOUDINARY_STORAGE["API_SECRET"] 
+)
+
 # Create your views here.
 
 # CUSTOM ERROR HANDLERS
@@ -2363,99 +2376,49 @@ def settings_page(request, option=None):
 		# For uploading profile picture
 		if option == "npp":
 
-			try:
-				if not request.FILES["npp"]:
-					messages.warning(request, "Missing the new profile picture!")
-					return HttpResponseRedirect(reverse("settings_page"))
-				else:
-					
-					uploaded_image = Image.open(request.FILES['npp'])
+			# Validate the users input
+			form = UploadProfilePictures(request.POST, request.FILES)
 
-					# Make sure the image is an allowed format
-					if uploaded_image.format.lower() in ["jpeg", "png"]:
+			if form.is_valid():
 
-						# Remove the EXIF from the images due to Privacy Policies
-						# EXIF is a risk to the user (DO NOT REMOVE THIS FUNCTION)
-						image_data = list(uploaded_image.getdata())
-						image_n_exif = Image.new(uploaded_image.mode, uploaded_image.size)
-						image_n_exif.putdata(image_data)
-						image_file_name = "pic"+str(time.localtime().tm_sec)+str(time.localtime().tm_min)+str(time.localtime().tm_hour)+"."+str(uploaded_image.format.lower())
-						image_io = BytesIO()
-						image_n_exif.save(image_io, uploaded_image.format, quality=85)
+				# Upload it to Google Drive and Store the path on the Database
+				user = User.objects.get(pk=request.user.pk)
 
-						# Check the image size and make sure its not larger then 2Mbs
-						byte_size = int(image_io.tell() / 1024)
-						if byte_size <= 2000:
+				# Check if the user already has a profile picture and delete it
+				if user.profile.profile_picture:
+					user.profile.profile_picture.delete()
 
-							# Upload it to Google Drive and Store the path on the Database
-							user = User.objects.get(pk=request.user.pk)
+				user.profile.profile_picture = form.cleaned_data.get('npp')
+				user.save()
 
-							# Check if the user already has a profile picture and delete it
-							if user.profile.profile_picture:
-								user.profile.profile_picture.delete()
-
-							user.profile.profile_picture = File(image_io, name=image_file_name)
-							user.save()
-
-							messages.success(request, "Successfully uploaded the new profile picture!")
-							return HttpResponseRedirect(reverse("settings_page"))
-						else:
-							messages.warning(request, "Image is larger then 2Mbs! Please upload a smaller one.")
-							return HttpResponseRedirect(reverse("settings_page"))
-					else:
-						messages.warning(request, "Image format not allowed! (PNG or JPEG only)")
-						return HttpResponseRedirect(reverse("settings_page"))
-			except KeyError:
-				messages.error(request, "SETTINGS PAGE ERROR: E0 NPP. Try again...")
+				messages.success(request, "Successfully uploaded the new profile picture!")
+				return HttpResponseRedirect(reverse("settings_page"))
+			else:
+				form_error_catcher(request, form, ["npp"])
 				return HttpResponseRedirect(reverse("settings_page"))
 
 		# For uploading banner picture
 		elif option == "nbp":
 
-			try:
-				if not request.FILES["nbp"]:
-					messages.warning(request, "Missing the new banner picture!")
-					return HttpResponseRedirect(reverse("settings_page"))
-				else:
-					
-					uploaded_image = Image.open(request.FILES['nbp'])
+			# Validate the users input
+			form = UploadBannerPictures(request.POST, request.FILES)
 
-					# Make sure the image is an allowed format
-					if uploaded_image.format.lower() in ["jpeg", "png"]:
+			if form.is_valid():
 
-						# Remove the EXIF from the images due to Privacy Policies
-						# EXIF is a risk to the user (DO NOT REMOVE THIS FUNCTION)
-						image_data = list(uploaded_image.getdata())
-						image_n_exif = Image.new(uploaded_image.mode, uploaded_image.size)
-						image_n_exif.putdata(image_data)
-						image_file_name = "pic"+str(time.localtime().tm_sec)+str(time.localtime().tm_min)+str(time.localtime().tm_hour)+"."+str(uploaded_image.format.lower())
-						image_io = BytesIO()
-						image_n_exif.save(image_io, uploaded_image.format, quality=85)
+				# Upload it to Google Drive and Store the path on the Database
+				user = User.objects.get(pk=request.user.pk)
 
-						# Check the image size and make sure its not larger then 2Mbs
-						byte_size = int(image_io.tell() / 1024)
-						if byte_size <= 2000:
-							
-							# Upload it to Google Drive and Store the path on the Database
-							user = User.objects.get(pk=request.user.pk)
+				# Check if the user already has a profile picture and delete it
+				if user.profile.banner_picture:
+					user.profile.banner_picture.delete()
 
-							# Check if the user already has a banner picture and delete it
-							if user.profile.profile_picture:
-								user.profile.profile_picture.delete()
+				user.profile.banner_picture = form.cleaned_data.get('nbp')
+				user.save()
 
-							user.profile.banner_picture = File(image_io, name=image_file_name)
-							user.save()
-
-							messages.success(request, "Successfully uploaded the new banner picture!")
-							return HttpResponseRedirect(reverse("settings_page"))
-						else:
-							messages.warning(request, "Image is larger then 2Mbs! Please upload a smaller one.")
-							return HttpResponseRedirect(reverse("settings_page"))
-					else:
-						messages.warning(request, "Image format not allowed! (PNG or JPEG only)")
-						return HttpResponseRedirect(reverse("settings_page"))
-			except KeyError:
-				messages.error(request, "SETTINGS PAGE ERROR: E1 NBP. Try again...")
+				messages.success(request, "Successfully uploaded the new profile picture!")
+				return HttpResponseRedirect(reverse("settings_page"))
+			else:
+				form_error_catcher(request, form, ["nbp"])
 				return HttpResponseRedirect(reverse("settings_page"))
 
 		# For updating account details

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import uuid
 
 # Create your models here.
 
@@ -10,8 +11,8 @@ class Profile(models.Model):
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	aboutme = models.TextField(max_length=1600, default="")
-	profile_picture = models.ImageField(upload_to="teeker/profiles/display_pictures/", blank=True, null=True)
-	banner_picture = models.ImageField(upload_to="teeker/profiles/banner_pictures/", blank=True, null=True)
+	profile_picture = models.ImageField(blank=True, null=True, upload_to="Teeker/profiles/")
+	banner_picture = models.ImageField(blank=True, null=True, upload_to="Teeker/banners/")
 	suspended = models.BooleanField(default=False)
 	verified = models.BooleanField(default=False)
 	developer = models.BooleanField(default=False)
@@ -35,6 +36,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Content(models.Model):
 	"""Content details"""
 	
+	content_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 	content_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contents")
 	owner = models.BigIntegerField(null=False)
 	content_type = models.CharField(max_length=600, null=False)
@@ -88,5 +90,4 @@ class ReportContent(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_owner")
 	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_reported")
 	reason = models.CharField(max_length=1600, null=False)
-
-	
+	date = models.DateTimeField(auto_now_add=True)
