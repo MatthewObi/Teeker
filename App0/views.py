@@ -596,7 +596,7 @@ def index(request):
 					
 			except User.DoesNotExist:
 				content_data[a].username = "N/A"
-				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png"
 
 			# Get the average FIRE rating of the content
 			try:
@@ -647,7 +647,7 @@ def trending(request):
 				content_data[a].profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
 			except User.DoesNotExist:
 				content_data[a].username = "N/A"
-				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+				content_data[a].profile_picture = "/teeker/assets/img/avataaars.png"
 
 			# Get the average FIRE rating of the content
 			try:
@@ -775,10 +775,10 @@ def world(request):
 				try:
 					content_data[c].profile_picture = (user_c.profile.profile_picture.url).replace("&export=download", "") if user_c.profile.profile_picture.url else "/static/teeker/assets/default_img/avatar/avataaars.png"
 				except AttributeError:
-					content_data[c].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+					content_data[c].profile_picture = "/teeker/assets/img/avataaars.png"
 			except User.DoesNotExist:
 				content_data[c].username = "N/A"
-				content_data[c].profile_picture = "/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+				content_data[c].profile_picture = "/teeker/assets/img/avataaars.png"
 
 			# Get the average FIRE rating of the content
 			try:
@@ -1205,10 +1205,10 @@ def view_teeker_page_posts(request):
 								try:
 									profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
 								except AttributeError:
-									profile_picture = "/static/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+									profile_picture = "/static/teeker/assets/img/avataaars.png"
 							except User.DoesNotExist:
 								username = "N/A"
-								profile_picture = "/static/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+								profile_picture = "/static/teeker/assets/img/avataaars.png"
 
 							json_content.append({
 								"pk": item.pk,
@@ -1264,10 +1264,10 @@ def view_teeker_page_posts(request):
 											try:
 												profile_picture = (user.profile.profile_picture.url).replace("&export=download", "") if user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
 											except AttributeError:
-												profile_picture = "/static/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+												profile_picture = "/static/teeker/assets/img/avataaars.png"
 										except User.DoesNotExist:
 											username = "N/A"
-											profile_picture = "/static/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+											profile_picture = "/static/teeker/assets/img/avataaars.png"
 
 										json_content.append({
 											"pk": item.pk,
@@ -1323,7 +1323,7 @@ def view_teeker_page_posts(request):
 											try:
 												profile_picture = (content_data_history[b].user.profile.profile_picture.url).replace("&export=download", "") if content_data_history[b].user.profile.profile_picture else "/static/teeker/assets/default_img/avatar/avataaars.png"
 											except AttributeError:
-												profile_picture = "/static/teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852"
+												profile_picture = "/static/teeker/assets/img/avataaars.png"
 
 											json_content.append({
 												"pk": content_data_history[b].content.pk,
