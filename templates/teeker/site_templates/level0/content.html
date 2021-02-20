@@ -45,30 +45,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
 </head>
 
 <body>
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
-        <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
-                    id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
-        </li>
-        <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
-        <li
-            class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
-                <i
-                    class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
-            </li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
-                {% if user.profile.profile_picture.url %}
-                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
-                {% else %}
-                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="15%" loading="auto">
-                {% endif %}
-                <span class="text-nowrap mx-2">Account</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
-    </ul>
+    {% include "teeker/site_templates/layouts/navbar.html" %}
     <section class="main-section" id="hero_level_users">
         <div>
             <div class="container">
@@ -79,7 +56,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                                 <div
                                     class="collapse navbar-collapse" id="navcol-1">
                                     <ul class="nav navbar-nav">
-                                        <li class="nav-item" role="presentation"><a class="nav-link active" href="/level0/users">Users</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="/level0/users">Users</a></li>
                                         <li class="nav-item" role="presentation"><a class="nav-link active" href="/level0/content">Content</a></li>
                                         <li class="nav-item" role="presentation"><a class="nav-link" href="#">App Data</a></li>
                                     </ul>
@@ -106,15 +83,15 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
                             <div class="row">
                                 <div class="col">
                                     <p class="text-white">
-                                        ID: {{content_item.pk}}
+                                        <strong>ID</strong>: {{content_item.pk}}
                                         <br>
-                                        <br>Title: {{content_item.title}}
-                                        <br>Views: {{number_views}}
-                                        <br>Average Rating: {{avg_rating}}
-                                        <br>Content Owner: {{content_item.owner.username}}#{{content_item.owner.pk}}
-                                        <br>#Reports: {{number_reports}}
+                                        <br><strong>Title</strong>: {{content_item.title}}
+                                        <br><strong>Views</strong>: {{number_views}}
+                                        <br><strong>Average Rating</strong>: {{avg_rating}}
+                                        <br><strong>Content Owner</strong>: {{content_item.content_owner.username}} - #{{content_item.content_owner.pk}}
+                                        <br><strong>#Reports</strong>: {{number_reports}}
                                         <br>
-                                        <br>Date posted: {{content_item.date}}
+                                        <br><strong>Date posted</strong>: {{content_item.date}}
                                         <br>
                                     </p>
                                 </div>

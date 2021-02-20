@@ -3,3 +3,14 @@
   font-size: 30px;
 }
 
+/* Style reCAPTCHA Label */
+
+.reCAPTCHA-info {
+  border-radius: 9px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 10px;
+  background: rgba(102,102,102,0.7);
+  font-size: 12px;
+}

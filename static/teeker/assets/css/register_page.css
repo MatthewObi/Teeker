@@ -20,6 +20,7 @@
   border-top: 0;
   font-size: 13px;
   font-family: Roboto, sans-serif;
+  margin-top: 5px;
 }
 
 /* Style Agreement label */
@@ -32,9 +33,28 @@
 }
 
 body {
-  background-image: url("/static/teeker/assets/img/background_3.png?h=61a877449c910080ed8eb09233a5246e");
+  background-image: url("/static/teeker/assets/img/background_3.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
 }
 
+/* Style Alert message */
+
+.alert-msg {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+/* Style label */
+
+.label-register {
+  background: rgba(0,0,0,0.8);
+  padding-right: 5px;
+  padding-left: 5px;
+  border-radius: 3px;
+  margin-bottom: 0px;
+  max-width: 100%;
+}

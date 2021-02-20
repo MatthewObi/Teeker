@@ -2,12 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-# Google Storage
-from gdstorage.storage import GoogleDriveStorage
-
-# Define Google Drive Storage
-gd_storage = GoogleDriveStorage()
+import uuid
 
 # Create your models here.
 
@@ -16,8 +11,8 @@ class Profile(models.Model):
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	aboutme = models.TextField(max_length=1600, default="")
-	profile_picture = models.ImageField(upload_to="static/teeker/assets/uploads", storage=gd_storage, default="/static/teeker/assets/default_img/avatar/avataaar.png", blank=True, null=True)
-	banner_picture = models.ImageField(upload_to="static/teeker/assets/uploads", storage=gd_storage, default="/static/teeker/assets/default_img/banner/banner1.png", blank=True, null=True)
+	profile_picture = models.ImageField(blank=True, null=True, upload_to="Teeker/profiles/")
+	banner_picture = models.ImageField(blank=True, null=True, upload_to="Teeker/banners/")
 	suspended = models.BooleanField(default=False)
 	verified = models.BooleanField(default=False)
 	developer = models.BooleanField(default=False)
@@ -27,6 +22,7 @@ class Profile(models.Model):
 	socialmedialinks = models.TextField(default="", blank=True, null=True)
 	recommended = models.TextField(default="", blank=True, null=True)
 	user_chasing = models.TextField(default="", blank=True, null=True)
+	user_blocked = models.TextField(default="", blank=True, null=True)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -40,6 +36,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Content(models.Model):
 	"""Content details"""
 	
+	content_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 	content_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="contents")
 	owner = models.BigIntegerField(null=False)
 	content_type = models.CharField(max_length=600, null=False)
@@ -68,22 +65,18 @@ class History(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="users_history")
 	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="contents_history")
 	vote = models.IntegerField(null=True)
-	comment = models.TextField(max_length=1600, null=True)
-	report_flag = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f"""
 		User: {self.user}
 		Content: {self.content}
-		Vote: {self.vote}
-		Comment: {self.comment}
-		Report Flag: {self.report_flag}"""
+		Vote: {self.vote}"""
 
 class Comment(models.Model):
 	"""Keeps track of all the content comments"""
 
-	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_comment")
-	comment = models.TextField(max_length=1600, null=False)
+	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_comments")
+	comment = models.TextField(max_length=999999, null=False)
 
 	def __str__(self):
 		return f"""
@@ -97,5 +90,4 @@ class ReportContent(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_owner")
 	content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="content_reported")
 	reason = models.CharField(max_length=1600, null=False)
-
-	
+	date = models.DateTimeField(auto_now_add=True)

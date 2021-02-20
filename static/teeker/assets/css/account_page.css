@@ -4,6 +4,12 @@
   }
 }
 
+/* Style Banner */
+
+#hero_account_banner {
+  filter: invert(0%);
+}
+
 /* Style badges */
 
 .icon-badges {
@@ -149,4 +155,21 @@
     object-fit: cover;
     object-position: 50%;
   }
+}
+
+/* Style Modal1 */
+
+.content-delete-modal-form {
+  width: 100%;
+}
+
+.modal-content {
+  background-color: #707070;
+}
+
+.del_btn_modal, .del_btn_modal:hover, .del_btn_modal:focus {
+  background: #000000;
+  box-shadow: 0px 0px #000000;
+  margin-bottom: 10px;
+  border-color: rgba(0,0,0,0.5);
 }

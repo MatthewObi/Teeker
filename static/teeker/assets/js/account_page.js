@@ -173,6 +173,39 @@ document.addEventListener("DOMContentLoaded", () => {
 				document.body.removeChild(el);
 			}
 		});
+
+		// Trigger for delete button from dropdown Menu
+		document.querySelectorAll(".delete-btn").forEach(button => {
+			button.onclick = () => {
+				document.querySelector("#content_id_del").value = button.dataset.content
+			}
+		})
+
+		// Remove content from the recommended list of the user
+		document.querySelectorAll(".remove-recommended-btn").forEach(button => {
+			button.onclick = () => {
+				const request = new XMLHttpRequest()
+				request.open("POST", "recommend_sys")
+				const data = new FormData()
+				data.append("csrfmiddlewaretoken", document.querySelector("input[name='csrfmiddlewaretoken']").value);
+				data.append("option", "remove_recommend")
+				data.append("content", button.dataset.content)
+				request.send(data)
+				request.onreadystatechange = () => {
+					if (request.status === 200 && request.readyState === 4) {
+						if (JSON.parse(request.response)["STATUS"]) {
+							if (JSON.parse(request.response)["recommended"]) {
+								document.querySelectorAll("#content-box-images-2").forEach(content_box => {
+									if (content_box.dataset.content_id === button.dataset.content) {
+										content_box.style.display = "none"
+									}
+								})
+							}
+						}
+					}
+				}
+			}
+		})
 	}
 	// Trigger a control update
 	update_content_controls();

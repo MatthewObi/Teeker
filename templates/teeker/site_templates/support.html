@@ -42,57 +42,47 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
 </head>
 
 <body>
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid">
-        <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="/"><br><div class="d-flex flex-row justify-content-center" style="font-family: Aldrich, sans-serif;"><h3>Tee</h3><h3 style="color: rgb(0,209,222);">Ker</h3></div></a><a class="text-white float-right"
-                    id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
-        </li>
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/"><i class="fas fa-home mx-3"></i><span class="text-nowrap mx-2">Home</span></a></li>
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/trending"><i class="fas fa-fire-alt mx-3"></i><span class="text-nowrap mx-2">Trending</span></a><a class="nav-link text-left text-white py-1 px-0" href="/world"><i class="icon ion-earth mx-3"></i><span class="text-nowrap mx-2">World</span></a></li>
-        {% if user.is_authenticated %}
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/upload"><i class="fas fa-plus-square mx-3"></i><span class="text-nowrap mx-2">SHARE</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0 popover-btn" href="##" title="<a href=&quot;/inbox&quot;>View Inbox</a>" data-toggle="popover" data-content="<p style=&quot;background-color: gray;&quot;><a href=&quot;/TK/view&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p><p style=&quot;background-color: gray;&quot;><a href=&quot;/account&quot;>{{username}}</a><br>Thinks your post is fire!<i class=&quot;fas fa-fire content-fa-start&quot;></i><br>7:08 05/06/2020</p>">
-                <i
-                    class="fas fa-inbox mx-3"></i><span class="text-nowrap mx-2">Inbox</span></a>
-            </li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/account">
-                {% if user.profile.profile_picture.url %}
-                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{{user.profile.profile_picture.url|cut:'&export=download'}}" width="15%" loading="auto">
-                {% else %}
-                <img class="rounded-circle img-fluid mx-3 sidebar-profile-icon" src="{% static 'teeker/assets/img/avataaars.png?h=1af48d52c424c9305613100e47709852' %}" width="15%" loading="auto">
-                {% endif %}
-                <span class="text-nowrap mx-2">Account</span></a></li>
-            <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/settings"><i class="icon ion-ios-settings-strong mx-3"></i><span class="text-nowrap mx-2">Settings</span></a></li>
-        {% endif %}
-        {% if user.is_authenticated %}
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/logout"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log Out</span></a></li>
-        {% else %}
-        <li class="nav-item"><a class="nav-link text-left text-white py-1 px-0" href="/login"><i class="fas fa-sign-in-alt mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">Log In</span></a></li>
-        {% endif %}
-            <li class="nav-item"><a class="nav-link active text-left text-white py-1 px-0" href="/support"><i class="fa fa-gears mx-3"></i><i class="fa fa-caret-right d-none position-absolute"></i><span class="text-nowrap mx-2">SUPPORT</span></a></li>
-    </ul>
+    {% include "teeker/site_templates/layouts/navbar.html" %}
     <section class="main-section" id="hero_support">
         <div>
             <div class="container">
                 <div class="row d-flex flex-column">
                     <div class="col-xl-12 offset-xl-0 d-flex flex-column col-support">
                         <h3 class="text-center text-white">SUPPORT&nbsp;<i class="fa fa-gears"></i></h3>
-                        <p class="text-danger" style="background-color: #303030;text-align: center;padding-top: 2px;padding-bottom: 2px;border-top-left-radius: 9px;border-top-right-radius: 9px;border-bottom-right-radius: 9px;border-bottom-left-radius: 9px;">{{message}}</p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                <p class="text-break text-center text-danger alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                                {% else %}
+                                <p class="text-break text-center text-{{message.tags}} alert-msg">{{message}} <i class="fa fa-close alert-msg-close-icon"></i></p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row d-flex flex-row">
                     <div class="col-12 col-md-7 col-lg-7 col-xl-7 order-2 order-sm-2 order-md-1 order-lg-1 order-xl-1">
-                        <form action="/support" method="post">
+                        <form id="supportform" action="/support" method="post">
                             {% csrf_token %}
                             <h3 class="text-white">Submit a Report</h3>
                             <div class="form-group"><label class="text-white" for="fullname">Enter your full name.</label><input class="form-control" type="text" id="fullname" name="name" placeholder="Enter Full name" required="" minlength="2" maxlength="1600"></div>
                             <div class="form-group"><label class="text-white">Enter your e-mail address for us to contact you if needed.</label><input class="form-control" type="email" name="email" placeholder="Enter E-mail address" minlength="2" maxlength="1600" required=""></div>
                             <div
-                                class="form-group"><label class="text-white">Select the type of issue your reporting.</label><select class="custom-select" required="" name="report_type"><optgroup label="Options"><option value="12" selected="">Feedback</option><option value="13">Bug</option><option value="14">Other</option></optgroup></select></div>
+                                class="form-group"><label class="text-white">Select the type of issue your reporting.</label>
+                                <select class="custom-select" required="" name="report_type">
+                                    <optgroup label="Options">
+                                        <option value="12" selected="">Feedback</option>
+                                        <option value="13">Bug</option>
+                                        <option value="14">Other</option>
+                                    </optgroup>
+                                </select>
+                            </div>
                     <div
-                        class="form-group"><label class="text-white">Enter your message in detail. You are limited to 1600 characters.</label><textarea class="form-control" name="msg" placeholder="Enter message (limit: 1600)" minlength="10" maxlength="1600" required=""></textarea></div>
-                <div
-                    class="form-group"><button class="btn btn-light" type="submit">Send Report</button></div>
+                        class="form-group"><label class="text-white">Enter your message in detail. You are limited to 1600 characters.</label><textarea class="form-control" name="msg" placeholder="Enter message (limit: 1600)" minlength="10" maxlength="1600" required="" rows="5"></textarea></div>
+                    <label class="text-left text-white reCAPTCHA-info" for="reCAPTCHA">This site is protected by reCAPTCHA and the Google&nbsp;<a href="https://policies.google.com/privacy">Privacy Policy</a>&nbsp;and&nbsp;<a href="https://policies.google.com/terms">Terms of Service</a>&nbsp;Apply<br></label>
+                    <input type="hidden" name="g-recaptcha-response" id='recaptcha'>
+                    <input type="hidden" class="form-control" id="recaptcha_site_key" value="{{recaptcha_site_key}}" />
+                    <div class="form-group"><button class="btn btn-light" type="submit">Send Report</button></div>
             </form>
         </div>
         <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 order-1 order-sm-1 order-md-2 order-lg-2 order-xl-2">
@@ -113,6 +103,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
             </div>
         </footer>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js?render={{recaptcha_site_key}}"></script>
     <script src="{% static 'teeker/assets/js/jquery.min.js?h=89312d34339dcd686309fe284b3f226f' %}"></script>
     <script src="{% static 'teeker/assets/bootstrap/js/bootstrap.min.js?h=7c038681746a729e2fff9520a575e78c' %}"></script>
     <script src="{% static 'teeker/assets/js/bs-init.js?h=4df33861fb0cc943cd5492d67853aba8' %}"></script>
@@ -121,6 +112,7 @@ Join TeeKer and gain the ability to share your (Instagram, Youtube, Vimeo, Sound
     <script src="{% static 'teeker/assets/js/level0/content/viewcontent_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
     <script src="{% static 'teeker/assets/js/popover_sidebar.js?h=0154834ff12b7b3dda5d7c2cf24d8969' %}"></script>
     <script src="{% static 'teeker/assets/js/sidebar.js?h=5698962290ef9fcb7ad2ffc60db8773a' %}"></script>
+    <script src="{% static 'teeker/assets/js/support_page.js?h=d41d8cd98f00b204e9800998ecf8427e' %}"></script>
 </body>
 
 </html>

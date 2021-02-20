@@ -38,18 +38,26 @@ else:
     SECRET_KEY = 'g$a9ajxw31p+&3dpnona%_=cmybe!5naxg(wuq=_xk-*9@fa(*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '192.168.100.2',
     '127.0.0.1',
     'teeker.herokuapp.com',
-    'teeker.co'
+    'teeker.co',
+    'www.teeker.co'
     ]
 
-ADMIN = (
-    ('LT.Sana', 'snm.developer@gmail.com'),
-    )
+ADMINS = [("LT.Sana", "snm.developer@gmail.com")]
+
+MANAGERS = [("LT.Sana", "snm.developer@gmail.com")]
+
+# Cloudinary Credentials
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
 
 # Application definition
 
@@ -61,6 +69,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -179,3 +189,19 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+MAIL_SENDER = os.getenv("MAIL_SENDER") # The email address FROM
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+# CSRF Settings
+#CSRF_USE_SESSIONS = False
+#CSRF_COOKIE_SECURE = True
+CSRF_FAILURE_VIEW = 'App0.views.csrf_failure'
+
+# Cloudinary Settings for File Upload Storage
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
