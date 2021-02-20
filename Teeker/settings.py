@@ -38,7 +38,7 @@ else:
     SECRET_KEY = 'g$a9ajxw31p+&3dpnona%_=cmybe!5naxg(wuq=_xk-*9@fa(*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.100.2',
@@ -166,7 +166,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 django_heroku.settings(locals())
 
 # For when connecting to local Database we need to lie we are connected using SSL
-del DATABASES["default"]["OPTIONS"]["sslmode"]
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
+
+#del DATABASES["default"]["OPTIONS"]["sslmode"]
 
 # Redirect users to login page if they aren't logged in and trying to access a part that requires Authentication
 LOGIN_URL = "/login"
@@ -175,7 +178,7 @@ LOGIN_URL = "/login"
 # Google Drive Storage Settings
 #
 
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
+#GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
 #GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = MEDIA_ROOT
 
 # reCAPTCHA v3
